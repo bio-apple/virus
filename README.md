@@ -2,6 +2,10 @@ An integrated data analysis pipeline for viruses, with a particular focus on kee
 
 Update:2025.05.19
 
+# virus
+
+<pre>docker pull fanyucai1/virus</pre> 
+
 1.  Freyja version:1.5.3
 <pre> docker run --rm fanyucai1/virus sh -c 'export PATH=/opt/conda/envs/Freyja/bin:$PATH && /opt/conda/envs/Freyja/bin/fryja --help'</pre>
 
