@@ -1,6 +1,6 @@
 An integrated data analysis pipeline for viruses, with a particular focus on keeping databases up to date: **pangolin**, **nextclade**, and **Freyja**.
 
-Update:2025.05.19
+**Update:2025.05.19**
 
 # virus
 
@@ -16,4 +16,6 @@ Update:2025.05.19
 <pre>
 docker run --rm fanyucai1/virus sh -c 'export PATH=/opt/conda/envs/pangolin/bin:$PATH && pangolin --all-versions '
 </pre> 
+
+
 
