@@ -18,3 +18,5 @@ RUN cd /bin/ && wget -O nextclade https://github.com/nextstrain/nextclade/releas
 FROM nextclade AS Freyja
 RUN /opt/conda/bin/mamba create --name Freyja --channel conda-forge --channel bioconda --channel defaults freyja==1.5.3 && \
     cd /opt/conda/envs/Freyja && git clone https://github.com/andersen-lab/Freyja-data.git
+
+
