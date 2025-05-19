@@ -10,11 +10,6 @@ Update:2025.05.19
 
 3.  pangolin verison:4.3.1 pangolin-data: 1.33
 <pre>
-    constellations: v0.1.12
-    scorpio: 0.3.19
-    usher 0.5.4
-    gofasta 1.2.3
-    minimap2 2.29-r1283
-    faToVcf: 473
+docker run --rm fanyucai1/virus sh -c 'export PATH=/opt/conda/envs/pangolin/bin:$PATH && pangolin --all-versions '
 </pre> 
 
