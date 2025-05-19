@@ -14,7 +14,7 @@ An integrated data analysis pipeline for viruses, with a particular focus on kee
 
 3.  pangolin verison:4.3.1 pangolin-data: 1.33
 <pre>
-docker run --rm fanyucai1/virus sh -c 'export PATH=/opt/conda/envs/pangolin/bin:$PATH && pangolin --all-versions '
+docker run --rm fanyucai1/virus sh -c 'export PATH=/opt/conda/envs/pangolin/bin:$PATH && pangolin --all-versions'
 </pre>
 
 
