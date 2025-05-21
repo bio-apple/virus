@@ -15,11 +15,11 @@ FROM pangolin AS nextclade
 RUN cd /bin/ && wget -O nextclade https://github.com/nextstrain/nextclade/releases/latest/download/nextclade-x86_64-unknown-linux-musl && chmod u+x ./nextclade && \
     nextclade dataset get --name='sars-cov-2' --output-dir='/root/nextclade/'
 
-FROM nextclade AS Freyja
+FROM nextclade AS freyja
 RUN /opt/conda/bin/mamba create --name Freyja --channel conda-forge --channel bioconda --channel defaults freyja==1.5.3 && \
     cd /opt/conda/envs/Freyja && git clone https://github.com/andersen-lab/Freyja-data.git
 
-FROM Freyja AS virus
+FROM freyja AS virus
 COPY jvarkit.jar /software/
 RUN /opt/conda/bin/mamba install --channel conda-forge --channel bioconda --channel defaults ivar=1.3 trimmomatic  \
     bowtie2 bbmap fastp seqtk samtools bedtools bcftools bwa prinseq cutadapt drep &&  \
