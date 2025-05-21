@@ -20,8 +20,7 @@ RUN /opt/conda/bin/mamba create --name Freyja --channel conda-forge --channel bi
     cd /opt/conda/envs/Freyja && git clone https://github.com/andersen-lab/Freyja-data.git
 
 FROM freyja AS virus
-COPY jvarkit.jar /software/
 RUN /opt/conda/bin/mamba install --channel conda-forge --channel bioconda --channel defaults ivar=1.3 trimmomatic  \
-    bowtie2 bbmap fastp seqtk samtools bedtools bcftools bwa prinseq cutadapt drep &&  \
+    bowtie2 bbmap fastp seqtk samtools bedtools bcftools bwa prinseq cutadapt drep jvarkit &&  \
     /opt/conda/bin/pip3 install seaborn matplotlib numpy pysam pandas
 
