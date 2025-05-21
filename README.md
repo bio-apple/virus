@@ -25,7 +25,6 @@ docker run --rm fanyucai1/virus sh -c 'export PATH=/opt/conda/envs/pangolin/bin:
 </pre>
 
 ## nextclade_db
-
 <pre>python3 sub/download_nextclade_db.py -d nextclade_db</pre> 
 
 

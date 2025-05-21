@@ -60,3 +60,4 @@ for name in database_name:
      subprocess.check_call(f'{cmd} --name \'{name}\' --output-dir {args.datbase}/{dir_name} -x http://127.0.0.1:7897',shell=True)
 
 subprocess.check_call('rm -rf ./nextclade',shell=True)
+
