@@ -11,7 +11,7 @@ os.mkdir(args.database)
 #####################################https://clades.nextstrain.org/dataset
 database_name=[
                 #SARS-CoV-2
-               'nextstrain/sars-cov-2/wuhan-hu-1','nextstrain/sars-cov-2/BA.2','nextstrain/sars-cov-2/XBB','nextstrain/sars-cov-2/BA.2.86',
+               'nextstrain/sars-cov-2/wuhan-hu-1',
                 #Influenza A H1N1                                                                                           
                'nextstrain/flu/h1n1pdm/ha/CY121680','nextstrain/flu/h1n1pdm/ha/MW626062','nextstrain/flu/h1n1pdm/na/MW626056','nextstrain/flu/h1n1pdm/pa','nextstrain/flu/h1n1pdm/mp','nextstrain/flu/h1n1pdm/np','nextstrain/flu/h1n1pdm/ns','nextstrain/flu/h1n1pdm/pb2','nextstrain/flu/h1n1pdm/pb1',
                 #Influenza A H3N2
@@ -21,11 +21,11 @@ database_name=[
                 #RSV-A and RSV-B
                'nextstrain/rsv/a/EPI_ISL_412866','nextstrain/rsv/b/EPI_ISL_1653999',
                 #Mpox virus
-               'nextstrain/mpox/all-clades','nextstrain/mpox/clade-i','nextstrain/mpox/clade-iib','nextstrain/mpox/lineage-b.1',
+               'nextstrain/mpox/all-clades',
                #Measles N450 (WHO-2012)
                'nextstrain/measles/N450/WHO-2012',
                 #dengue virus
-               'nextstrain/dengue/all','community/v-gen-lab/dengue/denv1','community/v-gen-lab/dengue/denv2','community/v-gen-lab/dengue/denv3','community/v-gen-lab/dengue/denv4',
+               'nextstrain/dengue/all',
                #Yellow fever virus (YFV)
                'nextstrain/yellow-fever/prM-E',
                 #Human Metapneumovirus
@@ -37,7 +37,7 @@ database_name=[
                 #HIV-1
                'community/neherlab/hiv-1/hxb2',
                 #H5Nx
-               'community/moncla-lab/iav-h5/ha/all-clades','community/moncla-lab/iav-h5/ha/2.3.4.4','community/moncla-lab/iav-h5/ha/2.3.2.1',
+               'community/moncla-lab/iav-h5/ha/all-clades',
                ]
 
 system_name = os.uname().sysname
