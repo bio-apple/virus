@@ -1,4 +1,7 @@
-An integrated data analysis pipeline for viruses, with a particular focus on keeping databases up to date: **pangolin**, **nextclade**, and **Freyja**.
+An integrated data analysis pipeline for viruses(amplicon-based), with a particular focus on keeping databases up to date: **pangolin**, **nextclade**, and **Freyja**.
+It can be used for various infectious disease, public health surveillance, 
+and microbial research applications, including viral whole-genome sequencing, 
+antimicrobial resistance marker analysis, bacterial and fungal identification, and more.
 
 If you have any questions, feel free to email me.
 Email:fanyucai3@gmail.com
