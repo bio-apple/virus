@@ -1,3 +1,5 @@
+# virus
+
 An integrated data analysis pipeline for viruses(amplicon-based), with a particular focus on keeping databases up to date: **pangolin**, **nextclade**, and **Freyja**.
 It can be used for various infectious disease, public health surveillance, 
 and microbial research applications, including viral whole-genome sequencing, 
@@ -8,7 +10,6 @@ Email:fanyucai3@gmail.com
 
 **Last Update:2025.05.19**
 
-# virus
 
 ## Docker
 
@@ -30,6 +31,7 @@ docker run --rm fanyucai1/virus sh -c 'export PATH=/opt/conda/envs/pangolin/bin:
 ## Download the latest version of the Nextclade database
 <pre>python3 modules/download_nextclade_db.py -d nextclade_db</pre> 
 
-
+## Build reference
+<pre>python3 modules/build_database.py -o ref/</pre>
 
 
