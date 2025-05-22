@@ -12,8 +12,7 @@ RUN git clone https://github.com/cov-lineages/pangolin.git && cd pangolin/ &&  \
     /opt/conda/envs/pangolin/bin/pip install . &&  rm -rf /opt/pangolin/
 
 FROM pangolin AS nextclade
-RUN cd /bin/ && wget -O nextclade https://github.com/nextstrain/nextclade/releases/latest/download/nextclade-x86_64-unknown-linux-musl && chmod u+x ./nextclade && \
-    nextclade dataset get --name='sars-cov-2' --output-dir='/root/nextclade/'
+RUN cd /bin/ && wget -O nextclade https://github.com/nextstrain/nextclade/releases/latest/download/nextclade-x86_64-unknown-linux-musl && chmod u+x ./nextclade
 
 FROM nextclade AS freyja
 RUN /opt/conda/bin/mamba create --name Freyja --channel conda-forge --channel bioconda --channel defaults freyja==1.5.3 && \
