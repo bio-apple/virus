@@ -2,7 +2,7 @@ FROM ubuntu:latest AS base
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends  libcurl4-openssl-dev  \
     build-essential wget curl ca-certificates bzip2 gnupg git libssl-dev libffi-dev libz-dev libbz2-dev && rm -rf /var/lib/apt/lists/* && \
-    mkdir -p /ref/ /script/ /raw_data/ /outdir/ && wget https://ftp.ncbi.nlm.nih.gov/entrez/entrezdirect/install-edirect.sh && sh ./install-edirect.sh && \
+    mkdir -p /ref/ /script/ /raw_data/ /outdir/ && \
     wget -q -O /miniforge.sh https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh && \
     bash /miniforge.sh -b -p /opt/conda && rm /miniforge.sh
 
@@ -21,5 +21,5 @@ RUN /opt/conda/bin/mamba create --name Freyja --channel conda-forge --channel bi
 
 FROM freyja AS virus
 RUN /opt/conda/bin/mamba install --channel conda-forge --channel bioconda --channel defaults ivar=1.3 trimmomatic  \
-    bowtie2 bbmap fastp seqtk samtools bedtools bcftools bwa prinseq cutadapt drep jvarkit &&  \
+    bowtie2 bbmap fastp seqtk samtools bedtools bcftools bwa prinseq cutadapt drep jvarkit entrez-direct &&  \
     /opt/conda/bin/pip3 install seaborn matplotlib numpy pysam pandas && /opt/conda/bin/conda clean -a -y
