@@ -14,7 +14,7 @@ Email:fanyucai3@gmail.com
 
 <pre>docker pull fanyucai1/virus</pre> 
 
-## software
+## Software
 
 1.  Freyja version:1.5.3
 <pre> docker run --rm fanyucai1/virus sh -c 'export PATH=/opt/conda/envs/Freyja/bin:$PATH && /opt/conda/envs/Freyja/bin/fryja --help'</pre>
@@ -27,7 +27,7 @@ Email:fanyucai3@gmail.com
 docker run --rm fanyucai1/virus sh -c 'export PATH=/opt/conda/envs/pangolin/bin:$PATH && pangolin --all-versions'
 </pre>
 
-## nextclade_db
+## Download the latest version of the Nextclade database
 <pre>python3 sub/download_nextclade_db.py -d nextclade_db</pre> 
 
 
