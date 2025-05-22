@@ -7,7 +7,7 @@ import statistics
 import pandas as pd
 
 def run(bam,outdir,prefix):
-
+    subprocess.check_call(f'mkdir -p {outdir}',shell=True)
     bam=os.path.abspath(bam)
     out=outdir+"/"+prefix
     result = subprocess.run(f"samtools view -H {bam}", shell=True, capture_output=True, text=True, check=True)
