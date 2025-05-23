@@ -18,10 +18,11 @@ databases and software list:
 
     
 
-## 2.Download the latest version of the Nextclade database
+## 2.Download Nextclade database
 <pre>python3 modules/download_nextclade_db.py -d nextclade_db</pre> 
 
 ## 3.Build reference
 <pre>python3 modules/build_database.py -o ref/</pre>
+
 
 
