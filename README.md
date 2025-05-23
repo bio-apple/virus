@@ -1,4 +1,4 @@
-# Virus:An integrated data analysis pipeline for viruses(amplicon-based)
+# An integrated data analysis pipeline for viruses(amplicon-based)
 
 ## 1.Docker Last Update:2025.05
 
