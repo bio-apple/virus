@@ -1,10 +1,8 @@
 # Virus:An integrated data analysis pipeline for viruses(amplicon-based)
 
-It can be used for various infectious disease, public health surveillance, 
-and microbial research applications, including viral whole-genome sequencing, 
-antimicrobial resistance marker analysis, bacterial and fungal identification, and more.
+## 1.Docker Last Update:2025.05
 
-If you have any questions, feel free to email me.**Email:fanyucai3@gmail.com**
+<pre>docker pull fanyucai1/virus</pre> 
 
 Keeping databases up to date: 
 
@@ -14,19 +12,10 @@ Keeping databases up to date:
 
 **Freyja version:1.5.3**.<pre>export PATH=/opt/conda/envs/Freyja/bin:$PATH</pre>
 
-**Last Update:2025.05**
-
-
-## Docker
-
-<pre>docker pull fanyucai1/virus</pre> 
-
-## Software
-
-## Download the latest version of the Nextclade database
+## 2.Download the latest version of the Nextclade database
 <pre>python3 modules/download_nextclade_db.py -d nextclade_db</pre> 
 
-## Build reference
+## 3.Build reference
 <pre>python3 modules/build_database.py -o ref/</pre>
 
 
