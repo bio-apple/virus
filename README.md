@@ -6,7 +6,13 @@ antimicrobial resistance marker analysis, bacterial and fungal identification, a
 
 If you have any questions, feel free to email me.**Email:fanyucai3@gmail.com**
 
-Keeping databases up to date: **pangolin, nextclade, and Freyja**.
+Keeping databases up to date: 
+
+**pangolin verison:4.3.1 pangolin-data: 1.33**：export PATH=/opt/conda/envs/pangolin/bin:$PATH 
+
+**nextclad version:3.13.2** nextclade
+
+**Freyja version:1.5.3**.export PATH=/opt/conda/envs/Freyja/bin:$PATH
 
 **Last Update:2025.05**
 
@@ -16,17 +22,6 @@ Keeping databases up to date: **pangolin, nextclade, and Freyja**.
 <pre>docker pull fanyucai1/virus</pre> 
 
 ## Software
-
-1.  Freyja version:1.5.3
-<pre> docker run --rm fanyucai1/virus sh -c 'export PATH=/opt/conda/envs/Freyja/bin:$PATH && /opt/conda/envs/Freyja/bin/fryja --help'</pre>
-
-2.  nextclade version:3.13.2
-<pre> docker run --rm fanyucai1/virus sh -c 'nextclade -V'</pre> 
-
-3.  pangolin verison:4.3.1 pangolin-data: 1.33
-<pre>
-docker run --rm fanyucai1/virus sh -c 'export PATH=/opt/conda/envs/pangolin/bin:$PATH && pangolin --all-versions'
-</pre>
 
 ## Download the latest version of the Nextclade database
 <pre>python3 modules/download_nextclade_db.py -d nextclade_db</pre> 
