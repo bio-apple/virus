@@ -8,11 +8,11 @@ If you have any questions, feel free to email me.**Email:fanyucai3@gmail.com**
 
 Keeping databases up to date: 
 
-**pangolin verison:4.3.1 pangolin-data: 1.33**：export PATH=/opt/conda/envs/pangolin/bin:$PATH 
+**pangolin verison:4.3.1 pangolin-data: 1.33**：<pre>export PATH=/opt/conda/envs/pangolin/bin:$PATH</pre>
 
-**nextclad version:3.13.2** nextclade
+**nextclad version:3.13.2**<pre>nextclade</pre>
 
-**Freyja version:1.5.3**.export PATH=/opt/conda/envs/Freyja/bin:$PATH
+**Freyja version:1.5.3**.<pre>export PATH=/opt/conda/envs/Freyja/bin:$PATH</pre>
 
 **Last Update:2025.05**
 
