@@ -1,6 +1,6 @@
-# An integrated data analysis pipeline for viruses(amplicon-based)
+## An integrated data analysis pipeline for viruses(amplicon-based)
 
-## 1.Docker Last Update:2025.05
+### 1.Docker Last Update:2025.05
 
 <pre>docker pull fanyucai1/virus</pre> 
 
@@ -18,10 +18,10 @@ databases and software list:
 
     
 
-## 2.Download Nextclade database
+### 2.Download Nextclade database
 <pre>python3 modules/download_nextclade_db.py -d nextclade_db</pre> 
 
-## 3.Build reference
+### 3.Build reference
 <pre>python3 modules/build_database.py -o ref/</pre>
 
 
