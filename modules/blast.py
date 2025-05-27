@@ -61,7 +61,7 @@ def run_blastn(query_fasta, db, out_file):
 
 def main():
     if len(sys.argv) < 4 or len(sys.argv) > 5:
-        print("Usage: python parallel_blast.py input.fasta nt_viruses output_dir [num_parts]")
+        print(f"Usage: python {sys.argv[0]} input.fasta /path/to/blast_db/nr output_dir [num_parts]")
         sys.exit(1)
 
     input_fasta = sys.argv[1]

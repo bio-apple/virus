@@ -1,5 +1,7 @@
 ## An integrated data analysis pipeline for viruses(amplicon-based)
 
+![flow-chart](./virus.png)
+
 ### 1.Docker Last Update:2025.05
 
 <pre>docker pull fanyucai1/virus</pre> 
