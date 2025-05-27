@@ -18,6 +18,7 @@ parser.add_argument("-p1","--pe1",help="R1 fastq",required=True, nargs='+')
 parser.add_argument("-p2","--pe2",help="R2 fastq",default=None,nargs='+')
 parser.add_argument("-p","--prefix",help="prefix of output",required=True, nargs='+')
 parser.add_argument("-b","--bed",help="bed file",default=None)
+parser.add_argument('-k','--kraken2',help='kraken2 reference index',required=True)
 parser.add_argument('-r','--ref',help="directory reference bowtie2 index",required=True)
 parser.add_argument('-f','--fna',help="fasta reference",required=True)
 parser.add_argument("-h","--host",help="directory host bowtie2 index")
@@ -31,7 +32,7 @@ cmd=f'docker run --rm -v {script_dir}/modules:/script -v {args.outdir}:/outdir '
 
 for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # ------------------------
-    # Step 1: fastp qc
+    # Step 0: fastp qc
     # ------------------------
     r1=os.path.abspath(r1)
     fastp=cmd+f'-v {r1}:/raw_data/{r1.split("/")[-1]} '
@@ -46,6 +47,18 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     fastp+="\'"
     print(fastp)
     subprocess.check_call(cmd,shell=True)
+
+    # ------------------------
+    # Step 1: kraken2
+    # ------------------------
+    args.kraken2=os.path.abspath(args.kraken2)
+    kraken2=cmd+(f'-v {os.path.dirname(args.kraken2)}:/ref {docker} sh -c\'export PATH=/opt/conda/envs/kraken2/bin/:$PATH && '
+                 f'python3 script/kraken2.py -p1 /outdir/1.fastp/{prefix}.clean_R1.fastq -i /ref/ -o /outdir/ -p {prefix} ')
+    if not r2 is None:
+        kraken2+=f'-p2 /outdir/1.fastp/{prefix}.clean_R2.fastq '
+    kraken2+='\''
+    print(kraken2)
+    subprocess.check_call(kraken2,shell=True)
 
     # ------------------------
     # Step 2: bowtie2 host filter
