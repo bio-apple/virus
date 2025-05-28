@@ -1,9 +1,6 @@
-import os,sys,re
+import os
 import argparse
 import subprocess
-import modules
-
-from statsmodels.nonparametric.bandwidths import bw_scott
 
 docker='virus:latest'
 
@@ -125,7 +122,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # Step 6: plot coverage
     # ------------------------
     subprocess.check_call(f'mkdir -p {args.outdir}/6.coverage',shell=True)
-    modules.coverage_plot.run(f'{args.outdir}/4.trim_primer/{prefix}.trimmed.bam',f'{args.outdir}/6.coverage',{args.prefix})
+    core.coverage_plot.run(f'{args.outdir}/4.trim_primer/{prefix}.trimmed.bam', f'{args.outdir}/6.coverage', {args.prefix})
     # ------------------------
     # Step 7: run nextclade and pangolin
     # ------------------------
