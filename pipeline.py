@@ -1,5 +1,7 @@
 import os
 import argparse
+import subprocess
+
 import core
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -16,6 +18,7 @@ parser.add_argument("-p2","--pe2",help="R2 fastq",default=None,nargs='+')
 parser.add_argument("-p","--prefix",help="prefix of output",required=True, nargs='+')
 parser.add_argument("-b","--bed",help="bed file",default=None)
 parser.add_argument('-k','--kraken2',help='kraken2 reference index',required=True)
+parser.add_argument("-i","--identify",type=float,default=0.998)
 #parser.add_argument('-r','--ref',help="directory reference bowtie2 index",required=True)
 #parser.add_argument('-f','--fna',help="fasta reference",required=True)
 parser.add_argument("-host","--host",help="directory host bowtie2 index",required=True)
@@ -27,31 +30,36 @@ os.makedirs(args.outdir,exist_ok=True)
 
 
 for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
+
+    ##########################################Step 1: fastp qc
     print("""
         # ------------------------
         # Step 1: fastp qc
         # ------------------------
     """)
-    #core.fastp.run(r1,args.outdir+"/1.fastp",prefix,r2)
+    core.fastp.run(r1,args.outdir+"/1.fastp",prefix,r2)
 
+    ##########################################Step 2: kraken2
     print("""
         # ------------------------
         # Step 2: kraken2
         # ------------------------
     """
     )
-    #core.kraken2.run(r1,args.kraken2,prefix,args.outdir+"/2.kraken2",r2)
+    core.kraken2.run(r1,args.kraken2,prefix,args.outdir+"/2.kraken2",r2)
 
+    ##########################################step3:bowtie2 host filter
     print("""
         # ------------------------
         # Step 3: bowtie2 host filter
         # ------------------------
     """)
-    #core.filter_host.run(r1,args.outdir+"/3.filter_host",args.host,prefix,r2)
+    core.filter_host.run(r1,args.outdir+"/3.filter_host",args.host,prefix,r2)
 
+    ##########################################Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
     print("""
         # ------------------------
-        # Step 4: denovo genome assembly:megahit and metaspades
+        # Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
         # ------------------------
     """)
     read1,read2="",""
@@ -68,6 +76,15 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         ]
         for future in as_completed(futures):
             print(future.result())
+    subprocess.check_call(f'cd {args.outdir}/4.assembly/ && '
+                          f'cat spades_{prefix}/scaffolds.fasta megahit_{prefix}/{prefix}.contigs.fa >{prefix}.contigs.fa',shell=True)
+    core.cd_hit_est.run(f'{args.outdir}/4.assembly/{prefix}.contigs.fa',args.identify,prefix+"non-redundant",f'{args.outdir}/4.assembly/')
+
+    print("""
+        # ------------------------
+        # Step 5: blast NCBI Database: nt virus
+        # ------------------------
+    """)
 
 
     # ------------------------

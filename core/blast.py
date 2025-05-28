@@ -1,11 +1,11 @@
 import os
 import sys
-import subprocess
+import subprocess,argparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 docker="virus:latest"
 
-def split_fasta_to_n_files(input_fasta, output_dir, num_parts=10):
+def split_fasta_to_n_files(input_fasta, output_dir, num_parts):
     output_dir = os.path.abspath(output_dir)
     os.makedirs(output_dir, exist_ok=True)
 
@@ -46,7 +46,7 @@ def split_fasta_to_n_files(input_fasta, output_dir, num_parts=10):
     print(f"Split fasta done: {output_dir}/part_0.fasta ~ part_{num_parts - 1}.fasta")
     return num_parts  # 返回实际的 part 数用于后续 parallel
 
-def run_blastn(query_fasta, db, out_file):
+def blastn(query_fasta, db, out_file):
     query_fasta=os.path.abspath(query_fasta)
     out_file=os.path.abspath(out_file)
     db_dir=os.path.abspath(os.path.dirname(db))
@@ -73,40 +73,37 @@ def run_blastn(query_fasta, db, out_file):
     subprocess.check_call(cmd, shell=True)
     print(f"Run blast Done: {query_fasta}")
 
-def main():
-    if len(sys.argv) < 4 or len(sys.argv) > 5:
-        print(f"Usage: python {sys.argv[0]} input.fasta /path/to/blast_db/nr output_dir [num_parts]")
-        sys.exit(1)
-
-    input_fasta = sys.argv[1]
-    db = sys.argv[2]
-    output_dir = sys.argv[3]
-    num_parts = int(sys.argv[4]) if len(sys.argv) == 5 else 10
-
-    subprocess.check_call(f"rm -rf {output_dir}/part_*.blast.txt",shell=True)
-
+def run(input_fasta,db, output_dir,prefix,num_parts):
+    subprocess.check_call(f"rm -rf {output_dir}/part_*.blast.txt", shell=True)
     split_fasta_to_n_files(input_fasta, output_dir, num_parts)
-
     queries = [f"{output_dir}/part_{i}.fasta" for i in range(num_parts)]
     outputs = [f"{output_dir}/part_{i}.blast.txt" for i in range(num_parts)]
 
     with ThreadPoolExecutor(max_workers=num_parts) as executor:
         futures = [
-            executor.submit(run_blastn, queries[i], db, outputs[i])
+            executor.submit(blastn, queries[i], db, outputs[i])
             for i in range(num_parts)
         ]
         for future in as_completed(futures):
             pass
 
-    merged_out = os.path.join(output_dir, "blast_all.txt")
+    merged_out = os.path.join(output_dir, f"{prefix}.blast_all.txt")
     with open(merged_out, "w") as outfile:
-        outfile.write("#Query\tAccesion\tPer.Ident\tAlignment_Length\tMismatch\tQuery_Coverage\tE_value\tMax_Score\tTotal_Score\tScientific_Name\tDescription\n")
+        outfile.write(
+            "#Query\tAccesion\tPer.Ident\tAlignment_Length\tMismatch\tQuery_Coverage\tE_value\tMax_Score\tTotal_Score\tScientific_Name\tDescription\n")
         for f in outputs:
             with open(f) as infile:
                 outfile.writelines(infile.readlines())
             subprocess.check_call(f'rm -rf {f}', shell=True)
-    subprocess.check_call(f'rm -rf {output_dir}/part_*.fasta',shell=True)
+    subprocess.check_call(f'rm -rf {output_dir}/part_*.fasta', shell=True)
     print(f"\nAll task finished: {merged_out}")
 
 if __name__ == "__main__":
-    main()
+    parser=argparse.ArgumentParser("")
+    parser.add_argument("-q",'--query',help="query fasta sequence",required=True)
+    parser.add_argument("-d",'--db_name',help="blast database name",required=True)
+    parser.add_argument("-o","--outdir",help="directory of output",default=os.getcwd())
+    parser.add_argument("-p","--prefix",help="prefix of output",required=True)
+    parser.add_argument("-n",'--num_parts',help="number split part",type=int,default=10)
+    args=parser.parse_args()
+    run(args.query,args.db_name,args.outdir,args.prefix,args.num_parts)
