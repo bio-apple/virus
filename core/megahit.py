@@ -39,6 +39,7 @@ def run(pe1,prefix,outdir,pe2=None):
           "--output-dir /outdir/megahit_%s/ /outdir/megahit_%s/%s.contigs.fa\'")%(prefix,prefix,prefix,prefix,prefix)
     print(cmd)
     subprocess.call(cmd,shell=True)
+    return "Genome assembly megahit done."
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser("MEGAHIT is an ultra-fast and memory-efficient NGS assembler")

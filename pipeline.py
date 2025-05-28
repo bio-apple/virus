@@ -1,9 +1,9 @@
 import os
 import argparse
-import subprocess
 import core
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
-docker='virus:latest'
+
 # 获取当前脚本的绝对路径
 script_path = os.path.abspath(__file__)
 
@@ -16,114 +16,78 @@ parser.add_argument("-p2","--pe2",help="R2 fastq",default=None,nargs='+')
 parser.add_argument("-p","--prefix",help="prefix of output",required=True, nargs='+')
 parser.add_argument("-b","--bed",help="bed file",default=None)
 parser.add_argument('-k','--kraken2',help='kraken2 reference index',required=True)
-parser.add_argument('-r','--ref',help="directory reference bowtie2 index",required=True)
-parser.add_argument('-f','--fna',help="fasta reference",required=True)
-parser.add_argument("-h","--host",help="directory host bowtie2 index")
+#parser.add_argument('-r','--ref',help="directory reference bowtie2 index",required=True)
+#parser.add_argument('-f','--fna',help="fasta reference",required=True)
+parser.add_argument("-host","--host",help="directory host bowtie2 index",required=True)
 parser.add_argument("-o","--outdir",help="diretory of output",required=True)
 args=parser.parse_args()
 
 args.outdir=os.path.abspath(args.outdir)
-subprocess.check_call(f'mkdir -p {args.outdir}',shell=True)
-
-cmd=f'docker run --rm -v {script_dir}/modules:/script -v {args.outdir}:/outdir '
+os.makedirs(args.outdir,exist_ok=True)
 
 
 for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
-    # ------------------------
-    # Step 0: fastp qc
-    # ------------------------
-    r1=os.path.abspath(r1)
-    fastp=cmd+f'-v {r1}:/raw_data/{r1.split("/")[-1]} '
-    subprocess.check_call(f'mkdir -p {args.outdir}/1.fastp',shell=True)
-    if not r2 is None:
-        r2 = os.path.abspath(r2)
-        fastp += f'-v {r2}:/raw_data/{r2.split("/")[-1]} '
-    fastp+=(f'{docker} sh -c \'export PATH=/opt/conda/bin/:$PATH && '
-            f'python3 script/fastp.py -R1 /raw_data/{r1.split("/")[-1]} -p {prefix} -o /outdir/1.fastp/ ')
-    if not r2 is None:
-        fastp+=f'-R2 /raw_data/{r2.split("/")[-1]}'
-    fastp+="\'"
-    print(fastp)
-    subprocess.check_call(cmd,shell=True)
+    print("""
+        # ------------------------
+        # Step 1: fastp qc
+        # ------------------------
+    """)
+    #core.fastp.run(r1,args.outdir+"/1.fastp",prefix,r2)
 
-    # ------------------------
-    # Step 1: kraken2
-    # ------------------------
-    args.kraken2=os.path.abspath(args.kraken2)
-    kraken2=cmd+(f'-v {os.path.dirname(args.kraken2)}:/ref {docker} sh -c\'export PATH=/opt/conda/envs/kraken2/bin/:$PATH && '
-                 f'python3 script/kraken2.py -p1 /outdir/1.fastp/{prefix}.clean_R1.fastq -i /ref/ -o /outdir/ -p {prefix} ')
-    if not r2 is None:
-        kraken2+=f'-p2 /outdir/1.fastp/{prefix}.clean_R2.fastq '
-    kraken2+='\''
-    print(kraken2)
-    subprocess.check_call(kraken2,shell=True)
+    print("""
+        # ------------------------
+        # Step 2: kraken2
+        # ------------------------
+    """
+    )
+    #core.kraken2.run(r1,args.kraken2,prefix,args.outdir+"/2.kraken2",r2)
 
-    # ------------------------
-    # Step 2: bowtie2 host filter
-    # ------------------------
-    host=os.path.abspath(args.host)
-    subprocess.check_call(f'mkdir -p {args.outdir}/2.filter_host', shell=True)
-    bowtie2=cmd+(f'-v {host}:/ref/{host.split("/")[-1]} {docker} sh -c \'export PATH=/opt/conda/bin/:$PATH && '
-                 f'python3 script/filter_host.py '
-                 f'-p1 /outdir/1.fastp/{prefix}.clean_R1.fastq '
-                 f'-i /ref/{host.split("/")[-1]} '
-                 f'-o /outdir/2.filter_host -p {prefix}')
+    print("""
+        # ------------------------
+        # Step 3: bowtie2 host filter
+        # ------------------------
+    """)
+    #core.filter_host.run(r1,args.outdir+"/3.filter_host",args.host,prefix,r2)
 
-    if not r2 is None:
-        bowtie2+=f'-p2 /outdir/1.fastp/{prefix}.clean_R2.fastq'
-    bowtie2+="\'"
-    print(bowtie2)
-    subprocess.check_call(bowtie2,shell=True)
+    print("""
+        # ------------------------
+        # Step 4: denovo genome assembly:megahit and metaspades
+        # ------------------------
+    """)
+    read1,read2="",""
+    if r2:
+        read1=args.outdir+"/"+"3.filter_host/"+prefix+"_1.fastq"
+        read2=args.outdir+"/"+"3.filter_host/"+prefix+"_2.fastq"
+    else:
+        read1 = args.outdir + "/" + "3.filter_host/" + prefix +".unaligned.fastq"
+        read2=None
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        futures = [
+            executor.submit(core.megahit.run, read1, prefix, args.outdir + "/4.assembly/", read2),
+            executor.submit(core.metaspades.run, read1, prefix, args.outdir + "/4.assembly/", read2)
+        ]
+        for future in as_completed(futures):
+            print(future.result())
+
 
     # ------------------------
     # Step 3: bowtie2 mapping reference
     # ------------------------
-    subprocess.check_call(f'mkdir -p {args.outdir}/3.mapping', shell=True)
-    ref=os.path.abspath(args.ref)
-    mapping=cmd+(f'-v {ref}:/ref/{ref.split("/")[-1]} {docker} sh -c\'export PATH=/opt/conda/bin/:$PATH && '
-                 f'python3 script/fastq2bam.py '
-                 f'-1 /outdir/2.filter_host/{prefix}_1.fastq '
-                 f'-r /ref/{ref.split("/")[-1]} '
-                 f'-o /outdir/3.mapping -p {prefix} ')
-    if not r2 is None:
-        mapping+=f'-2 /outdir/2.filter_host/{prefix}_2.fastq'
-    mapping+="\'"
-    print(mapping)
-    subprocess.check_call(mapping,shell=True)
 
-    # ------------------------
-    # Step 4: trim primer
-    # ------------------------
-    subprocess.check_call(f'mkdir -p {args.outdir}/4.trim_primer', shell=True)
-    if args.bed is not None:
-        bed = os.path.abspath(args.bed)
-        trim_primer=cmd+(f"{bed}:/ref/{bed.split("/")[-1]} {docker} sh -c\'export PATH=/opt/conda/bin/:$PATH && "
-                         f"python3 script/trim_primer -m /outdir/3.mapping/{prefix}.bam "
-                         f"-b /ref/{bed.split("/")[-1]} "
-                         f"-o /outdir/4.trim_primer/ -p {prefix}\'")
-        print(trim_primer)
-        subprocess.check_call(trim_primer,shell=True)
-    else:
-        subprocess.check_call(f'cp {args.outdir}/3.mapping/{prefix}.bam {args.outdir}/4.trim_primer/{prefix}.trimmed.bam',shell=True)
 
-    # ------------------------
-    # Step 5: variant calling and consensus sequence
-    # ------------------------
-    subprocess.check_call(f'mkdir -p {args.outdir}/5.consensus', shell=True)
-    args.fna=os.path.abspath(args.fna)
-    consensus=cmd+(f"{args.fna}:/ref/{args.fna.split("/")[-1]} {docker} sh -c\'export PATH=/opt/conda/bin/:$PATH && "
-                   f"python3 script/consensus.py "
-                   f"-b /outdir/4.trim_primer/{prefix}.trimmed.bam "
-                   f"-r /ref/{args.fna.split("/")[-1]} "
-                   f"-o /outdir/5.consensus -p {prefix}\'")
-    print(consensus)
-    subprocess.check_call(consensus,shell=True)
+      # ------------------------
+      # Step 4: trim primer
+      # ------------------------
 
-    # ------------------------
-    # Step 6: plot coverage
-    # ------------------------
-    subprocess.check_call(f'mkdir -p {args.outdir}/6.coverage',shell=True)
-    core.coverage_plot.run(f'{args.outdir}/4.trim_primer/{prefix}.trimmed.bam', f'{args.outdir}/6.coverage', {args.prefix})
-    # ------------------------
-    # Step 7: run nextclade and pangolin
-    # ------------------------
+  # ------------------------
+  # Step 5: variant calling and consensus sequence
+  # ------------------------
+
+  # ------------------------
+  # Step 6: plot coverage
+  # ------------------------
+
+
+  # ------------------------
+  # Step 7: run nextclade and pangolin
+  # ------------------------
