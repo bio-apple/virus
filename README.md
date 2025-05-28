@@ -23,18 +23,22 @@ databases and software list:
 ### 2.Database
 
 **2-1:nextclade**
-<pre>python3 modules/download_nextclade_db.py -d nextclade_db</pre> 
+<pre>python3 core/download_nextclade_db.py -d /ref/nextclade_db</pre> 
 
 **2-2:virus genome and index**
-<pre>python3 modules/build_database.py -o ref/</pre>
+<pre>python3 core/build_database.py -o ref/bowtie2/</pre>
 
 **2-3:ncbi nt virus**
+
+*Download the corresponding NCBI database using BLAST*:https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/
 <pre>
-https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/
 dnf install perl-Archive-Tar
 dnf install perl-JSON-PP
-perl ncbi-blast-2.16.0+/bin/update_blastdb.pl –showall
-截止2025-05 NCBI blast本地化可下载数据库：
+</pre>
+
+*View currently available databases for download:*
+<pre>perl ncbi-blast-2.16.0+/bin/update_blastdb.pl –showall
+
     Betacoronavirus
     ITS_RefSeq_Fungi
     28S_fungal_sequences
@@ -73,8 +77,10 @@ perl ncbi-blast-2.16.0+/bin/update_blastdb.pl –showall
     tsa_nt
     taxdb
     core_nt
-perl ncbi-blast-2.16.0+/bin/update_blastdb.pl nt_viruses --decompress
 </pre>
+
+Download **nt_viruses**:
+<pre>perl ncbi-blast-2.16.0+/bin/update_blastdb.pl nt_viruses --decompress</pre>
 
 
 

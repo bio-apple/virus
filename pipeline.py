@@ -1,9 +1,9 @@
 import os
 import argparse
 import subprocess
+import core
 
 docker='virus:latest'
-
 # 获取当前脚本的绝对路径
 script_path = os.path.abspath(__file__)
 
@@ -26,6 +26,7 @@ args.outdir=os.path.abspath(args.outdir)
 subprocess.check_call(f'mkdir -p {args.outdir}',shell=True)
 
 cmd=f'docker run --rm -v {script_dir}/modules:/script -v {args.outdir}:/outdir '
+
 
 for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # ------------------------
