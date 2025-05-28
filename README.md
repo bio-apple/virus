@@ -2,11 +2,11 @@
 
 ![flow-chart](./virus.png)
 
-## 1.Docker Last Update:2025.05
+## Step1.Docker Last Update:2025.05
 
 <pre>docker pull fanyucai1/virus</pre>
 
-## 2.Database
+## Step2.Database
 
 **2-1:nextclade**
 <pre>python3 core/download_nextclade_db.py -d /ref/nextclade_db</pre> 
