@@ -4,7 +4,8 @@
 
 ## Step1.Docker Last Update:2025.05
 
-<pre>docker pull fanyucai1/virus</pre>
+<pre>docker pull fanyucai1/virus
+docker tag fanyucai1/virus virus</pre>
 
 ## Step2.Database
 
