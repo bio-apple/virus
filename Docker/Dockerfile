@@ -19,10 +19,10 @@ RUN /opt/conda/bin/mamba create --name Freyja --channel conda-forge --channel bi
     cd /opt/conda/envs/Freyja && git clone https://github.com/andersen-lab/Freyja-data.git
 
 FROM freyja AS kraken
-RUN /opt/conda/bin/mamba create --name kraken2 --channel conda-forge --channel bioconda --channel defaults kraken2 krakentools krona bracken taxonkit bioawk ncbi-datasets-cli entrez-direct
+RUN /opt/conda/bin/mamba create --name kraken2 --channel conda-forge --channel bioconda --channel defaults kraken2 krakentools krona bracken taxonkit bioawk
 
 FROM kraken AS virus
 RUN /opt/conda/bin/mamba install --channel conda-forge --channel bioconda --channel defaults ivar=1.3 trimmomatic  \
-    bowtie2 bbmap fastp seqtk samtools bedtools bcftools bwa prinseq cutadapt drep jvarkit &&  \
-    /opt/conda/bin/conda install agbiome::cdhit bioconda::megahit bioconda::spades &&  \
+    bowtie2 bbmap fastp seqtk samtools bedtools bcftools bwa prinseq cutadapt drep jvarkit ncbi-datasets-cli entrez-direct &&  \
+    /opt/conda/bin/conda install agbiome::cdhit bioconda::megahit bioconda::spades bioconda::quast &&  \
     /opt/conda/bin/pip3 install seaborn matplotlib numpy pysam pandas && /opt/conda/bin/conda clean -a -y

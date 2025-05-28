@@ -2,9 +2,9 @@ import os,sys,re
 import subprocess
 import argparse
 
-parser=argparse.ArgumentParser()
-parser.add_argument("-o","--outdir",help="directory of output")
-args=parser.parse_args()
+parse=argparse.ArgumentParser()
+parse.add_argument("-o","--outdir",help="directory of output",required=True)
+args=parse.parse_args()
 args.outdir=os.path.abspath(args.outdir)
 
 docker='fanyucai1/virus:latest'
@@ -21,7 +21,7 @@ accession.append("KX087101")
 
 for a,b in zip(accession,name):
     subprocess.check_call(f'mkdir -p {args.outdir}/{b}',shell=True)
-    subprocess.check_call(f'docker run --rm -v {args.outdir}/{b}:/ref/ {docker} sh -c \'export PATH=/opt/conda/bin:$PATH && '
+    subprocess.check_call(f'docker run --rm -v {args.outdir}/{b}:/ref/ {docker} sh -c \'export PATH=/opt/conda/envs/kraken2/bin:/opt/conda/bin:$PATH && '
                           f'cd /ref/ && efetch -db nucleotide -id {a} -format fasta >{a}.fasta && '
                           f'bowtie2-build {a}.fasta {a}.fasta && '
                           f'samtools faidx {a}.fasta && '

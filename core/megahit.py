@@ -2,7 +2,7 @@ import os,sys,re
 import subprocess
 import argparse
 
-docker="meta:latest"
+docker="fanyucai1/virus:latest"
 def run(pe1,prefix,outdir,pe2=None):
     array=pe1.split(",")
     in_dir=os.path.dirname(os.path.abspath(array[0]))
@@ -14,7 +14,7 @@ def run(pe1,prefix,outdir,pe2=None):
         if os.path.exists(outdir+"/megahit_%s/"%(prefix)):
             print("Please check the output directory already exists")
             exit(1)
-    cmd = "docker run -v %s:/raw_data/ -v %s:/outdir/ %s sh -c \'export PATH=/opt/conda/envs/metawrap/bin:$PATH && megahit" % (in_dir,outdir, docker)
+    cmd = "docker run -v %s:/raw_data/ -v %s:/outdir/ %s sh -c \'export PATH=/opt/conda/bin:$PATH && megahit" % (in_dir,outdir, docker)
     for i in range(1,len(array)):
         if in_dir!=os.path.dirname(os.path.abspath(array[i])):
             print("All sample reads must be in the same directory.")
