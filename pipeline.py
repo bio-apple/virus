@@ -97,38 +97,38 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
 
     ##########################################step6:resequencing analysis
     if args.bowtie2 and args.ref:
-        ##########################################Step 6-1: bowtie2 mapping reference
+        ##########################################Bowtie2 mapping reference
         print("""
             # ------------------------
-            # Step 6: bowtie2 mapping reference
+            # bowtie2 mapping reference
             # ------------------------
         """)
 
         if args.bed:
-            ##########################################Step 6-2: trim primer
+            ##########################################trim primer
             print("""
                 # ------------------------
-                # Step 7: trim primer
+                # trim primer
                 # ------------------------
             """)
 
-        ##########################################Step 6-3: variant calling and consensus sequence
+        ##########################################variant calling and consensus sequence
         print("""
             # ------------------------
-            # Step 8: variant calling and consensus sequence
+            # variant calling and consensus sequence
             # ------------------------
         """)
 
         ##########################################Step 6-4: plot coverage
         print("""
             # ------------------------
-            # Step 9: plot coverage
+            # plot coverage
             # ------------------------
         """)
 
         ##########################################Step 6-5: run nextclade and pangolin
         print("""
             # ------------------------
-            # Step 10: run nextclade and pangolin
+            # run nextclade and pangolin
             # ------------------------
         """)
