@@ -16,7 +16,7 @@
 
 **2-3:ncbi nt virus**
 
-*Download the corresponding NCBI database using BLAST*:https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/
+*Download NCBI database using BLAST*:https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/
 <pre>
 dnf install perl-Archive-Tar
 dnf install perl-JSON-PP
