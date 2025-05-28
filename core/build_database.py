@@ -7,7 +7,7 @@ parse.add_argument("-o","--outdir",help="directory of output",required=True)
 args=parse.parse_args()
 args.outdir=os.path.abspath(args.outdir)
 
-docker='fanyucai1/virus:latest'
+docker='virus:latest'
 accession=['NC_004162','NC_045512','NC_001477','NC_001474','NC_001475','NC_002640','NC_063383']
 name=['Chikungunya_virus','SARS-CoV-2','Dengue_virus_type_1','Dengue_virus_type_2','Dengue_virus_type_3','Dengue_virus_type_4','Monkeypox_virus']
 

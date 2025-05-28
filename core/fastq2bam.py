@@ -2,7 +2,7 @@ import os,sys,re
 import subprocess
 import argparse
 
-docker='fanyucai1/virus:latest'
+docker='virus:latest'
 # align reads with bowtie2 and sort bam with samtools
 def run(ref_index_dir,outdir,prefix,R1,R2=None):
     outdir=os.path.abspath(outdir)

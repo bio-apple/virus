@@ -3,7 +3,7 @@ import subprocess
 import argparse
 import json
 
-docker="meta:latest"
+docker="virus:latest"
 #     remove adaptors
 #     quality filtering of reads
 #     removal of low-quality reads(q < 20)
@@ -18,7 +18,7 @@ def run(pe1,outdir,prefix,pe2=None):
     a = pe1.split("/")[-1]
 
     cmd = "docker run -v %s:/raw_data/ -v %s:/outdir/ %s " % (in_dir,outdir, docker)
-    cmd += ("sh -c \'export PATH=/opt/conda/envs/rgi/bin/:$PATH && fastp -i /raw_data/%s -o /outdir/%s.clean_R1.fastq "
+    cmd += ("sh -c \'export PATH=/opt/conda/bin/:$PATH && fastp -i /raw_data/%s -o /outdir/%s.clean_R1.fastq "
             "--length_required 36 --dedup --thread 16 --low_complexity_filter --qualified_quality_phred 20 "
             "--html /outdir/%s.fastp.html --json /outdir/%s.fastp.json ") % (a, prefix, prefix, prefix)
     if pe2 is not None:

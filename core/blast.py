@@ -3,7 +3,7 @@ import sys
 import subprocess
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-docker="fanyucai1/virus:latest"
+docker="virus:latest"
 
 def split_fasta_to_n_files(input_fasta, output_dir, num_parts=10):
     output_dir = os.path.abspath(output_dir)

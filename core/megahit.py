@@ -2,7 +2,7 @@ import os,sys,re
 import subprocess
 import argparse
 
-docker="fanyucai1/virus:latest"
+docker="virus:latest"
 def run(pe1,prefix,outdir,pe2=None):
     array=pe1.split(",")
     in_dir=os.path.dirname(os.path.abspath(array[0]))

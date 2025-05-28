@@ -5,7 +5,7 @@ import os
 import subprocess
 import argparse
 
-docker="fanyucai1/virus:latest"
+docker="virus:latest"
 parser=argparse.ArgumentParser("Filter human host and phix sequence.")
 parser.add_argument("-p1","--pe1",help="5' reads",required=True)
 parser.add_argument("-p2","--pe2",help="3' reads",default=None)

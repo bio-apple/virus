@@ -6,7 +6,7 @@ import os,gzip
 import subprocess
 import argparse
 
-docker="fanyucai1/virus:latest"
+docker="virus:latest"
 def run(pe1,index,prefix,outdir,pe2=None):
     pe1 = os.path.abspath(pe1)
     outdir = os.path.abspath(outdir)
