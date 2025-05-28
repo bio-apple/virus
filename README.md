@@ -4,21 +4,7 @@
 
 ### 1.Docker Last Update:2025.05
 
-<pre>docker pull fanyucai1/virus</pre> 
-
-databases and software list: 
-
-    pangolin verison:4.3.1 
-    pangolin-data: 1.33 
-    export PATH=/opt/conda/envs/pangolin/bin:$PATH
-
-    nextclad version:3.13.2
-    nextclade
-
-    Freyja version:1.5.3
-    export PATH=/opt/conda/envs/Freyja/bin:$PATH
-
-    
+<pre>docker pull fanyucai1/virus</pre>
 
 ### 2.Database
 
