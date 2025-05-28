@@ -87,11 +87,10 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         # bowtie2 mapping reference
         # ------------------------
 
-
+        # ------------------------
+        # trim primer
+        # ------------------------
         if args.bed:
-            # ------------------------
-            # trim primer
-            # ------------------------
             pass
 
         # ------------------------
