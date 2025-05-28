@@ -12,7 +12,7 @@
 <pre>python3 core/download_nextclade_db.py -d /ref/nextclade_db</pre> 
 
 **2-2:virus genome and index**
-<pre>python3 core/build_database.py -o ref/bowtie2/</pre>
+<pre>python3 core/build_database.py -o /ref/bowtie2/</pre>
 
 **2-3:ncbi nt virus**
 
