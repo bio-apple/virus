@@ -32,7 +32,9 @@ os.makedirs(args.outdir,exist_ok=True)
 
 for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
 
-    ##########################################Step 1: fastp qc
+    # ------------------------
+    # Step 1: fastp qc
+    # ------------------------
     print("""
         # ------------------------
         # Step 1: fastp qc
@@ -40,7 +42,9 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     """)
     core.fastp.run(r1,args.outdir+"/1.fastp",prefix,r2)
 
-    ##########################################Step 2: kraken2
+    # ------------------------
+    # Step 2: kraken2
+    # ------------------------
     print("""
         # ------------------------
         # Step 2: kraken2
@@ -49,7 +53,9 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     )
     core.kraken2.run(r1,args.kraken2,prefix,args.outdir+"/2.kraken2",r2)
 
-    ##########################################step3:bowtie2 host filter
+    # ------------------------
+    # Step 3: bowtie2 host filter
+    # ------------------------
     print("""
         # ------------------------
         # Step 3: bowtie2 host filter
@@ -57,7 +63,9 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     """)
     core.filter_host.run(r1,args.outdir+"/3.filter_host",args.host,prefix,r2)
 
-    ##########################################Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
+    # ------------------------
+    # Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
+    # ------------------------
     print("""
         # ------------------------
         # Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
@@ -81,7 +89,9 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
                           f'cat spades_{prefix}/scaffolds.fasta megahit_{prefix}/{prefix}.contigs.fa >{prefix}.contigs.fa',shell=True)
     core.cd_hit_est.run(f'{args.outdir}/4.assembly/{prefix}.contigs.fa',args.identify,prefix+"non-redundant",f'{args.outdir}/4.assembly/')
 
-    ##########################################Step 5: blast NCBI Database: nt virus
+    # ------------------------
+    # Step 5: blast NCBI Database: nt virus
+    # ------------------------
     print("""
         # ------------------------
         # Step 5: blast NCBI Database: nt virus
