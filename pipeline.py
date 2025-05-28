@@ -35,42 +35,21 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # ------------------------
     # Step 1: fastp qc
     # ------------------------
-    print("""
-        # ------------------------
-        # Step 1: fastp qc
-        # ------------------------
-    """)
     core.fastp.run(r1,args.outdir+"/1.fastp",prefix,r2)
 
     # ------------------------
     # Step 2: kraken2
     # ------------------------
-    print("""
-        # ------------------------
-        # Step 2: kraken2
-        # ------------------------
-    """
-    )
     core.kraken2.run(r1,args.kraken2,prefix,args.outdir+"/2.kraken2",r2)
 
     # ------------------------
     # Step 3: bowtie2 host filter
     # ------------------------
-    print("""
-        # ------------------------
-        # Step 3: bowtie2 host filter
-        # ------------------------
-    """)
     core.filter_host.run(r1,args.outdir+"/3.filter_host",args.host,prefix,r2)
 
     # ------------------------
     # Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
     # ------------------------
-    print("""
-        # ------------------------
-        # Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
-        # ------------------------
-    """)
     read1,read2="",""
     if r2:
         read1=args.outdir+"/"+"3.filter_host/"+prefix+"_1.fastq"
@@ -92,11 +71,6 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # ------------------------
     # Step 5: blast NCBI Database: nt virus
     # ------------------------
-    print("""
-        # ------------------------
-        # Step 5: blast NCBI Database: nt virus
-        # ------------------------
-    """)
     core.blast.run(
         f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna',
         args.blastdb,
@@ -105,40 +79,29 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         10,
     )
 
-    ##########################################step6:resequencing analysis
+    # ------------------------
+    # Step 6: re-sequencing analysis
+    # ------------------------
     if args.bowtie2 and args.ref:
-        ##########################################Bowtie2 mapping reference
-        print("""
-            # ------------------------
-            # bowtie2 mapping reference
-            # ------------------------
-        """)
+        # ------------------------
+        # bowtie2 mapping reference
+        # ------------------------
+
 
         if args.bed:
-            ##########################################trim primer
-            print("""
-                # ------------------------
-                # trim primer
-                # ------------------------
-            """)
+            # ------------------------
+            # trim primer
+            # ------------------------
+            pass
 
-        ##########################################variant calling and consensus sequence
-        print("""
-            # ------------------------
-            # variant calling and consensus sequence
-            # ------------------------
-        """)
+        # ------------------------
+        # variant calling and consensus sequence
+        # ------------------------
 
-        ##########################################Step 6-4: plot coverage
-        print("""
-            # ------------------------
-            # plot coverage
-            # ------------------------
-        """)
+        # ------------------------
+        # plot coverage
+        # ------------------------
 
-        ##########################################Step 6-5: run nextclade and pangolin
-        print("""
-            # ------------------------
-            # run nextclade and pangolin
-            # ------------------------
-        """)
+        # ------------------------
+        # run nextclade and pangolin
+        # ------------------------
