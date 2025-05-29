@@ -3,7 +3,7 @@ import subprocess
 import argparse
 
 docker="virus:latest"
-def run(pe1,prefix,outdir,pe2=None):
+def run(pe1,prefix,outdir,pe2=None,length=500):
     array=pe1.split(",")
     in_dir=os.path.dirname(os.path.abspath(array[0]))
     a="/raw_data/"+os.path.abspath(array[0]).split("/")[-1]
@@ -34,9 +34,9 @@ def run(pe1,prefix,outdir,pe2=None):
         cmd+=" -1 %s -2 %s "%(a,b)
     else:
         cmd+=" --read %s"%(a)
-    cmd+=("-o /outdir/megahit_%s/ --out-prefix %s -m 0.95 --continue --min-contig-len 1000 -t 64 && "
+    cmd+=("-o /outdir/megahit_%s/ --out-prefix %s -m 0.95 --continue --min-contig-len %s -t 64 && "
           "quast.py --threads 36 --plots-format png --no-html --no-icarus "
-          "--output-dir /outdir/megahit_%s/ /outdir/megahit_%s/%s.contigs.fa\'")%(prefix,prefix,prefix,prefix,prefix)
+          "--output-dir /outdir/megahit_%s/ /outdir/megahit_%s/%s.contigs.fa\'")%(prefix,prefix,length,prefix,prefix,prefix)
     print(cmd)
     subprocess.call(cmd,shell=True)
     return "Genome assembly megahit done."
@@ -47,5 +47,6 @@ if __name__=="__main__":
     parser.add_argument("-p2", "--pe2", help="comma-separated list of fasta/q paired-end #2 files")
     parser.add_argument("-o", "--outdir", help="output directory", required=True)
     parser.add_argument("-p", "--prefix", help="prefix of output", required=True)
+    parser.add_argument("-l","--length",help="min contig length",type=int,default=500)
     args = parser.parse_args()
-    run(args.pe1,args.prefix,args.outdir,args.pe2)
+    run(args.pe1,args.prefix,args.outdir,args.pe2,args.length)
