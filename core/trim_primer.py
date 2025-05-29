@@ -43,5 +43,3 @@ if __name__=="__main__":
     parser.add_argument("-p","--prefix", help="prefix of output", required=True)
     args = parser.parse_args()
     run(args.bed, args.bam, args.outdir, args.prefix)
-
-3731247
