@@ -100,27 +100,11 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         core.mapping.run(f'{args.bowtie2}',f'{args.outdir}/6.mapping/ref',prefix,r1, r2)
 
     # ------------------------
-    # variant calling and consensus sequence
+    # step7:variant calling,consensus sequence and plot coverage
     # ------------------------
-
-    # ------------------------
-    # Step 6: re-sequencing analysis
-    # ------------------------
+    core.consensus.run(f'{args.outdir}/6.mapping/denovo/{prefix}.bam', f'{args.outdir}/7.consensus/denovo', prefix,None, " ".join(chr))
     if args.bowtie2 and args.ref:
-        # ------------------------
-        # bowtie2 mapping reference
-        # ------------------------
-
-        # ------------------------
-        # trim primer
-        # ------------------------
-        if args.bed:
-            pass
-
-        # ------------------------
-        # variant calling and consensus sequence
-        # ------------------------
-
-        # ------------------------
-        # run nextclade and pangolin
-        # ------------------------
+        core.consensus.run(f'{args.outdir}/6.mapping/ref/{prefix}.bam', f'{args.outdir}/7.consensus/ref/', prefix, args.ref)
+    # ------------------------
+    # run nextclade and pangolin
+    # ------------------------

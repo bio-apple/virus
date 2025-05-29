@@ -6,5 +6,5 @@ from . import metaspades
 from . import cd_hit_est
 from . import blast
 from . import mapping
-
+from . import consensus
 
