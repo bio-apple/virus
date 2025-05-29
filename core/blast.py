@@ -5,7 +5,34 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 docker="virus:latest"
 
-def split_fasta_to_n_files(input_fasta, output_dir, num_parts):
+def blastn(query_fasta, db, out_file):
+    query_fasta=os.path.abspath(query_fasta)
+    out_file=os.path.abspath(out_file)
+    db_dir=os.path.abspath(os.path.dirname(db))
+    db_name=db.split("/")[-1]
+    if not os.path.exists(db_dir+"/taxdb.btd"):
+        print("Blast database not contains taxdb.btd.Downlaod:ftp://ftp.ncbi.nlm.nih.gov/blast/db/taxdb.tar.gz")
+        exit()
+    cmd=(f'docker run --rm -v {query_fasta}:/raw_data/{query_fasta.split("/")[-1]} '
+         f'-v {os.path.dirname(out_file)}:/outdir/ '
+         f'-v {db_dir}/:/ref/ ')
+
+    cmd+=(f'{docker} '
+          f'sh -c \"export PATH=/opt/conda/envs/kraken2/bin:$PATH && '
+          f'export BLASTDB=/ref/ && '
+          f'blastn -db /ref/{db_name} '
+          f'-query /raw_data/{query_fasta.split("/")[-1]} '
+          f'-out /outdir/{out_file.split("/")[-1]} '
+          f'-outfmt \'6 qseqid sacc pident length mismatch qcovs evalue bitscore score sscinames stitle\' '
+          f'-perc_identity 98 '
+          f'-max_target_seqs 5 '
+          f'-evalue 1e-10 '
+          f'-num_threads 5\"')
+    print(cmd)
+    subprocess.check_call(cmd, shell=True)
+    print(f"Run blast Done: {query_fasta}")
+
+def run(input_fasta,db, output_dir,prefix,num_parts):
     output_dir = os.path.abspath(output_dir)
     os.makedirs(output_dir, exist_ok=True)
 
@@ -44,38 +71,8 @@ def split_fasta_to_n_files(input_fasta, output_dir, num_parts):
         f.close()
 
     print(f"Split fasta done: {output_dir}/part_0.fasta ~ part_{num_parts - 1}.fasta")
-    return num_parts  # 返回实际的 part 数用于后续 parallel
-
-def blastn(query_fasta, db, out_file):
-    query_fasta=os.path.abspath(query_fasta)
-    out_file=os.path.abspath(out_file)
-    db_dir=os.path.abspath(os.path.dirname(db))
-    db_name=db.split("/")[-1]
-    if not os.path.exists(db_dir+"/taxdb.btd"):
-        print("Blast database not contains taxdb.btd.Downlaod:ftp://ftp.ncbi.nlm.nih.gov/blast/db/taxdb.tar.gz")
-        exit()
-    cmd=(f'docker run --rm -v {query_fasta}:/raw_data/{query_fasta.split("/")[-1]} '
-         f'-v {os.path.dirname(out_file)}:/outdir/ '
-         f'-v {db_dir}/:/ref/ ')
-
-    cmd+=(f'{docker} '
-          f'sh -c \"export PATH=/opt/conda/envs/kraken2/bin:$PATH && '
-          f'export BLASTDB=/ref/ && '
-          f'blastn -db /ref/{db_name} '
-          f'-query /raw_data/{query_fasta.split("/")[-1]} '
-          f'-out /outdir/{out_file.split("/")[-1]} '
-          f'-outfmt \'6 qseqid sacc pident length mismatch qcovs evalue bitscore score sscinames stitle\' '
-          f'-perc_identity 98 '
-          f'-max_target_seqs 5 '
-          f'-evalue 1e-10 '
-          f'-num_threads 5\"')
-    print(cmd)
-    subprocess.check_call(cmd, shell=True)
-    print(f"Run blast Done: {query_fasta}")
-
-def run(input_fasta,db, output_dir,prefix,num_parts):
+    # 返回实际的 part 数用于后续 parallel
     subprocess.check_call(f"rm -rf {output_dir}/part_*.blast.txt", shell=True)
-    split_fasta_to_n_files(input_fasta, output_dir, num_parts)
     queries = [f"{output_dir}/part_{i}.fasta" for i in range(num_parts)]
     outputs = [f"{output_dir}/part_{i}.blast.txt" for i in range(num_parts)]
 
