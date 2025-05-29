@@ -24,7 +24,8 @@ parser.add_argument("-o","--outdir",help="diretory of output",required=True)
 parser.add_argument('-bowtie2','--bowtie2',help="directory reference bowtie2 index",default=None)
 parser.add_argument("-bed","--bed",help="bed file",default=None)
 parser.add_argument('-ref','--ref',help="reference fasta reference",default=None)
-parser.add_argument("-l", "--length", help="min contig length", type=int, default=500,choices=[500,1000,1500])
+parser.add_argument('-l','--length',help="read length",required=True,choices=[50,75,100,150,200,250,300])
+parser.add_argument("-c", "--contig", help="min contig length", type=int, default=500,choices=[500,1000,1500])
 args=parser.parse_args()
 
 args.outdir=os.path.abspath(args.outdir)
@@ -32,7 +33,6 @@ os.makedirs(args.outdir,exist_ok=True)
 
 
 for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
-    """
     # ------------------------
     # Step 1: fastp qc
     # ------------------------
@@ -41,7 +41,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # ------------------------
     # Step 2: kraken2
     # ------------------------
-    core.kraken2.run(r1,args.kraken2,prefix,args.outdir+"/2.kraken2",r2)
+    core.kraken2.run(r1,args.kraken2,prefix,args.outdir+"/2.kraken2",args.length,r2)
 
     # ------------------------
     # Step 3: bowtie2 host filter
@@ -60,14 +60,12 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         read2=None
     with ThreadPoolExecutor(max_workers=2) as executor:
         futures = [
-            executor.submit(core.megahit.run, read1, prefix, args.outdir + "/4.assembly/", read2,args.length),
+            executor.submit(core.megahit.run, read1, prefix, args.outdir + "/4.assembly/", read2,args.contig),
             executor.submit(core.metaspades.run, read1, prefix, args.outdir + "/4.assembly/", read2)
         ]
         for future in as_completed(futures):
             print(future.result())
-    """
-    subprocess.check_call(f'cd {args.outdir}/4.assembly/ && '
-                          f'cat spades_{prefix}/scaffolds_{args.length}bp.fasta megahit_{prefix}/{prefix}.contigs.fa >{prefix}.contigs.fa',shell=True)
+    subprocess.check_call(f'cd {args.outdir}/4.assembly/ && cat spades_{prefix}/scaffolds_{args.contig}bp.fasta megahit_{prefix}/{prefix}.contigs.fa >{prefix}.contigs.fa',shell=True)
     core.cd_hit_est.run(f'{args.outdir}/4.assembly/{prefix}.contigs.fa',args.identify,prefix+".non-redundant",f'{args.outdir}/4.assembly/')
 
     # ------------------------
@@ -92,6 +90,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
             array=line.split("\t")
             if not array[0] in chr:
                 chr.append(array[0])
+
     # ------------------------
     # step 6:mapping reference
     # ------------------------
