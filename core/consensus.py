@@ -10,82 +10,51 @@ docker = "virus:latest"
 
 def run(bam, outdir, prefix, ref=None,chrom_list=None):
     bam = os.path.abspath(bam)
-    ref = os.path.abspath(ref)
     outdir = os.path.abspath(outdir)
     os.makedirs(outdir, exist_ok=True)
 
-    bam_in = f"/raw_data/{os.path.basename(bam)}"
-    ref_in = f"/ref/{os.path.basename(ref)}"
-    sort_bam = os.path.splitext(os.path.basename(bam))[0] + ".sort.bam"
-    sort_bam_in = f"/outdir/{sort_bam}"
-    depth_txt = f"/outdir/{prefix}.depth.txt"
-    volume_args = f"-v {bam}:{bam_in} -v {ref}:{ref_in} -v {outdir}:/outdir"
-
-    # Step 1: Check if BAM is sorted by coordinate
-    header_cmd = (
-        f"docker run --rm {volume_args} {docker} "
-        f"sh -c 'export PATH=/opt/conda/bin/:$PATH && samtools view -H {bam_in}'"
-    )
-    result = subprocess.run(header_cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, check=True)
-
-    if "SO:coordinate" not in result.stdout:
-        sort_cmd = (
-            f"docker run --rm {volume_args} {docker} "
-            f"sh -c 'export PATH=/opt/conda/bin/:$PATH && samtools sort -o {sort_bam_in} {bam_in}'"
-        )
-        subprocess.check_call(sort_cmd, shell=True)
-    else:
-        sort_bam = os.path.basename(bam)
-        sort_bam_in = bam_in
-
-    # Step 2: Index BAM if needed
-    bai_path = os.path.join(outdir, sort_bam + ".bai")
-    if not os.path.exists(bai_path):
-        index_cmd = (
-            f"docker run --rm {volume_args} {docker} "
-            f"sh -c 'export PATH=/opt/conda/bin/:$PATH && samtools index {sort_bam_in}'"
-        )
-        subprocess.check_call(index_cmd, shell=True)
-
-    # Step 3: Generate depth file
-    depth_cmd = (
-        f"docker run --rm {volume_args} {docker} "
-        f"sh -c 'export PATH=/opt/conda/bin/:$PATH && samtools depth -J -d 8000 -Q 0 -q 20 -aa {sort_bam_in} > {depth_txt}'"
-    )
+    cmd=f'docker run --rm -v {bam}:/raw_data/{bam.split("/")[-1]} -v {outdir}:/outdir '
+    # Step 1: Generate depth file
+    depth_cmd = cmd + f'{docker} sh -c \'export PATH=/opt/conda/bin/:$PATH && samtools depth -J -d 8000 -Q 0 -q 20 -aa /raw_data/{bam.split("/")[-1]} > /outdir/{prefix}.depth.txt\''
     subprocess.check_call(depth_cmd, shell=True)
-
-    # Step 4: Create mask bed for positions with depth < 10
-    mask_bed = f"{outdir}/{prefix}.mask.bed"
-    with open(f"{outdir}/{prefix}.depth.txt") as infile, open(mask_bed, "w") as outbed:
-        for line in infile:
-            chrom, pos, depth = line.strip().split("\t")
-            if int(depth) < 10:
-                outbed.write(f"{chrom}\t{int(pos)-1}\t{pos}\n")  # BED format zero-based
-
     if ref:
-        # Step 5: Call variants and generate consensus with masked low coverage regions
-        consensus_cmd = (
-            f"docker run --rm {volume_args} {docker} "
-            f"sh -c 'export PATH=/opt/conda/bin/:$PATH && bcftools mpileup -Ou -f {ref_in} {sort_bam_in} | "
-            f"bcftools call --ploidy 1 -mv -Oz -o /outdir/{prefix}.vcf.gz && "
-            f"bcftools index /outdir/{prefix}.vcf.gz && "
-            f"cat {ref_in} | bcftools consensus -m /outdir/{prefix}.mask.bed "
-            f"-p {prefix} /outdir/{prefix}.vcf.gz > /outdir/{prefix}.consensus.fa'"
-        )
+        ref=os.path.abspath(ref)
+        cmd+=f'-v {ref}:/ref/{ref.split("/")[-1]} '
+        # Step 2: Create mask bed for positions with depth < 10
+        mask_bed = f"{outdir}/{prefix}.mask.bed"
+        with open(f"{outdir}/{prefix}.depth.txt") as infile, open(mask_bed, "w") as outbed:
+            for line in infile:
+                chrom, pos, depth = line.strip().split("\t")
+                if int(depth) < 10:
+                    outbed.write(f"{chrom}\t{int(pos) - 1}\t{pos}\n")  # BED format zero-based
+
+        # Step 3: Call variants and generate consensus with masked low coverage regions
+        consensus_cmd = cmd+f'{docker} sh -c \'export PATH=/opt/conda/bin/:$PATH && bcftools mpileup -Ou -f /ref/{ref.split("/")[-1]} /raw_data/{bam.split("/")[-1]} | bcftools call --ploidy 1 -mv -Oz -o /outdir/{prefix}.vcf.gz\''
+        print(consensus_cmd)
         subprocess.check_call(consensus_cmd, shell=True)
 
-    # Step 6: Plot coverage
+        temp=cmd+f'{docker} sh -c \'export PATH=/opt/conda/bin/:$PATH && bcftools index /outdir/{prefix}.vcf.gz && cat /ref/{ref.split("/")[-1]} | bcftools consensus -m /outdir/{prefix}.mask.bed -p {prefix} /outdir/{prefix}.vcf.gz > /outdir/{prefix}.consensus.fa\''
+        print(temp)
+        subprocess.check_call(temp, shell=True)
+
+    # Step 4: Plot coverage
     df = pd.read_csv(f"{outdir}/{prefix}.depth.txt", sep="\t", names=["ref", "pos", "depth"])
     available_chroms = df["ref"].unique()
-
+    chroms = available_chroms
+    print(chroms)
     if chrom_list:
-        chroms = [c for c in chrom_list if c in available_chroms]
-    else:
-        chroms = available_chroms
+        chroms = [c for c in chrom_list.split(" ") if c in available_chroms]
+        print("Selected chromosomes for plotting:", chroms)
 
     cols = 2
     rows = math.ceil(len(chroms) / cols)
-    fig, axs = plt.subplots(rows, cols, figsize=(12, 4 * rows), squeeze=False)
+
+    # 单个图的特殊处理：返回不是数组而是一个单个 ax
+    if len(chroms) == 1:
+        fig, ax = plt.subplots(figsize=(8, 4))
+        axs = [[ax]]
+    else:
+        fig, axs = plt.subplots(rows, cols, figsize=(12, 4 * rows), squeeze=False)
 
     for idx, chrom in enumerate(chroms):
         sub_df = df[df["ref"] == chrom]
@@ -105,20 +74,19 @@ def run(bam, outdir, prefix, ref=None,chrom_list=None):
         ax.legend(fontsize=8)
         ax.margins(x=0.01)
 
-    # 删除多余子图
-    for idx in range(len(chroms), rows * cols):
-        fig.delaxes(axs[idx // cols][idx % cols])
+    # 删除空的 subplot（仅在多个图时需要）
+    if len(chroms) > 1:
+        for idx in range(len(chroms), rows * cols):
+            fig.delaxes(axs[idx // cols][idx % cols])
 
     plt.tight_layout()
     plt.savefig(f"{outdir}/{prefix}.coverage.png", dpi=300)
-    print("Done.")
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Variant calling + consensus with N mask and coverage plotting.")
     parser.add_argument("-b", "--bam", required=True, help="Input BAM file")
     parser.add_argument("-r", "--ref", default=None, help="Reference FASTA (optional)")
     parser.add_argument("-o", "--outdir", required=True, help="Output directory")
     parser.add_argument("-p", "--prefix", required=True, help="Prefix for output")
-    parser.add_argument("-c", "--chrom-list", nargs="+", default=None, help="List of chromosomes to plot (default: all)")
+    parser.add_argument("-c", "--chrom-list",nargs='+',default=None, help="List of chromosomes to plot (default: all)")
     args = parser.parse_args()
-    run(args.bam, args.ref, args.outdir, args.prefix, args.chrom_list)
+    run(args.bam, args.outdir,args.prefix, args.ref, args.chrom_list)
