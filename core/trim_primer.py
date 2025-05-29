@@ -31,7 +31,8 @@ def run(bed,bam,outdir,prefix):
     subprocess.check_call(out_bam,shell=True)
 
     out_fastq=cmd+f"samtools fastq -1 /outdir/{prefix}_no_primer.R1.fq -2 /outdir/{prefix}_no_primer.R2.fq -s /outdir/{prefix}.singleton.fastq /outdir/{prefix}.trimmed.bam &>/outdir/{prefix}.bam2fastq.stdout\'"
-    print(cmd)
+    print(out_fastq)
+
     subprocess.check_call(out_fastq, shell=True)
 
 if __name__=="__main__":
