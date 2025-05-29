@@ -10,10 +10,10 @@ docker tag fanyucai1/virus virus</pre>
 ## Step2.Database
 
 **2-1:nextclade**
-<pre>python3 core/download_nextclade_db.py -d /ref/nextclade_db</pre> 
+<pre>python3 core/nextclade_db.py -d /ref/nextclade_db</pre> 
 
 **2-2:virus genome and index**
-<pre>python3 core/build_database.py -o /ref/bowtie2/</pre>
+<pre>python3 core/ref_index.py -o /ref/bowtie2/</pre>
 
 **2-3:ncbi nt virus**
 
