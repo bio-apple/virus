@@ -16,8 +16,8 @@ database_name=[
                'nextstrain/flu/h1n1pdm/ha/MW626062','nextstrain/flu/h1n1pdm/na/MW626056','nextstrain/flu/h1n1pdm/pa','nextstrain/flu/h1n1pdm/mp','nextstrain/flu/h1n1pdm/np','nextstrain/flu/h1n1pdm/ns','nextstrain/flu/h1n1pdm/pb2','nextstrain/flu/h1n1pdm/pb1',
                 #Influenza A H3N2
                 'nextstrain/flu/h3n2/ha/EPI1857216', 'nextstrain/flu/h3n2/na/EPI1857215','nextstrain/flu/h3n2/pb1', 'nextstrain/flu/h3n2/np', 'nextstrain/flu/h3n2/ns', 'nextstrain/flu/h3n2/mp','nextstrain/flu/h3n2/pa', 'nextstrain/flu/h3n2/pb2',
-                #Influenza B(Vic)
-               'nextstrain/flu/vic/ha/KX058884','nextstrain/flu/vic/na/CY073894','nextstrain/flu/yam/ha/JN993010','nextstrain/flu/vic/pa','nextstrain/flu/vic/pb1','nextstrain/flu/vic/np','nextstrain/flu/vic/mp','nextstrain/flu/vic/pb2','nextstrain/flu/vic/ns',
+                #Influenza B(Vic)B/Yamagata or B/Victoria lineage B/Yamagata viruses have not been observed since 2020.
+               'nextstrain/flu/vic/ha/KX058884','nextstrain/flu/vic/na/CY073894','nextstrain/flu/vic/pa','nextstrain/flu/vic/pb1','nextstrain/flu/vic/np','nextstrain/flu/vic/mp','nextstrain/flu/vic/pb2','nextstrain/flu/vic/ns',
                 #RSV-A and RSV-B
                'nextstrain/rsv/a/EPI_ISL_412866','nextstrain/rsv/b/EPI_ISL_1653999',
                 #Mpox virus
