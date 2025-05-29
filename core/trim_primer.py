@@ -28,6 +28,7 @@ def run(bed,bam,outdir,prefix):
     cmd+= f"jvarkit biostar84452 --samoutputformat BAM /outdir/{prefix}.soft.clipped.sort.bam |samtools sort -n >/outdir/{prefix}.trimmed.bam && "
     cmd+= f"samtools fastq -1 /outdir/{prefix}_no_primer.R1.fq -2 /outdir/{prefix}_no_primer.R2.fq -s /outdir/{prefix}.singleton.fastq /outdir/{prefix}.trimmed.bam &>/outdir/{prefix}.bam2fastq.stdout"
 
+    print(cmd)
     subprocess.check_call(cmd, shell=True)
 
 if __name__=="__main__":
