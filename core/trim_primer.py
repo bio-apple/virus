@@ -2,34 +2,32 @@ import os,sys,re
 import subprocess
 import argparse
 
+docker="virus:latest"
 def run(bed,bam,outdir,prefix):
     bed=os.path.abspath(bed)
     bam=os.path.abspath(bam)
     outdir=os.path.abspath(outdir)
-    if not os.path.exists(outdir):
-        subprocess.check_call(f'mkdir -p {outdir}',shell=True)
-    out=os.path.abspath(outdir)+"/"+prefix
+    os.makedirs(outdir,exist_ok=True)
+
+    cmd=(f'docker run --rm '
+         f'-v {bed}:/raw_data/{bed.split("/")[-1]} '
+         f'-v {bam}:/raw_data/{bam.split("/")[-1]} '
+         f'-v {outdir}:/outdir/ {docker} sh -c \''
+         f'export PATH=/opt/conda/bin:$PATH && export JAVA_HOME=/opt/conda/ && ')
 
     # trim primers with ivar (soft clipping)
     # https://andersen-lab.github.io/ivar/html/manualpage.html
     # -e    Include reads with no primers
-    cmd = "ivar trim -e -i %s.bam -b %s -p %s.soft.clipped | tee %s.ivar.stdout && rm -rf %s.bam %s.bam.bai" % (out, bed, out, out, out, out)
-    print(cmd)
-    subprocess.check_call(cmd, shell=True)
+    cmd += (f'ivar trim -e -i /raw_data/{bam.split("/")[-1]} -b /raw_data/{bed.split("/")[-1]} -p /outdir/{prefix}.soft.clipped '
+            f'| tee /outdir/{prefix}.ivar.stdout && rm -rf /outdir/{prefix}.bam /outdir/{prefix}.bam.bai && ')
 
     ## remove soft-clipped primers
     # https://jvarkit.readthedocs.io/en/latest/Biostar84452/
     # source activate && conda deactivate
-    cmd = "samtools sort %s.soft.clipped.bam -o %s.soft.clipped.sort.bam" % (out, out)
-    print(cmd)
-    subprocess.check_call(cmd, shell=True)
+    cmd+= f"samtools sort /outdir/{prefix}.soft.clipped.bam -o /outdir/{prefix}.soft.clipped.sort.bam && "
+    cmd+= f"jvarkit biostar84452 --samoutputformat BAM /outdir/{prefix}.soft.clipped.sort.bam |samtools sort -n >/outdir/{prefix}.trimmed.bam && "
+    cmd+= f"samtools fastq -1 /outdir/{prefix}_no_primer.R1.fq -2 /outdir/{prefix}_no_primer.R2.fq -s /outdir/{prefix}.singleton.fastq /outdir/{prefix}.trimmed.bam &>/outdir/{prefix}.bam2fastq.stdout"
 
-    cmd = "java -jar jvarkit.jar biostar84452 --samoutputformat BAM %s.soft.clipped.sort.bam |samtools sort -n >%s.trimmed.bam" % (out, out)
-    print(cmd)
-    subprocess.check_call(cmd, shell=True)
-
-    cmd = ("samtools fastq -1 %s_no_primer.R1.fq -2 %s_no_primer.R2.fq -s %s.singleton.fastq %s.trimmed.bam &>%s.bam2fastq.stdout"
-           % (out, out, out, out, out))
     subprocess.check_call(cmd, shell=True)
 
 if __name__=="__main__":
