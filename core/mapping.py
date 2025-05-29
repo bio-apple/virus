@@ -24,6 +24,7 @@ def run(ref_index_dir,outdir,prefix,R1,R2=None):
         cmd+=f'-1 /raw_data/{R1.split("/")[-1]} -2 /raw_data/{R2.split("/")[-1]}|samtools view -bh |samtools sort > /outdir/{prefix}.bam && samtools index /outdir/{prefix}.bam\''
     else:
         cmd= f'-U {R1}|samtools view -bh |samtools sort > /outdir/{prefix}.bam && samtools index /outdir/{prefix}.bam\''
+    print(cmd)
     subprocess.check_call(cmd, shell=True)
 
 
