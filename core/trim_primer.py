@@ -11,7 +11,7 @@ def run(bed,bam,outdir,prefix):
 
     cmd=(f'docker run --rm '
          f'-v {bed}:/raw_data/{bed.split("/")[-1]} '
-         f'-v {bam}:/raw_data/{bam.split("/")[-1]} '
+         f'-v {bam}:/raw_data/{bam.split("/")[-1]}'
          f'-v {outdir}:/outdir/ {docker} sh -c \''
          f'export PATH=/opt/conda/bin:$PATH && export JAVA_HOME=/opt/conda/ && ')
 

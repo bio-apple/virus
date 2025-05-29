@@ -22,7 +22,7 @@ FROM freyja AS kraken
 RUN /opt/conda/bin/mamba create --name kraken2 --channel conda-forge --channel bioconda --channel defaults kraken2 krakentools krona bracken taxonkit bioawk
 
 FROM kraken AS virus
-RUN /opt/conda/bin/mamba install --channel conda-forge --channel bioconda --channel defaults ivar=1.3 trimmomatic  \
+RUN /opt/conda/bin/mamba install --channel conda-forge --channel bioconda --channel defaults ivar=1.3.1 trimmomatic  \
     bowtie2 bbmap fastp seqtk samtools bedtools bcftools bwa prinseq cutadapt drep jvarkit ncbi-datasets-cli entrez-direct &&  \
     /opt/conda/bin/conda install agbiome::cdhit bioconda::megahit bioconda::spades bioconda::quast &&  \
     /opt/conda/bin/pip3 install seaborn matplotlib numpy pysam pandas && /opt/conda/bin/conda clean -a -y
