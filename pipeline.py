@@ -12,7 +12,7 @@ script_path = os.path.abspath(__file__)
 # 获取脚本所在目录
 script_dir = os.path.dirname(script_path)
 
-parser=argparse.ArgumentParser("Virus NGS pipeline\nEamile:fanyucai3@gmail.com")
+parser=argparse.ArgumentParser("Virus NGS pipeline\nEmail:fanyucai3@gmail.com\n")
 parser.add_argument("-p1","--pe1",help="R1 fastq",required=True, nargs='+')
 parser.add_argument("-p2","--pe2",help="R2 fastq",default=None,nargs='+')
 parser.add_argument("-p","--prefix",help="prefix of output",required=True, nargs='+')
