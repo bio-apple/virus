@@ -95,15 +95,14 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # ------------------------
     # step 6:mapping reference
     # ------------------------
-    core.mapping.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna',
-                     f'{args.outdir}/6.mapping/denovo',
-                     prefix,
-                     r1,r2)
+    core.mapping.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna',f'{args.outdir}/6.mapping/denovo',prefix,r1,r2)
     if args.bowtie2:
-        core.mapping.run(f'{args.bowtie2}',
-                         f'{args.outdir}/6.mapping/ref',
-                         prefix,
-                         r1, r2)
+        core.mapping.run(f'{args.bowtie2}',f'{args.outdir}/6.mapping/ref',prefix,r1, r2)
+
+    # ------------------------
+    # variant calling and consensus sequence
+    # ------------------------
+
     # ------------------------
     # Step 6: re-sequencing analysis
     # ------------------------
@@ -120,10 +119,6 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
 
         # ------------------------
         # variant calling and consensus sequence
-        # ------------------------
-
-        # ------------------------
-        # plot coverage
         # ------------------------
 
         # ------------------------
