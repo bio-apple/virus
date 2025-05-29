@@ -5,14 +5,14 @@ import subprocess
 import core
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-
+docker='virus:latest'
 # 获取当前脚本的绝对路径
 script_path = os.path.abspath(__file__)
 
 # 获取脚本所在目录
 script_dir = os.path.dirname(script_path)
 
-parser=argparse.ArgumentParser("Virus NGS pipeline\nEmail:fanyucai3@gmail.com\n")
+parser=argparse.ArgumentParser("Virus NGS pipeline.\nEmail:fanyucai3@gmail.com\n")
 parser.add_argument("-p1","--pe1",help="R1 fastq",required=True, nargs='+')
 parser.add_argument("-p2","--pe2",help="R2 fastq",default=None,nargs='+')
 parser.add_argument("-p","--prefix",help="prefix of output",required=True, nargs='+')
@@ -80,7 +80,30 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         prefix,
         10,
     )
-
+    subprocess.check_call(f'docker run -v {args.outdir}/4.assembly/{prefix}.non-redundant.fna:/raw_data/{prefix}.non-redundant.fna {docker} sh -c '
+                          f'\'cd raw_data/ && '
+                          f'export PATH=/opt/conda/bin/:$PATH && '
+                          f'bowtie2-build {prefix}.non-redundant.fna {prefix}.non-redundant.fna\' ',shell=True)
+    chr=[]
+    infile=open(f"{args.outdir}/5.blast/{prefix}.blast_all.txt","r")
+    for line in infile:
+        line=line.strip()
+        if line.startswith("#"):
+            array=line.split("\t")
+            if not array[0] in chr:
+                chr.append(array[0])
+    # ------------------------
+    # step 6:mapping reference
+    # ------------------------
+    core.mapping.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna',
+                     f'{args.outdir}/6.mapping/denovo',
+                     prefix,
+                     r1,r2)
+    if args.bowtie2:
+        core.mapping.run(f'{args.bowtie2}',
+                         f'{args.outdir}/6.mapping/ref',
+                         prefix,
+                         r1, r2)
     # ------------------------
     # Step 6: re-sequencing analysis
     # ------------------------

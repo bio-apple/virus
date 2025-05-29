@@ -77,6 +77,13 @@ name.append("Influenza_B_viruses_Victoria")
 ref=['KX058884','CY073894','CY115156','CY115157',' CY115154','CY115152','CY115158','CY115155']
 accession.append(",".join(ref))
 
+
+
+#H10N4
+name.append('H10N4')
+ref=['OP572383','OP572384','OP572385','OP572386','OP572387','OP572388','OP572389','OP572390']
+accession.append(",".join(ref))
+
 print(f"Currently supported species list:{name}")
 
 for a,b in zip(accession,name):
