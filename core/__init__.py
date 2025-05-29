@@ -7,4 +7,5 @@ from . import cd_hit_est
 from . import blast
 from . import mapping
 from . import consensus
+from . import trim_primer
 
