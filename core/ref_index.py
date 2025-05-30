@@ -97,6 +97,10 @@ name.append("H6N1") #VSPv2 A/mallard/California/8212/2008
 ref=['CY094172','CY094171','CY094170','CY094165','CY094168','CY094167','CY094166','CY094169']
 accession.append(",".join(ref))
 
+name.append("H6N2")#A/wild duck/Shantou/865/2002
+ref=['HM144440','HM144779','HM144948','HM145117','HM145286','HM145455','HM145624','HM144610']
+accession.append(",".join(ref))
+
 ## H7N9 A/Anhui/DEWH72-01/2013(H7N9) VSPv2
 name.append("H7N9")
 ref=['CY181520','CY181519','CY181518','CY181513','CY181516','CY181515','CY181514','CY181517']
