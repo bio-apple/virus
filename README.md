@@ -1,4 +1,4 @@
-# An integrated data analysis pipeline for viruses(amplicon-based)
+# An integrated data analysis pipeline for viruses
 
 ![flow-chart](./virus.png)
 
