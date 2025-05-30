@@ -34,6 +34,10 @@ accession.append('AC_000018')
 name.append("Human_adenovirus_B1")
 accession.append('NC_011203')
 
+#Human adenovirus F
+name.append("Human_adenovirus_F")
+accession.append("NC_001454")
+
 #https://www.who.int/news-room/fact-sheets/detail/influenza-(seasonal)
 #Influenza A virus
 
