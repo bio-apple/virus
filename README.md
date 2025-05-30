@@ -118,7 +118,7 @@ optional arguments:
 </pre>
 
 
-## relevant external resources
+**Relevant external resources:**
 
 Bacterial and Viral Bioinformatics Resource Center (BV-BRC):https://www.bv-brc.org
  
