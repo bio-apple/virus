@@ -33,25 +33,28 @@ os.makedirs(args.outdir,exist_ok=True)
 
 
 for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
-    """
     # ------------------------
     # Step 1: fastp qc
     # ------------------------
+    print("#------------------------\n#Step1:fastp qc\n#------------------------\n")
     core.fastp.run(r1,args.outdir+"/1.fastp",prefix,r2)
 
     # ------------------------
     # Step 2: kraken2
     # ------------------------
+    print("#------------------------\n#Step 2: kraken2\n#------------------------\n")
     core.kraken2.run(r1,args.kraken2,prefix,args.outdir+"/2.kraken2",args.length,r2)
 
     # ------------------------
     # Step 3: bowtie2 host filter
     # ------------------------
+    print("#------------------------\n#Step 3: bowtie2 host filter\n#------------------------\n")
     core.filter_host.run(r1,args.outdir+"/3.filter_host",args.host,prefix,r2)
 
     # ------------------------
     # Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
     # ------------------------
+    print("#------------------------\n#Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)\n#------------------------\n")
     read1,read2="",""
     if r2:
         read1=args.outdir+"/"+"3.filter_host/"+prefix+"_1.fastq"
@@ -72,6 +75,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # ------------------------
     # Step 5: blast NCBI Database: nt virus
     # ------------------------
+    print("#------------------------\n#Step 5: blast NCBI Database: nt virus\n#------------------------\n")
     core.blast.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna',args.blastdb,f"{args.outdir}/5.blast/",prefix,10)
     index=(f'docker run --rm -v {args.outdir}/4.assembly/:/raw_data/ {docker} sh -c '
            f'\'export PATH=/opt/conda/bin/:$PATH && '
@@ -79,7 +83,6 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
 
     print(index)
     subprocess.check_call(index,shell=True)
-    """
     chr=[]
     infile=open(f"{args.outdir}/5.blast/{prefix}.blast_all.txt","r")
     for line in infile:
@@ -92,7 +95,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # ------------------------
     # step 6:mapping reference
     # ------------------------
-    """
+    print("#------------------------\n#Step 6:mapping reference\n#------------------------\n")
     if args.bowtie2:
         with ThreadPoolExecutor(max_workers=2) as executor:
             futures = [
@@ -103,10 +106,10 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
                 print(future.result())
     else:
         core.mapping.run(f'{args.outdir}/4.assembly/',f'{args.outdir}/6.mapping/denovo',prefix,r1,r2)
-    """
     # ------------------------
     # step7:trim primer,variant calling,consensus sequence and plot coverage
     # ------------------------
+    print("#------------------------\n#Step7:trim primer,variant calling,consensus sequence and plot coverage\n#------------------------\n")
     core.consensus.run(f'{args.outdir}/6.mapping/denovo/{prefix}.bam', f'{args.outdir}/7.consensus/denovo', prefix,None, " ".join(chr))
     if args.bowtie2 and args.ref:
         if args.bed:

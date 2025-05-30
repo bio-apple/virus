@@ -10,8 +10,8 @@ def run(bed,bam,outdir,prefix):
     os.makedirs(outdir,exist_ok=True)
 
     cmd=(f'docker run --rm '
-         f'-v {bed}:/raw_data/{bed.split("/")[-1]} '
-         f'-v {bam}:/raw_data/{bam.split("/")[-1]} '
+         f'-v {bed}:/ref/{bed.split("/")[-1]} '
+         f'-v {os.path.dirname(bam)}:/raw_data/ '
          f'-v {outdir}:/outdir/ {docker} sh -c \''
          f'export PATH=/opt/conda/bin:$PATH && export JAVA_HOME=/opt/conda/ && cd /outdir/ && ')
 
@@ -21,9 +21,9 @@ def run(bed,bam,outdir,prefix):
     ## remove soft-clipped primers
     # https://jvarkit.readthedocs.io/en/latest/Biostar84452/
     # source activate && conda deactivate
-    cmd+=(f'ivar trim -e -i /raw_data/{bam.split("/")[-1]} -b /raw_data/{bed.split("/")[-1]} -p {prefix}.soft.clipped '
+    cmd+=(f'ivar trim -e -i /raw_data/{bam.split("/")[-1]} -b /ref/{bed.split("/")[-1]} -p {prefix}.soft.clipped '
             f'| tee {prefix}.ivar.stdout && rm -rf {prefix}.bam {prefix}.bam.bai && '
-            f'samtools sort {prefix}.soft.clipped.bam -o {prefix}.soft.clipped.sort.bam && jvarkit biostar84452 --samoutputformat BAM {prefix}.soft.clipped.sort.bam |samtools sort -n >{prefix}.trimmed.bam && '
+            f'samtools sort -o {prefix}.soft.clipped.sort.bam {prefix}.soft.clipped.bam && jvarkit biostar84452 --samoutputformat BAM {prefix}.soft.clipped.sort.bam |samtools sort -n >{prefix}.trimmed.bam && '
             f'samtools fastq -1 {prefix}_no_primer.R1.fq -2 {prefix}_no_primer.R2.fq -s {prefix}.singleton.fastq {prefix}.trimmed.bam\'')
 
     print(cmd)
