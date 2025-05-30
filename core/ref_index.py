@@ -81,14 +81,35 @@ accession.append(",".join(ref))
 #####PB2 AF144300
 #####NS  AF144307
 #####    AF144306
-name.append("H5N1")
+name.append("H5N1")#nextclade A/goose/Guangdong/1/96
 ref=['AF144300','AF144301','AF144302','AF144303',' AF144304','AF144305','AF144306','AF144307']
 accession.append(",".join(ref))
 
-## H7N9 A/Anhui/DEWH72-01/2013(H7N9)
+name.append("H5N8")#nextclade A/Astrakhan/3212/2020
+ref=['OM403994','OM403993']
+accession.append(",".join(ref))
+
+name.append("H5N6")# A/Ferruginous Pochard/Ningxia/479-16/2015 VSPv2
+ref=['MF399585','MF399586','MF399587','MF399588','MF399589','MF399590','MF399591','MF399592']
+accession.append(",".join(ref))
+
+name.append("H6N1") #VSPv2 A/mallard/California/8212/2008
+ref=['CY094172','CY094171','CY094170','CY094165','CY094168','CY094167','CY094166','CY094169']
+accession.append(",".join(ref))
+
+## H7N9 A/Anhui/DEWH72-01/2013(H7N9) VSPv2
 name.append("H7N9")
 ref=['CY181520','CY181519','CY181518','CY181513','CY181516','CY181515','CY181514','CY181517']
 accession.append(",".join(ref))
+
+#H9N2 A/Hong Kong/1074/99(H9N2) VSPv2
+name.append("H9N2")
+ref=['AJ404631','AF258817','AF257192','AJ404627','AF255743','AJ404628','AF255364','AJ404735']
+accession.append(",".join(ref))
+
+#H10N4 A/swan/Shandong/W3917/2020
+name.append("H10N4")
+ref=['OM373275','OM373276','OM373277','OM373278','OM373279','OM373280','OM373281','OM373282']
 
 #Influenza B viruses
 #B/Yamagata or B/Victoria lineage
@@ -103,11 +124,6 @@ accession.append(",".join(ref))
 #####(Vic) NS (segment 8) CY115155 B/Brisbane/60/2008
 name.append("Influenza_B_viruses_Victoria")
 ref=['KX058884','CY073894','CY115156','CY115157',' CY115154','CY115152','CY115158','CY115155']
-accession.append(",".join(ref))
-
-#H10N4
-name.append('H10N4')
-ref=['OP572383','OP572384','OP572385','OP572386','OP572387','OP572388','OP572389','OP572390']
 accession.append(",".join(ref))
 
 print(f"Currently supported species list:{name}")
