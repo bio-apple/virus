@@ -30,7 +30,7 @@ accession.append('OP975389.1')
 name.append("Human_adenovirus_type_7")
 accession.append('AC_000018')
 
-#Human mastadenovirus B (HAdV-B)
+#Human mastadenovirus B (HAdV-B)#https://www.frontiersin.org/journals/virology/articles/10.3389/fviro.2024.1462907/full and ChatGPT
 name.append("Human_adenovirus_B1")
 accession.append('NC_011203')
 
