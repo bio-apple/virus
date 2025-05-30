@@ -7,7 +7,7 @@
 <pre>docker pull fanyucai1/virus
 docker tag fanyucai1/virus virus</pre>
 
-## Step2.Database
+## Step2.Prepare Database
 
 **2-1:nextclade**
 <pre>python3 core/nextclade_db.py -d /ref/nextclade_db</pre> 
@@ -68,6 +68,12 @@ dnf install perl-JSON-PP
 
 Download **nt_viruses**:
 <pre>perl ncbi-blast-2.16.0+/bin/update_blastdb.pl nt_viruses --decompress</pre>
+
+**2-4:kraken2 database:https://benlangmead.github.io/aws-indexes/k2**
+<pre>wget https://genome-idx.s3.amazonaws.com/kraken/k2_pluspf_20250402.tar.gz</pre>
+
+**2-5:Download or build host(default:human) genome bowtie2:https://github.com/BenLangmead/bowtie-majref**
+<pre>wget https://genome-idx.s3.amazonaws.com/bt/grch38_1kgmaj_snvindels_bt2.zip</pre>
 
 ## Step3:run pipeline
 <pre>
