@@ -13,27 +13,21 @@ def run(bed,bam,outdir,prefix):
          f'-v {bed}:/raw_data/{bed.split("/")[-1]} '
          f'-v {bam}:/raw_data/{bam.split("/")[-1]} '
          f'-v {outdir}:/outdir/ {docker} sh -c \''
-         f'export PATH=/opt/conda/bin:$PATH && export JAVA_HOME=/opt/conda/ && ')
+         f'export PATH=/opt/conda/bin:$PATH && export JAVA_HOME=/opt/conda/ && cd /outdir/ && ')
 
     # trim primers with ivar (soft clipping)
     # https://andersen-lab.github.io/ivar/html/manualpage.html
     # -e    Include reads with no primers
-    ivar =cmd+ (f'ivar trim -e -i /raw_data/{bam.split("/")[-1]} -b /raw_data/{bed.split("/")[-1]} -p /outdir/{prefix}.soft.clipped '
-            f'| tee /outdir/{prefix}.ivar.stdout && rm -rf /outdir/{prefix}.bam /outdir/{prefix}.bam.bai\'')
-    print(ivar)
-    subprocess.check_call(ivar,shell=True)
-
     ## remove soft-clipped primers
     # https://jvarkit.readthedocs.io/en/latest/Biostar84452/
     # source activate && conda deactivate
-    out_bam=cmd+ f"samtools sort /outdir/{prefix}.soft.clipped.bam -o /outdir/{prefix}.soft.clipped.sort.bam && jvarkit biostar84452 --samoutputformat BAM /outdir/{prefix}.soft.clipped.sort.bam |samtools sort -n >/outdir/{prefix}.trimmed.bam\'"
-    print(out_bam)
-    subprocess.check_call(out_bam,shell=True)
+    cmd+=(f'ivar trim -e -i /raw_data/{bam.split("/")[-1]} -b /raw_data/{bed.split("/")[-1]} -p {prefix}.soft.clipped '
+            f'| tee {prefix}.ivar.stdout && rm -rf {prefix}.bam {prefix}.bam.bai && '
+            f'samtools sort {prefix}.soft.clipped.bam -o {prefix}.soft.clipped.sort.bam && jvarkit biostar84452 --samoutputformat BAM {prefix}.soft.clipped.sort.bam |samtools sort -n >{prefix}.trimmed.bam && '
+            f'samtools fastq -1 {prefix}_no_primer.R1.fq -2 {prefix}_no_primer.R2.fq -s {prefix}.singleton.fastq {prefix}.trimmed.bam\'')
 
-    out_fastq=cmd+f"samtools fastq -1 /outdir/{prefix}_no_primer.R1.fq -2 /outdir/{prefix}_no_primer.R2.fq -s /outdir/{prefix}.singleton.fastq /outdir/{prefix}.trimmed.bam\'"
-    print(out_fastq)
-
-    subprocess.check_call(out_fastq, shell=True)
+    print(cmd)
+    subprocess.check_call(cmd,shell=True)
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser("Trim primers with ivar.")
