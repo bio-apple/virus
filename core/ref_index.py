@@ -17,6 +17,14 @@ name=['Chikungunya_virus','SARS-CoV-2','Dengue_virus_type_1','Dengue_virus_type_
 name.append("Zika_virus")
 accession.append("KX087101")
 
+#RSV-A Human respiratory syncytial virus B cRNA https://www.ncbi.nlm.nih.gov/nuccore/LR699737
+
+name.append("RSV-A")
+accession.append("LR699737")
+
+#RSV-B Human respiratory syncytial virus B isolate hRSV/B/Australia/VIC-RCH056/2019, complete genome https://www.ncbi.nlm.nih.gov/nuccore/OP975389.1
+name.append("RSV-B")
+accession.append('OP975389.1')
 
 #https://www.who.int/news-room/fact-sheets/detail/influenza-(seasonal)
 #Influenza A virus
@@ -34,7 +42,6 @@ accession.append("KX087101")
 name.append("H1N1")
 ref=['MW626062','MW626056','NC_026438','NC_026435','NC_026437','NC_026436','NC_026431','NC_026432']
 accession.append(",".join(ref))
-
 
 ##H3N2
 #####HA EPI1857216 A/Darwin/6/2021(maybe NCBI:OQ718999)
@@ -62,6 +69,11 @@ name.append("H5N1")
 ref=['AF144300','AF144301','AF144302','AF144303',' AF144304','AF144305','AF144306','AF144307']
 accession.append(",".join(ref))
 
+## H7N9 A/Anhui/DEWH72-01/2013(H7N9)
+name.append("H7N9")
+ref=['CY181520','CY181519','CY181518','CY181513','CY181516','CY181515','CY181514','CY181517']
+accession.append(",".join(ref))
+
 #Influenza B viruses
 #B/Yamagata or B/Victoria lineage
 #B/Yamagata viruses have not been observed since 2020.
@@ -76,8 +88,6 @@ accession.append(",".join(ref))
 name.append("Influenza_B_viruses_Victoria")
 ref=['KX058884','CY073894','CY115156','CY115157',' CY115154','CY115152','CY115158','CY115155']
 accession.append(",".join(ref))
-
-
 
 #H10N4
 name.append('H10N4')
