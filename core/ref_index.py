@@ -38,6 +38,10 @@ accession.append('NC_011203')
 name.append("Human_adenovirus_F")
 accession.append("NC_001454")
 
+#Porcine reproductive and respiratory syndrome virus 1
+name.append("Porcine_reproductive_and_respiratory_syndrome_virus_1")
+accession.append("M96262")
+
 #https://www.who.int/news-room/fact-sheets/detail/influenza-(seasonal)
 #Influenza A virus
 
