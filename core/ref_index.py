@@ -114,6 +114,7 @@ accession.append(",".join(ref))
 #H10N4 A/swan/Shandong/W3917/2020
 name.append("H10N4")
 ref=['OM373275','OM373276','OM373277','OM373278','OM373279','OM373280','OM373281','OM373282']
+accession.append(",".join(ref))
 
 #Influenza B viruses
 #B/Yamagata or B/Victoria lineage

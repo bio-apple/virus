@@ -69,6 +69,45 @@ dnf install perl-JSON-PP
 Download **nt_viruses**:
 <pre>perl ncbi-blast-2.16.0+/bin/update_blastdb.pl nt_viruses --decompress</pre>
 
+## Step3:run pipeline
+<pre>
+usage: Virus NGS pipeline.
+Email:fanyucai3@gmail.com
+ [-h] -p1 PE1 [PE1 ...]
+                                                      [-p2 PE2 [PE2 ...]] -p
+                                                      PREFIX [PREFIX ...]
+                                                      -blastdb BLASTDB -k
+                                                      KRAKEN2 [-i IDENTIFY]
+                                                      -host HOST -o OUTDIR
+                                                      [-bowtie2 BOWTIE2]
+                                                      [-bed BED] [-ref REF] -l
+                                                      {50,75,100,150,200,250,300}
+                                                      [-c {500,1000,1500}]
 
-
+optional arguments:
+  -h, --help            show this help message and exit
+  -p1 PE1 [PE1 ...], --pe1 PE1 [PE1 ...]
+                        R1 fastq
+  -p2 PE2 [PE2 ...], --pe2 PE2 [PE2 ...]
+                        R2 fastq
+  -p PREFIX [PREFIX ...], --prefix PREFIX [PREFIX ...]
+                        prefix of output
+  -blastdb BLASTDB, --blastdb BLASTDB
+                        blast database name
+  -k KRAKEN2, --kraken2 KRAKEN2
+                        kraken2 reference index
+  -i IDENTIFY, --identify IDENTIFY
+  -host HOST, --host HOST
+                        directory host bowtie2 index
+  -o OUTDIR, --outdir OUTDIR
+                        diretory of output
+  -bowtie2 BOWTIE2, --bowtie2 BOWTIE2
+                        directory reference bowtie2 index
+  -bed BED, --bed BED   bed file
+  -ref REF, --ref REF   reference fasta reference
+  -l {50,75,100,150,200,250,300}, --length {50,75,100,150,200,250,300}
+                        read length
+  -c {500,1000,1500}, --contig {500,1000,1500}
+                        min contig length
+</pre>
 
