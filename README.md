@@ -117,3 +117,8 @@ optional arguments:
                         min contig length
 </pre>
 
+
+## relevant external resources
+
+Bacterial and Viral Bioinformatics Resource Center (BV-BRC):https://www.bv-brc.org
+ 
