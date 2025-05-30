@@ -18,7 +18,6 @@ name.append("Zika_virus")
 accession.append("KX087101")
 
 #RSV-A Human respiratory syncytial virus B cRNA https://www.ncbi.nlm.nih.gov/nuccore/LR699737
-
 name.append("RSV-A")
 accession.append("LR699737")
 
