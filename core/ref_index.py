@@ -30,6 +30,10 @@ accession.append('OP975389.1')
 name.append("Human_adenovirus_type_7")
 accession.append('AC_000018')
 
+#Human adenovirus B1
+name.append("Human_adenovirus_B1")
+accession.append('NC_011203')
+
 #https://www.who.int/news-room/fact-sheets/detail/influenza-(seasonal)
 #Influenza A virus
 
