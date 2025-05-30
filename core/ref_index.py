@@ -34,7 +34,7 @@ accession.append('AC_000018')
 name.append("Human_adenovirus_B1")
 accession.append('NC_011203')
 
-#Human adenovirus F
+#Human adenovirus F chatGPT and VSPv2
 name.append("Human_adenovirus_F")
 accession.append("NC_001454")
 
