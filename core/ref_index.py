@@ -8,8 +8,8 @@ args=parse.parse_args()
 args.outdir=os.path.abspath(args.outdir)
 
 docker='virus:latest'
-accession=['NC_004162','NC_045512','NC_001477','NC_001474','NC_001475','NC_002640','NC_063383','NC_039199','NC_001802']
-name=['Chikungunya_virus','SARS-CoV-2','Dengue_virus_type_1','Dengue_virus_type_2','Dengue_virus_type_3','Dengue_virus_type_4','Monkeypox_virus','Human_Metapneumovirus','HIV-1']
+accession=['NC_004162','NC_045512','NC_001477','NC_001474','NC_001475','NC_002640','NC_063383','NC_039199','NC_001802','NC_001608']
+name=['Chikungunya_virus','SARS-CoV-2','Dengue_virus_type_1','Dengue_virus_type_2','Dengue_virus_type_3','Dengue_virus_type_4','Monkeypox_virus','Human_Metapneumovirus','HIV-1','Marburg_Virus']
 
 # https://genomes.atcc.org/genomes/4f980dee15b2432f
 # https://www.ncbi.nlm.nih.gov/nuccore/KX087101
