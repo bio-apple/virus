@@ -26,6 +26,10 @@ accession.append("LR699737")
 name.append("RSV-B")
 accession.append('OP975389.1')
 
+#Human adenovirus type 7 #https://www.frontiersin.org/journals/virology/articles/10.3389/fviro.2024.1462907/full and VSPv2
+name.append("Human_adenovirus_type_7")
+accession.append('AC_000018')
+
 #https://www.who.int/news-room/fact-sheets/detail/influenza-(seasonal)
 #Influenza A virus
 
