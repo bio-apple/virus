@@ -30,6 +30,8 @@ database_name=[
                'nextstrain/yellow-fever/prM-E',
                 #Human Metapneumovirus
                'nextstrain/hmpv/all-clades/NC_039199',
+                #Rubella virus E1 region
+                'nextstrain/rubella/E1',
                 #Betaarterivirus suid 2 (PRRSV-2) Betaarterivirus europensis 1 (PRRSV-1)
                'community/isuvdl/mazeller/prrsv1/orf5/yimim2025','community/isuvdl/mazeller/prrsv2/orf5/yimim2023',
                #Orthomarburgvirus marburgense
