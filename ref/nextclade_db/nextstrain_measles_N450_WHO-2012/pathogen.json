@@ -13,7 +13,7 @@
     "reference name": "Ichinose-B95a",
     "reference accession": "NC_001498.1"
   },
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "3.0.0",
   "alignmentParams": {
     "minSeedCover": 0.01,
     "minLength": 400
@@ -50,7 +50,7 @@
     }
   },
   "version": {
-    "updatedAt": "2025-03-26T11:47:13Z",
-    "tag": "2025-03-26--11-47-13Z"
+    "updatedAt": "2025-08-02T08:55:17Z",
+    "tag": "2025-08-02--08-55-17Z"
   }
 }
