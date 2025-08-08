@@ -6,10 +6,10 @@ docker='virus:latest'
 def run(ref,pe1,outdir,prefix,pe2=None):
     ref=os.path.abspath(ref)
     pe1=os.path.abspath(pe1)
-    pe2=os.path.abspath(pe2)
     outdir=os.path.abspath(outdir)
     os.makedirs(outdir,exist_ok=True)
     if pe2 is not None:
+        pe2 = os.path.abspath(pe2)
         cmd=(f'docker run '
              f'-v {pe1}:/raw_data/{pe1.split("/")[-1]} '
              f'-v {pe2}:/raw_data/{pe2.split("/")[-1]} '
@@ -22,7 +22,7 @@ def run(ref,pe1,outdir,prefix,pe2=None):
         cmd = (f'docker run '
                f'-v {pe1}:/raw_data/{pe1.split("/")[-1]} '
                f'-v {outdir}:/outdir/ '
-               f'-v {ref}:/ref/{ref.split("/")[-1]} '
+               f'-v {ref}:/ref/{ref.split("/")[-1]} {docker} '
                f'sh -c \'export PATH=/opt/conda/bin:$PATH && '
                f'bbwrap.sh ref=/ref/{ref.split("/")[-1]} in=/raw_data/{pe1.split("/")[-1]} out=/outdir/{prefix}.sam.gz && '
                f'pileup.sh in=/outdir/{prefix}.sam.gz out=/outdir/{prefix}.cov.txt\'')

@@ -24,7 +24,7 @@ dnf install perl-JSON-PP
 </pre>
 
 *View currently available databases for download:*
-<pre>perl ncbi-blast-2.16.0+/bin/update_blastdb.pl –showall
+<pre>perl ncbi-blast-2.16.0+/bin/update_blastdb.pl --showall
 
     Betacoronavirus
     ITS_RefSeq_Fungi
