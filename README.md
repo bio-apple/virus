@@ -73,10 +73,20 @@ Download **nt_viruses**:
 
 
 **2-4:kraken2 database:https://benlangmead.github.io/aws-indexes/k2**
-<pre>wget https://genome-idx.s3.amazonaws.com/kraken/k2_pluspf_20250402.tar.gz</pre>
+<pre>
+mkdir /ref/kraken/
+cd /ref/kraken/
+wget https://genome-idx.s3.amazonaws.com/kraken/k2_pluspf_20250402.tar.gz
+tar xvzf k2_pluspf_20250402.tar.gz
+</pre>
 
 **2-5:Download or build host(default:human) genome bowtie2:https://github.com/BenLangmead/bowtie-majref**
-<pre>wget https://genome-idx.s3.amazonaws.com/bt/grch38_1kgmaj_snvindels_bt2.zip</pre>
+<pre>
+mkdir -p /ref/host/human/
+cd /ref/host/human/
+wget https://genome-idx.s3.amazonaws.com/bt/grch38_1kgmaj_snvindels_bt2.zip
+unzip grch38_1kgmaj_snvindels_bt2.zip
+</pre>
 
 ## Step3:run pipeline
 <pre>
