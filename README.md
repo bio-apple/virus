@@ -125,8 +125,8 @@ Command-line example:
         -p2 test_data/sample1_S7_L001_R2_001.fastq.gz \
         -p sample1 \
         -o outdir/ \
-        -t ref/bowtie2/Chikungunya_virus/ \
-        -r ref/bowtie2/Chikungunya_virus/Chikungunya_virus.fasta \
+        -t /ref/bowtie2/Chikungunya_virus/ \
+        -r /ref/bowtie2/Chikungunya_virus/Chikungunya_virus.fasta \
         -c 500 -l 150 \
         -k /ref/kraken2/ \
         -s /ref/host/human/ \
