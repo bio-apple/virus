@@ -9,9 +9,10 @@ docker tag fanyucai1/virus virus</pre>
 
 ## Step2.Prepare Database Last Update:2025.08.07
 
+    mkdir -p /ref/
+
 **2-1:nextclade**
 <pre>
-mkdir -p /ref/
 python3 core/nextclade_db.py -d /ref/nextclade_db</pre> 
 
 **2-2:virus genome and index**
