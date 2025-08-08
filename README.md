@@ -15,6 +15,39 @@ docker tag fanyucai1/virus virus</pre>
 **2-2:virus genome and index**
 <pre>python3 core/ref_index.py -o /ref/bowtie2/</pre>
 
+The currently available list of reference genomes for viral species includes:
+
+    Chikungunya_virus
+    Dengue_virus_type_1
+    Dengue_virus_type_2
+    Dengue_virus_type_3
+    Dengue_virus_type_4
+    H10N4
+    H1N1
+    H3N2
+    H5N1
+    H5N6
+    H5N8
+    H6N1
+    H6N2
+    H7N9
+    H9N2
+    HIV-1
+    Human_Metapneumovirus
+    Human_adenovirus_B1
+    Human_adenovirus_F
+    Human_adenovirus_type_7
+    Influenza_B_viruses_Victoria
+    Marburg_Virus
+    Measles_virus
+    Monkeypox_virus
+    Porcine_reproductive_and_respiratory_syndrome_virus_1
+    RSV-A
+    RSV-B
+    SARS-CoV-2
+    Yellow_fever_virus
+    Zika_virus
+
 **2-3:ncbi nt virus**
 
 *Download NCBI database using BLAST*:https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/
