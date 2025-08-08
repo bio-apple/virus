@@ -112,6 +112,8 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     print("#------------------------\n#Step7:trim primer,variant calling,consensus sequence and plot coverage\n#------------------------\n")
     core.consensus.run(f'{args.outdir}/6.mapping/denovo/{prefix}.bam', f'{args.outdir}/7.consensus/denovo', prefix,None, " ".join(chr))
     if args.bowtie2 and args.ref:
+        if not os.path.isfile(args.ref):
+            raise argparse.ArgumentTypeError(f"not find: {args.ref}")
         if args.bed:
             core.trim_primer.run(args.bed,f'{args.outdir}/6.mapping/ref/{prefix}.bam', f'{args.outdir}/7.consensus/ref/',prefix)
             core.consensus.run(f'{args.outdir}/7.consensus/ref/{prefix}.soft.clipped.sort.bam', f'{args.outdir}/7.consensus/ref/', prefix,args.ref)

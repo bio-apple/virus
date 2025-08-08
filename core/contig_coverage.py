@@ -28,13 +28,6 @@ def run(ref,pe1,outdir,prefix,pe2=None,cov=5):
                f'pileup.sh in=/outdir/{prefix}.sam.gz out=/outdir/{prefix}.cov.txt\'')
     print(cmd)
     subprocess.check_call(cmd, shell=True)
-    infile=open(f"{outdir}/{prefix}.cov.txt","r")
-    chr=[]
-    for line in infile:
-        line=line.strip()
-        if not line.startswith("#") and int(line.split("\t")[1]) >cov:
-            chr.append(line.split("\t")[1])
-    return chr
 
 
 
