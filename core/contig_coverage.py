@@ -14,7 +14,7 @@ def run(ref,pe1,outdir,prefix,pe2=None):
              f'-v {pe1}:/raw_data/{pe1.split("/")[-1]} '
              f'-v {pe2}:/raw_data/{pe2.split("/")[-1]} '
              f'-v {outdir}:/output/ '
-             f'-v {ref}:/ref/{ref.split("/")[-1]} '
+             f'-v {ref}:/ref/{ref.split("/")[-1]} {docker} '
              f'sh -c \'export PATH=/opt/conda/bin:$PATH && '
              f'bbwrap.sh ref=/ref/{ref.split("/")[-1]} in1=/raw_data/{pe1.split("/")[-1]} in2=/raw_data/{pe2.split("/")[-1]} out=/outdir/{prefix}.sam.gz && '
              f'pileup.sh in=/outdir/{prefix}.sam.gz out=/outdir/{prefix}.cov.txt\'')
