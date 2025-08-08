@@ -30,9 +30,6 @@ def run(ref,pe1,outdir,prefix,pe2=None,cov=5):
     subprocess.check_call(cmd, shell=True)
 
 
-
-
-
 if __name__=='__main__':
     parser = argparse.ArgumentParser(description='Calculate coverage of contigs')
     parser.add_argument("-r",'--ref',help='Reference fasta file',required=True)
