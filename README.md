@@ -128,7 +128,7 @@ Command-line example:
         -t ref/bowtie2/Chikungunya_virus/ \
         -r ref/bowtie2/Chikungunya_virus/Chikungunya_virus.fasta \
         -c 500 -l 150 \
-        -k /kraken2/ \
+        -k /ref/kraken2/ \
         -s /ref/host/human/ \
         -d /ref/nt_virus/nt_viruses
 
