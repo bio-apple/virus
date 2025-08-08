@@ -118,6 +118,19 @@ optional arguments:
                         min contig length,default:1000
 </pre>
 
+Command-line example: 
+
+    python3 pipeline.py 
+        -p1 test_data/sample1_S7_L001_R1_001.fastq.gz \
+        -p2 test_data/sample1_S7_L001_R2_001.fastq.gz \
+        -p sample1 \
+        -o outdir/ \
+        -t ref/bowtie2/Chikungunya_virus/ \
+        -r ref/bowtie2/Chikungunya_virus/Chikungunya_virus.fasta \
+        -c 500 -l 150 \
+        -k /kraken2/ \
+        -s ref/host/human/ \
+        -d ref/nt_virus/nt_viruses
 
 **Relevant external resources:**
 
