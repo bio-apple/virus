@@ -69,6 +69,9 @@ dnf install perl-JSON-PP
 Download **nt_viruses**:
 <pre>perl ncbi-blast-2.16.0+/bin/update_blastdb.pl nt_viruses --decompress</pre>
 
+**If above method fails, you can directly download the corresponding database files from the NCBI BLAST database**(https://ftp.ncbi.nlm.nih.gov/blast/db/)**using wget.**
+
+
 **2-4:kraken2 database:https://benlangmead.github.io/aws-indexes/k2**
 <pre>wget https://genome-idx.s3.amazonaws.com/kraken/k2_pluspf_20250402.tar.gz</pre>
 
