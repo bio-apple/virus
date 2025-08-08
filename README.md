@@ -10,10 +10,14 @@ docker tag fanyucai1/virus virus</pre>
 ## Step2.Prepare Database Last Update:2025.08.07
 
 **2-1:nextclade**
-<pre>python3 core/nextclade_db.py -d /ref/nextclade_db</pre> 
+<pre>
+mkdir -p /ref/
+python3 core/nextclade_db.py -d /ref/nextclade_db</pre> 
 
 **2-2:virus genome and index**
-<pre>python3 core/ref_index.py -o /ref/bowtie2/</pre>
+<pre>
+mkdir -p /ref/bowtie2/
+python3 core/ref_index.py -o /ref/bowtie2/</pre>
 
 The currently available list of reference genomes for viral species includes:
 
@@ -107,7 +111,7 @@ Download **nt_viruses**:
 
 **2-4:kraken2 database:https://benlangmead.github.io/aws-indexes/k2**
 <pre>
-mkdir /ref/kraken/
+mkdir -p /ref/kraken/
 cd /ref/kraken/
 wget https://genome-idx.s3.amazonaws.com/kraken/k2_pluspf_20250402.tar.gz
 tar xvzf k2_pluspf_20250402.tar.gz
