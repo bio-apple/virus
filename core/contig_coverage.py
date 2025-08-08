@@ -3,7 +3,7 @@ import argparse
 import subprocess
 
 docker='virus:latest'
-def run(ref,pe1,outdir,prefix,pe2=None,cov=5):
+def run(ref,pe1,outdir,prefix,pe2=None):
     ref=os.path.abspath(ref)
     pe1=os.path.abspath(pe1)
     pe2=os.path.abspath(pe2)
@@ -37,6 +37,5 @@ if __name__=='__main__':
     parser.add_argument("-p2","--pe2",help='PE2 fastq file',default=None)
     parser.add_argument("-o","--outdir",help='Output directory',default=os.getcwd())
     parser.add_argument("-p","--prefix",help='Output prefix',required=True)
-    parser.add_argument("-c","--coverage",help='min coverage threshold,default=5',default=5,type=int,required=True)
     args = parser.parse_args()
-    run(args.ref,args.pe1,args.outdir,args.prefix,args.pe2,args.coverage)
+    run(args.ref,args.pe1,args.outdir,args.prefix,args.pe2)
