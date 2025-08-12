@@ -1,6 +1,7 @@
 import sys,time
 import os,re
 import subprocess
+import argparse
 
 docker="fanyucai1/virus:latest"
 def run(db,query,outdir,prefix):
@@ -29,3 +30,12 @@ def run(db,query,outdir,prefix):
                     outfile.write("%s\n"%line)
             os.remove("%s.%s.nextclade.tsv"%(out,dir))
     outfile.close()
+
+if __name__=="__main__":
+    parser = argparse.ArgumentParser(description='Run nextclade')
+    parser.add_argument("-d","--db", help="Database",required=True)
+    parser.add_argument("-p","--prefix", help="prefix of output files",required=True)
+    parser.add_argument("-o","--outdir", help="Output directory",default=os.getcwd())
+    parser.add_argument("-q","--query", help="query fasta file",required=True)
+    args = parser.parse_args()
+    run(args.db,args.query,args.outdir,args.prefix)
