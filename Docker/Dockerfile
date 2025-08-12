@@ -8,8 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends  libcurl4-opens
 
 FROM base AS pangolin
 RUN git clone https://github.com/cov-lineages/pangolin.git && cd pangolin/ &&  \
-    /opt/conda/bin/mamba env create -f environment.yml --name pangolin &&  \
-    /opt/conda/envs/pangolin/bin/pip install . &&  rm -rf /opt/pangolin/
+    /opt/conda/bin/mamba env create -f environment.yml --name pangolin && /opt/conda/envs/pangolin/bin/pip install . &&  rm -rf /opt/pangolin/
 
 FROM pangolin AS nextclade
 RUN cd /bin/ && wget -O nextclade https://github.com/nextstrain/nextclade/releases/latest/download/nextclade-x86_64-unknown-linux-musl && chmod u+x ./nextclade
