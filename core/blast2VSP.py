@@ -17,8 +17,10 @@ def run(blast_out,VSP_accession,VSP_ssname,nt_virus_dir,outdir):
     for line in infile:
         line = line.strip()
         if not line.startswith("#"):
-            blast_ssname.append(line.split("\t")[9])
+            if line.split("\t")[9] not in blast_ssname:
+                blast_ssname.append(line.split("\t")[9])
     infile.close()
+    print(blast_ssname)
     #parse VSP accession
     accession=[]
     infile = open(VSP_accession,"r")
@@ -26,22 +28,23 @@ def run(blast_out,VSP_accession,VSP_ssname,nt_virus_dir,outdir):
         line=line.strip()
         accession.append(line)
     infile.close()
+    print(accession)
     #output positive species accession
     outfile=open(outdir+"/ref.list","w")
     infile = open(VSP_ssname,"r")
     for line in infile:
         line=line.strip()
         array=line.split(",")
-        if array[0] in accession and array[1] in blast_ssname:
+        if array[0].split(".")[0] in accession and array[1] in blast_ssname:
             outfile.write(array[0]+"\n")
     infile.close()
     outfile.close()
     #get species reference sequence from nt_viruses
-    cmd=(f"docker run -v {nt_virus_dir}:/ref -v {outdir}:/outdir {docker} sh -c\'"
+    cmd=(f"docker run -v {nt_virus_dir}:/ref -v {outdir}:/outdir {docker} sh -c \'"
          f"export PATH=/opt/conda/envs/kraken2/bin/:$PATH && "
          f"export BLASTDB=/ref/ && "
          f"blastdbcmd -db /ref/nt_viruses "
-         f"-entry_batch /outdir/ref.list -out /outdir/ref.fasta && \'")
+         f"-entry_batch /outdir/ref.list -out /outdir/ref.fasta\'")
     print(cmd)
     subprocess.run(cmd,shell=True)
 
@@ -50,7 +53,7 @@ def run(blast_out,VSP_accession,VSP_ssname,nt_virus_dir,outdir):
          f'sh -c \'export PATH=/opt/conda/bin:$PATH && '
          f'bowtie2-build /outdir/ref.fasta /outdir/ref.fasta && '
         f'samtools faidx /outdir/ref.fasta && '
-        f'bwa index -a bwtsw /outdir/ref.fasta')
+        f'bwa index -a bwtsw /outdir/ref.fasta\'')
     print(cmd)
     subprocess.check_call(cmd, shell=True)
     print("Done")
