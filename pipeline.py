@@ -20,7 +20,7 @@ parser=argparse.ArgumentParser("Virus NGS pipeline.\nEmail:fanyucai3@gmail.com\n
 parser.add_argument("-p1","--pe1",help="R1 fastq",required=True, nargs='+')
 parser.add_argument("-p2","--pe2",help="R2 fastq",default=None,nargs='+')
 parser.add_argument("-p","--prefix",help="prefix of output",required=True, nargs='+')
-parser.add_argument("-d",'--blastdb',help="path + prefix of blast database name",required=True)
+parser.add_argument("-d",'--blastdb',help="directory blast database: ",required=True)
 parser.add_argument('-k','--kraken2',help='kraken2 reference index',required=True)
 parser.add_argument("-i","--identify",type=float,default=0.998)
 parser.add_argument("-s","--host",help="directory host bowtie2 index",required=True)
@@ -78,7 +78,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     core.cd_hit_est.run(f'{args.outdir}/4.assembly/{prefix}.contigs.fa',args.identify,prefix+".non-redundant",f'{args.outdir}/4.assembly/')
 
     # ------------------------
-    # Step 5: blast NCBI Database: nt virus
+    # Step 5: blast NCBI Database: nt virus and parse blast result and find corresponding species in VSPv2
     # ------------------------
     print("#------------------------\n#Step 5: blast NCBI Database: nt virus\n#------------------------\n")
     core.blast.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna',args.blastdb,f"{args.outdir}/5.blast/",prefix,10)
@@ -88,45 +88,40 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
 
     print(index)
     subprocess.check_call(index,shell=True)
-    # ------------------------
-    # Step 6: parse blast result and find corresponding species in VSPv2
-    # ------------------------
-    core.blast2VSP.run(f"{args.outdir}/5.blast/{prefix}.blast_all.txt",accession,ssname,args.blastdb,args.outdir)
-
-
-    chr=[]
-    infile=open(f"{args.outdir}/5.blast/{prefix}.blast_all.txt","r")
+    core.blast2VSP.run(f"{args.outdir}/5.blast/{prefix}.blast_all.txt",accession,ssname,args.blastdb,f"{args.outdir}/5.blast/")
+    chr = []
+    infile = open(f"{args.outdir}/5.blast/{prefix}.blast_all.txt", "r")
     for line in infile:
-        line=line.strip()
+        line = line.strip()
         if not line.startswith("#"):
-            array=line.split("\t")
+            array = line.split("\t")
             if not array[0] in chr:
                 chr.append(array[0])
     print(chr)
+
     # ------------------------
     # step 6:mapping reference
     # ------------------------
     print("#------------------------\n#Step 6:mapping reference\n#------------------------\n")
-    if args.bowtie2:
+    if os.path.exists(f"{args.outdir}/5.blast/ref.fasta"):
         with ThreadPoolExecutor(max_workers=2) as executor:
             futures = [
-                executor.submit(core.mapping.run, f'{args.bowtie2}',f'{args.outdir}/6.mapping/ref',prefix,r1, r2),
+                executor.submit(core.mapping.run, f'{args.outdir}/5.blast/',f'{args.outdir}/6.mapping/ref',prefix,r1, r2),
                 executor.submit(core.mapping.run, f'{args.outdir}/4.assembly/',f'{args.outdir}/6.mapping/denovo',prefix,r1,r2)
             ]
             for future in as_completed(futures):
                 print(future.result())
     else:
         core.mapping.run(f'{args.outdir}/4.assembly/',f'{args.outdir}/6.mapping/denovo',prefix,r1,r2)
+
     # ------------------------
     # step7:trim primer,variant calling,consensus sequence and plot coverage
     # ------------------------
     print("#------------------------\n#Step7:trim primer,variant calling,consensus sequence and plot coverage\n#------------------------\n")
     core.consensus.run(f'{args.outdir}/6.mapping/denovo/{prefix}.bam', f'{args.outdir}/7.consensus/denovo', prefix,None, " ".join(chr))
-    if args.bowtie2 and args.ref:
-        if not os.path.isfile(args.ref):
-            raise argparse.ArgumentTypeError(f"not find: {args.ref}")
+    if os.path.exists(f"{args.outdir}/5.blast/ref.fasta"):
         if args.bed:
             core.trim_primer.run(args.bed,f'{args.outdir}/6.mapping/ref/{prefix}.bam', f'{args.outdir}/7.consensus/ref/',prefix)
             core.consensus.run(f'{args.outdir}/7.consensus/ref/{prefix}.soft.clipped.sort.bam', f'{args.outdir}/7.consensus/ref/', prefix,args.ref)
         else:
-            core.consensus.run(f'{args.outdir}/6.mapping/ref/{prefix}.bam', f'{args.outdir}/7.consensus/ref/', prefix, args.ref)
+            core.consensus.run(f'{args.outdir}/6.mapping/ref/{prefix}.bam', f'{args.outdir}/7.consensus/ref/', prefix, f"{args.outdir}/5.blast/ref.fasta")

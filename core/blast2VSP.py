@@ -8,8 +8,8 @@ def run(blast_out,VSP_accession,VSP_ssname,nt_virus_dir,outdir):
 
     outdir=os.path.abspath(outdir)
     os.makedirs(outdir,exist_ok=True)
-
-    nt_virus_dir=os.path.abspath(nt_virus_dir)
+    db_dir = os.path.abspath(os.path.dirname(nt_virus_dir))
+    db_name=nt_virus_dir.split("/")[-1]
 
     #parse blast ssname
     infile = open(blast_out,"r")
@@ -43,10 +43,10 @@ def run(blast_out,VSP_accession,VSP_ssname,nt_virus_dir,outdir):
     outfile.close()
     #get species reference sequence from nt_viruses
     if num>0:
-        cmd=(f"docker run -v {nt_virus_dir}:/ref -v {outdir}:/outdir {docker} sh -c \'"
+        cmd=(f"docker run -v {db_dir}:/ref -v {outdir}:/outdir {docker} sh -c \'"
              f"export PATH=/opt/conda/envs/kraken2/bin/:$PATH && "
              f"export BLASTDB=/ref/ && "
-             f"blastdbcmd -db /ref/nt_viruses "
+             f"blastdbcmd -db /ref/{db_name} "
              f"-entry_batch /outdir/ref.list -out /outdir/ref.fasta\'")
         print(cmd)
         subprocess.run(cmd,shell=True)
