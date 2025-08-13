@@ -22,12 +22,10 @@ script_dir = os.path.dirname(script_path)
 accession=os.path.join(script_dir,'/plugin/accession.list')
 ssname=os.path.join(script_dir,'/plugin/sscinames.txt')
 
-
 parser=argparse.ArgumentParser("Virus NGS pipeline.\nEmail:fanyucai3@gmail.com\n")
 parser.add_argument("-p1","--pe1",help="R1 fastq",required=True, nargs='+')
 parser.add_argument("-p2","--pe2",help="R2 fastq",default=None,nargs='+')
 parser.add_argument("-p","--prefix",help="prefix of output",required=True, nargs='+')
-parser.add_argument("-i","--identify",type=float,default=0.998)
 parser.add_argument("-o","--outdir",help="diretory of output",required=True)
 parser.add_argument("-b","--bed",help="bed file",default=None)
 parser.add_argument("-c","--config",help="config file",required=True)
@@ -45,7 +43,8 @@ config.read(args.config)
 blastdb=config.get('database','nt_viruses')
 kraken2=config.get('database','kraken2')
 host=config.get('database','host')
-
+identify=config.get('parameter','identify')
+contig=config.get('parameter','contig_min_length')
 
 for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # ------------------------
@@ -79,12 +78,12 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         read2=None
     with ThreadPoolExecutor(max_workers=2) as executor:
         futures = [
-            executor.submit(core.megahit.run, read1, prefix, args.outdir + "/4.assembly/", read2,args.contig),
+            executor.submit(core.megahit.run, read1, prefix, args.outdir + "/4.assembly/", read2,contig),
             executor.submit(core.metaspades.run, read1, prefix, args.outdir + "/4.assembly/", read2)
         ]
         for future in as_completed(futures):
             print(future.result())
-    subprocess.check_call(f'cd {args.outdir}/4.assembly/ && cat spades_{prefix}/scaffolds_{args.contig}bp.fasta megahit_{prefix}/{prefix}.contigs.fa >{prefix}.contigs.fa',shell=True)
+    subprocess.check_call(f'cd {args.outdir}/4.assembly/ && cat spades_{prefix}/scaffolds_{contig}bp.fasta megahit_{prefix}/{prefix}.contigs.fa >{prefix}.contigs.fa',shell=True)
     core.cd_hit_est.run(f'{args.outdir}/4.assembly/{prefix}.contigs.fa',args.identify,prefix+".non-redundant",f'{args.outdir}/4.assembly/')
 
     # ------------------------
