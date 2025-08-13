@@ -3,7 +3,7 @@ import argparse
 import subprocess
 
 
-docker="virus:lastest"
+docker="virus:latest"
 def run(blast_out,VSP_accession,VSP_ssname,nt_virus_dir,outdir):
 
     outdir=os.path.abspath(outdir)
@@ -28,10 +28,10 @@ def run(blast_out,VSP_accession,VSP_ssname,nt_virus_dir,outdir):
     infile.close()
     #output positive species accession
     outfile=open(outdir+"/ref.list","w")
-    infile = open(VSP_ssname,"w")
+    infile = open(VSP_ssname,"r")
     for line in infile:
         line=line.strip()
-        array=line.split("\t")
+        array=line.split(",")
         if array[0] in accession and array[1] in blast_ssname:
             outfile.write(array[0]+"\n")
     infile.close()
@@ -58,10 +58,11 @@ def run(blast_out,VSP_accession,VSP_ssname,nt_virus_dir,outdir):
 if __name__=="__main__":
     parser = argparse.ArgumentParser(description='blast2VSP')
     parser.add_argument("-b",'--blast_out',help='blast output file',required=True)
-    parser.add_argument("-a","--VSP_accession",help='VSP accession file',required=True)
-    parser.add_argument("-s","--VSP_ssname",help='VSP ssname file',required=True)
+    parser.add_argument("-a","--accession",help='VSP accession file',required=True)
+    parser.add_argument("-s","--ssname",help='VSP ssname file',required=True)
     parser.add_argument("-n","--nt_virus_dir",help='NT virus directory',required=True)
     parser.add_argument("-o","--outdir",help='output directory',default=os.getcwd())
     args = parser.parse_args()
+    run(args.blast_out,args.accession,args.ssname,args.nt_virus_dir,args.outdir)
 
 
