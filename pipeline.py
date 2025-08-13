@@ -20,7 +20,7 @@ parser=argparse.ArgumentParser("Virus NGS pipeline.\nEmail:fanyucai3@gmail.com\n
 parser.add_argument("-p1","--pe1",help="R1 fastq",required=True, nargs='+')
 parser.add_argument("-p2","--pe2",help="R2 fastq",default=None,nargs='+')
 parser.add_argument("-p","--prefix",help="prefix of output",required=True, nargs='+')
-parser.add_argument("-d",'--blastdb',help="directory blast database: ",required=True)
+parser.add_argument("-d",'--blastdb',help="path+ prefix blast database: ",required=True)
 parser.add_argument('-k','--kraken2',help='kraken2 reference index',required=True)
 parser.add_argument("-i","--identify",type=float,default=0.998)
 parser.add_argument("-s","--host",help="directory host bowtie2 index",required=True)
