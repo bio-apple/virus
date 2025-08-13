@@ -84,7 +84,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         for future in as_completed(futures):
             print(future.result())
     subprocess.check_call(f'cd {args.outdir}/4.assembly/ && cat spades_{prefix}/scaffolds_{contig}bp.fasta megahit_{prefix}/{prefix}.contigs.fa >{prefix}.contigs.fa',shell=True)
-    core.cd_hit_est.run(f'{args.outdir}/4.assembly/{prefix}.contigs.fa',args.identify,prefix+".non-redundant",f'{args.outdir}/4.assembly/')
+    core.cd_hit_est.run(f'{args.outdir}/4.assembly/{prefix}.contigs.fa',identify,prefix+".non-redundant",f'{args.outdir}/4.assembly/')
 
     # ------------------------
     # Step 5: blast NCBI Database: nt virus and parse blast result and find corresponding species in VSPv2
