@@ -32,7 +32,7 @@ parser.add_argument("-o","--outdir",help="diretory of output",required=True)
 parser.add_argument("-b","--bed",help="bed file",default=None)
 parser.add_argument("-c","--config",help="config file",required=True)
 parser.add_argument('-l','--length',help="read length",type=int,required=True,choices=[50,75,100,150,200,250,300])
-parser.add_argument("-c", "--contig", help="min contig length,default:1000", type=int, default=1000,choices=[500,1000,1500])
+parser.add_argument("-contig", "--contig", help="min contig length,default:1000", type=int, default=1000,choices=[500,1000,1500])
 args=parser.parse_args()
 
 args.outdir=os.path.abspath(args.outdir)
