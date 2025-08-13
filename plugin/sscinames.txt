@@ -1,0 +1,1264 @@
+NC_001401.2,adeno-associated virus 2
+AF043303.1,adeno-associated virus 2
+NC_074775.1,aichivirus A1
+AB040749.1,aichivirus A1
+NC_078225.1,Aigai virus
+DQ211612.1,Aigai virus
+NC_078227.1,Aigai virus
+DQ211625.1,Aigai virus
+NC_078226.1,Aigai virus
+DQ211638.1,Aigai virus
+NC_003466.1,Orthohantavirus andesense
+AF291702.1,Orthohantavirus andesense
+NC_003467.2,Orthohantavirus andesense
+AF291703.2,Orthohantavirus andesense
+NC_003468.2,Orthohantavirus andesense
+AF291704.5,Orthohantavirus andesense
+NC_034556.1,Anjozorobe virus
+KC490922.1,Anjozorobe virus
+NC_034563.1,Anjozorobe virus
+KC490919.1,Anjozorobe virus
+NC_034555.1,Anjozorobe virus
+KC490918.1,Anjozorobe virus
+AY740624.1,Araucaria virus
+AY740626.1,Araucaria virus
+NC_003243.1,Lyssavirus australis
+NC_038299.1,Orthohantavirus bayoui
+GQ244526.1,Orthohantavirus bayoui
+NC_038300.1,Orthohantavirus bayoui
+L36930.1,Orthohantavirus bayoui
+NC_038298.1,Orthohantavirus bayoui
+L36929.1,Orthohantavirus bayoui
+LT934539.1,Betapolyomavirus hominis
+LR216076.1,Betapolyomavirus hominis
+LR216079.1,Betapolyomavirus hominis
+LR216080.1,Betapolyomavirus hominis
+LR216081.1,Betapolyomavirus hominis
+LR216082.1,Betapolyomavirus hominis
+LR216087.1,Betapolyomavirus hominis
+LR216091.1,Betapolyomavirus hominis
+LR216095.1,Betapolyomavirus hominis
+LR216097.1,Betapolyomavirus hominis
+LR216098.1,Betapolyomavirus hominis
+LR216099.1,Betapolyomavirus hominis
+LR216100.1,Betapolyomavirus hominis
+LR216107.1,Betapolyomavirus hominis
+LR216180.1,Betapolyomavirus hominis
+LR216194.1,Betapolyomavirus hominis
+LR216282.1,Betapolyomavirus hominis
+NC_043074.1,Orthohantavirus nigrorivense
+L39951.1,Orthohantavirus nigrorivense
+NC_043073.1,Orthohantavirus nigrorivense
+L39950.1,Orthohantavirus nigrorivense
+NC_043075.1,Orthohantavirus nigrorivense
+L39949.1,Orthohantavirus nigrorivense
+NC_039345.1,Bombali virus
+MF319185.1,Bombali virus
+NC_078585.1,Bourbon virus
+MH880287.1,Bourbon virus
+NC_078584.1,Bourbon virus
+MH880288.1,Bourbon virus
+NC_078588.1,Bourbon virus
+MH880289.1,Bourbon virus
+NC_078586.1,Bourbon virus
+MH880290.1,Bourbon virus
+NC_078587.1,Bourbon virus
+MH880291.1,Bourbon virus
+NC_078589.1,Bourbon virus
+MH880292.1,Bourbon virus
+NC_014373.1,Bundibugyo virus
+FJ217161.1,Bundibugyo virus
+NC_043618.1,Cache Valley virus
+KX100135.1,Cache Valley virus
+NC_043619.1,Cache Valley virus
+KX100134.1,Cache Valley virus
+NC_043620.1,Cache Valley virus
+X73465.1,Cache Valley virus
+KX100133.1,Cache Valley virus
+KX100139.1,Cache Valley virus
+KX100142.1,Cache Valley virus
+MH166877.1,Cache Valley virus
+NC_055117.1,California encephalitis virus
+KX817314.1,California encephalitis virus
+NC_055118.1,California encephalitis virus
+KX817313.1,California encephalitis virus
+NC_055119.1,California encephalitis virus
+KX817312.1,California encephalitis virus
+NC_025351.1,Cedar virus
+JQ001776.1,Cedar virus
+NC_010562.1,Mammarenavirus chapareense
+EU260463.1,Mammarenavirus chapareense
+NC_010563.1,Mammarenavirus chapareense
+EU260464.1,Mammarenavirus chapareense
+NC_004162.2,Chikungunya virus
+AF369024.2,Chikungunya virus
+KT983773.1,Choclo virus
+KT983772.1,Choclo virus
+KT983771.1,Choclo virus
+NC_004181.1,Colorado tick fever virus
+AF133428.1,Colorado tick fever virus
+NC_004182.1,Colorado tick fever virus
+AF139758.1,Colorado tick fever virus
+NC_004183.1,Colorado tick fever virus
+AF139759.1,Colorado tick fever virus
+NC_004184.1,Colorado tick fever virus
+AF139760.1,Colorado tick fever virus
+NC_004185.1,Colorado tick fever virus
+AF139761.1,Colorado tick fever virus
+NC_004186.1,Colorado tick fever virus
+AF139762.1,Colorado tick fever virus
+NC_004187.1,Colorado tick fever virus
+AF139763.1,Colorado tick fever virus
+NC_004188.1,Colorado tick fever virus
+AF139764.1,Colorado tick fever virus
+NC_004180.1,Colorado tick fever virus
+AF000720.1,Colorado tick fever virus
+MZ484430.1,Colorado tick fever virus
+NC_004189.1,Colorado tick fever virus
+AF139765.1,Colorado tick fever virus
+NC_004190.1,Colorado tick fever virus
+U53227.1,Colorado tick fever virus
+NC_004191.1,Colorado tick fever virus
+U72694.1,Colorado tick fever virus
+NC_001612.1,Enterovirus A
+U05876.1,Coxsackievirus A16
+AY466024.1,Enterovirus B
+AB205396.1,Coxsackievirus A18
+NC_001472.1,Enterovirus B
+M16560.1,Coxsackievirus B1
+NC_005301.3,Orthonairovirus haemorrhagiae
+AY389361.2,Orthonairovirus haemorrhagiae
+NC_005300.2,Orthonairovirus haemorrhagiae
+AF467768.2,Orthonairovirus haemorrhagiae
+NC_005302.1,Orthonairovirus haemorrhagiae
+U88410.1,Orthonairovirus haemorrhagiae
+NC_001477.1,dengue virus type 1
+U88536.1,dengue virus type 1
+MW828678.1,dengue virus type 1
+MZ284953.1,dengue virus type 3
+MZ285732.1,dengue virus type 3
+PV344268.1,dengue virus type 1
+KF955373.1,dengue virus type 2
+KF955462.1,dengue virus type 3
+MG601754.1,dengue virus type 4
+NC_005235.1,Orthohantavirus dobravaense
+AJ410617.1,Orthohantavirus dobravaense
+NC_005234.1,Orthohantavirus dobravaense
+AJ410616.1,Orthohantavirus dobravaense
+NC_005233.1,Orthohantavirus dobravaense
+AJ410615.1,Orthohantavirus dobravaense
+NC_020810.1,Lyssavirus duvenhage
+NC_003899.1,Eastern equine encephalitis virus
+X63135.1,Eastern equine encephalitis virus
+NC_002549.1,Zaire ebolavirus
+AF086833.2,Ebola virus - Mayinga, Zaire, 1976
+AB501329.1,Echovirus E13
+NC_030454.1,enterovirus A114
+KU355876.1,enterovirus A114
+AB426608.1,Enterovirus B98
+AB686524.1,Enterovirus C104
+NC_038308.1,enterovirus D68
+AY426531.1,enterovirus D68
+NC_007605.1,human gammaherpesvirus 4
+AJ507799.2,human gammaherpesvirus 4
+NC_009527.1,European bat lyssavirus 1
+EF157976.1,European bat lyssavirus 1
+MF187865.1,European bat lyssavirus 1
+NC_025256.1,Ghana virus
+HQ660129.1,Ghana virus
+NC_005082.1,Mammarenavirus guanaritoense
+AY358024.2,Mammarenavirus guanaritoense
+NC_005077.1,Mammarenavirus guanaritoense
+AY129247.1,Mammarenavirus guanaritoense
+NC_005222.1,Orthohantavirus hantanense
+X55901.1,Orthohantavirus hantanense
+NC_005219.1,Orthohantavirus hantanense
+M14627.1,Orthohantavirus hantanense
+NC_005218.1,Orthohantavirus hantanense
+M14626.1,Orthohantavirus hantanense
+NC_024495.1,Heartland virus
+JX005846.1,Heartland virus
+NC_024494.1,Heartland virus
+JX005844.1,Heartland virus
+NC_024496.1,Heartland virus
+JX005842.1,Heartland virus
+NC_001906.3,Henipavirus hendraense
+AF017149.3,Henipavirus hendraense
+OK623354.1,denwin virus
+NC_001489.1,Hepatovirus A
+M14707.1,Hepatovirus A
+X65259.1,Hepatitis B virus
+EF407419.1,Hepacivirus hominis
+NC_001653.2,Hepatitis delta virus
+D01075.1,Hepatitis delta virus
+MW596896.1,Hepatitis E virus
+NC_001806.2,Human alphaherpesvirus 1
+BK012101.1,Human alphaherpesvirus 1
+JN555585.1,Human alphaherpesvirus 1
+Z86099.2,Human alphaherpesvirus 2
+NC_001460.1,Human mastadenovirus A
+AC_000005.1,Human mastadenovirus A
+X73487.1,Human adenovirus 12
+AC_000018.1,Human adenovirus 7
+AY495969.1,Human adenovirus 7
+NC_001405.1,Human mastadenovirus C
+AC_000007.1,Human adenovirus 2
+J01917.1,Human adenovirus 2
+NC_010956.1,Human mastadenovirus D
+AJ854486.1,Human adenovirus D9
+KX868498.2,Human adenovirus 4
+NC_001454.1,Human mastadenovirus F
+L19443.1,Human mastadenovirus F
+OQ579036.1,Human mastadenovirus G
+HQ585888.1,Human bocavirus
+NC_002645.1,Human coronavirus 229E
+AF304460.1,Human coronavirus 229E
+NC_006577.2,Human coronavirus HKU1
+AY597011.2,Human coronavirus HKU1
+NC_005831.2,Human coronavirus NL63
+AY567487.2,Human coronavirus NL63
+NC_006213.1,Human coronavirus OC43
+AY585228.1,Human coronavirus OC43
+NC_006273.2,Human betaherpesvirus 5
+AY446894.2,Human betaherpesvirus 5
+AF049337.1,HIV-1 CRF04_cpx
+AF208027.1,Human immunodeficiency virus 2
+NC_039199.1,human metapneumovirus
+AF371337.2,human metapneumovirus
+LN833183.1,human papillomavirus 11
+NC_001526.4,Human papillomavirus 16
+NC_001357.1,human papillomavirus 18
+X05015.1,human papillomavirus 18
+NC_001583.1,Human papillomavirus type 26
+X74472.1,Human papillomavirus type 26
+J04353.1,human papillomavirus 31
+M12732.1,human papillomavirus 33
+X74477.1,Human papillomavirus type 35H
+LR861853.1,human papillomavirus 39
+X74478.1,human papillomavirus 40
+M73236.1,human papillomavirus 42
+AJ620205.1,human papillomavirus 43
+LR862057.1,human papillomavirus 44
+X74479.1,human papillomavirus 45
+M62877.1,human papillomavirus 51
+X74481.1,human papillomavirus 52
+NC_001593.1,Human papillomavirus type 53
+X74482.1,Human papillomavirus type 53
+NC_001676.1,Human papillomavirus type 54
+U37488.1,Human papillomavirus type 54
+X74483.1,human papillomavirus 56
+KY225961.1,human papillomavirus 58
+X77858.1,human papillomavirus 59
+NC_001355.1,Human papillomavirus type 6b
+X00203.1,Human papillomavirus type 6b
+NC_001694.1,Alphapapillomavirus 3
+U31793.1,Human papillomavirus type 61
+U31794.1,human papillomavirus 66
+DQ080079.1,Human papillomavirus type 68a
+AB027020.1,human papillomavirus 69
+U21941.1,Human papillomavirus type 70
+X94165.1,human papillomavirus 73
+AB027021.1,human papillomavirus 82
+NC_003461.1,Human respirovirus 1
+AF457102.1,Human parainfluenza virus 1 strain Washington/1964
+NC_003443.1,Human orthorubulavirus 2
+X57559.1,Human orthorubulavirus 2
+NC_075446.1,Human respirovirus 3
+EU326526.1,Human respirovirus 3
+NC_021928.1,Human parainfluenza virus 4a
+AB543336.1,Human parainfluenza virus 4a
+NC_038319.1,parechovirus A1
+L02971.1,parechovirus A1
+S45208.1,parechovirus A1
+NC_000883.2,Human parvovirus B19
+AY386330.1,Human parvovirus B19
+NC_014406.1,Human polyomavirus 6
+NC_014407.1,Human polyomavirus 7
+NC_015150.1,Human polyomavirus 9
+MZ515555.1,Human respiratory syncytial virus A
+KY674984.1,Human respiratory syncytial virus B
+OM966084.1,Influenza A virus
+OM966090.1,Influenza A virus
+OM965763.1,Influenza A virus
+OM965771.1,Influenza A virus
+OM965825.1,Influenza A virus
+OM965841.1,Influenza A virus
+OM966083.1,Influenza A virus
+OM966089.1,Influenza A virus
+OM966110.1,Influenza A virus
+OM966215.1,Influenza A virus
+OM966223.1,Influenza A virus
+OM966231.1,Influenza A virus
+OM966088.1,Influenza A virus
+OM966168.1,Influenza A virus
+OM966222.1,Influenza A virus
+OM965773.1,Influenza A virus
+OM965819.1,Influenza A virus
+OM966077.1,Influenza A virus
+OM966085.1,Influenza A virus
+OM966105.1,Influenza A virus
+OM966163.1,Influenza A virus
+OM966209.1,Influenza A virus
+OM965760.1,Influenza A virus
+OM965768.1,Influenza A virus
+OM965822.1,Influenza A virus
+OM966080.1,Influenza A virus
+OM966087.1,Influenza A virus
+OM966107.1,Influenza A virus
+OM966212.1,Influenza A virus
+OM966228.1,Influenza A virus
+OM965750.1,Influenza A virus
+OM965774.1,Influenza A virus
+OM965820.1,Influenza A virus
+OM966078.1,Influenza A virus
+OM966086.1,Influenza A virus
+OM966106.1,Influenza A virus
+OM966156.1,Influenza A virus
+OM966210.1,Influenza A virus
+ON366872.1,Influenza A virus
+OM966091.1,Influenza A virus
+OP723834.1,Influenza A virus
+OP723833.1,Influenza A virus
+OP723832.1,Influenza A virus
+OP723828.1,Influenza A virus
+OP723831.1,Influenza A virus
+OP723829.1,Influenza A virus
+OP723830.1,Influenza A virus
+OP723835.1,Influenza A virus
+KP287955.1,Influenza A virus (A/migratory duck/Jiangxi/21248/2009(H10N8))
+KP287956.1,Influenza A virus (A/migratory duck/Jiangxi/21248/2009(H10N8))
+KP287957.1,Influenza A virus (A/migratory duck/Jiangxi/21248/2009(H10N8))
+KP287958.1,Influenza A virus (A/migratory duck/Jiangxi/21248/2009(H10N8))
+KP287959.1,Influenza A virus (A/migratory duck/Jiangxi/21248/2009(H10N8))
+KP287960.1,Influenza A virus (A/migratory duck/Jiangxi/21248/2009(H10N8))
+KP287961.1,Influenza A virus (A/migratory duck/Jiangxi/21248/2009(H10N8))
+KP287962.1,Influenza A virus (A/migratory duck/Jiangxi/21248/2009(H10N8))
+CY163599.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163518.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163534.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163542.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163550.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163558.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163566.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163574.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163598.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163606.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163614.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163622.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163630.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163638.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163646.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163678.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163758.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163766.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163774.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163782.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163790.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163798.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163806.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163814.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163822.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163830.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163838.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163846.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163854.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163862.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163870.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163541.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163549.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163557.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163565.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163581.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163605.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163613.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163637.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163645.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163757.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163765.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163773.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163781.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163805.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163821.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163829.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163853.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163861.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY030232.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163515.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163523.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163531.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163539.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163547.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163555.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163563.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163571.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163579.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163603.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163611.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163627.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163635.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163643.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163675.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163755.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163763.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163771.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163779.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163787.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163795.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163803.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163811.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163827.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163835.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163843.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163851.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163859.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163867.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163514.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163522.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163530.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163538.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163546.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163554.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163562.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163570.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163578.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163586.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163594.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163602.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163618.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163626.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163634.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163642.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163674.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163754.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163762.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163770.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163778.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163786.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163794.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163802.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163810.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163818.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163826.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163834.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163842.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163850.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163858.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY163866.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY058490.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY058498.1,Influenza A virus (A/New Jersey/15/2007(H1N1))
+CY058491.1,Influenza A virus (A/Brisbane/59/2007(H1N1))
+CY121687.1,Influenza A virus (A/California/07/2009(H1N1))
+KF560221.1,Influenza A virus (A/Helsinki/979/2013(H1N1))
+CY106982.1,Influenza A virus (A/Hong Kong/H090-770-V10/2009(H1N1))
+CY111617.1,Influenza A virus (A/Hong Kong/H090-661-V10/2009(H1N1))
+CY111625.1,Influenza A virus (A/Hong Kong/H090-663-V10/2009(H1N1))
+CY111657.1,Influenza A virus (A/Hong Kong/H090-678-V10/2009(H1N1))
+CY111721.1,Influenza A virus (A/Hong Kong/H090-693-V10/2009(H1N1))
+CY111729.1,Influenza A virus (A/Hong Kong/H090-693-V20/2009(H1N1))
+CY111753.1,Influenza A virus (A/Hong Kong/H090-701-V10/2009(H1N1))
+CY111777.1,Influenza A virus (A/Hong Kong/H090-712-V10/2009(H1N1))
+CY111785.1,Influenza A virus (A/Hong Kong/H090-712-V1_4/2009(H1N1))
+CY111793.1,Influenza A virus (A/Hong Kong/H090-712-V20/2009(H1N1))
+CY111801.1,Influenza A virus (A/Hong Kong/H090-712-V24/2009(H1N1))
+CY112001.1,Influenza A virus (A/Hong Kong/H090-771-V10/2009(H1N1))
+CY112009.1,Influenza A virus (A/Hong Kong/H090-771-V20/2009(H1N1))
+CY112089.1,Influenza A virus (A/Hong Kong/H090-793-V10/2009(H1N1))
+CY112097.1,Influenza A virus (A/Hong Kong/H090-793-V20/2009(H1N1))
+CY120107.1,Influenza A virus (A/Hong Kong/H090-663-V10/2009(H1N1))
+CY120131.1,Influenza A virus (A/Hong Kong/H090-678-V10/2009(H1N1))
+CY120187.1,Influenza A virus (A/Hong Kong/H090-693-V10/2009(H1N1))
+CY120227.1,Influenza A virus (A/Hong Kong/H090-712-V10/2009(H1N1))
+CY120235.1,Influenza A virus (A/Hong Kong/H090-712-V14/2009(H1N1))
+CY120243.1,Influenza A virus (A/Hong Kong/H090-712-V20/2009(H1N1))
+CY120251.1,Influenza A virus (A/Hong Kong/H090-712-V24/2009(H1N1))
+CY120411.1,Influenza A virus (A/Hong Kong/H090-771-V10/2009(H1N1))
+CY120483.1,Influenza A virus (A/Hong Kong/H090-793-V10/2009(H1N1))
+CY120491.1,Influenza A virus (A/Hong Kong/H090-793-V20/2009(H1N1))
+CY120499.1,Influenza A virus (A/Hong Kong/H090-661-V10/2009(H1N1))
+CY121686.1,Influenza A virus (A/California/07/2009(H1N1))
+CY121846.1,Influenza A virus (A/South Carolina/10/2010(H1N1))
+CY121854.1,Influenza A virus (A/reassortant/NYMC X-205(NYMC X-157 x South Carolina/10/2010)(H1N1))
+CY121862.1,Influenza A virus (A/reassortant/NYMC X-205A(NYMC X-157 x South Carolina/10/2010)(H1N1))
+CY147761.1,Influenza A virus (A/Mexico/24030/2009(H1N1))
+CY148025.1,Influenza A virus (A/Netherlands/602/2009(H1N1))
+CY148033.1,Influenza A virus (A/Netherlands/602/2009(H1N1))
+CY148041.1,Influenza A virus (A/Netherlands/602/2009(H1N1))
+CY148113.1,Influenza A virus (A/Netherlands/602/2009(H1N1))
+CY148137.1,Influenza A virus (A/Netherlands/602/2009(H1N1))
+CY148145.1,Influenza A virus (A/Netherlands/602/2009(H1N1))
+CY148153.1,Influenza A virus (A/Netherlands/602/2009(H1N1))
+CY148185.1,Influenza A virus (A/Netherlands/602/2009(H1N1))
+CY148193.1,Influenza A virus (A/Netherlands/602/2009(H1N1))
+CY148233.1,Influenza A virus (A/Netherlands/602/2009(H1N1))
+KF560220.1,Influenza A virus (A/Helsinki/979/2013(H1N1))
+KF560004.1,Influenza A virus (A/Helsinki/742/2013(H1N1))
+KF559692.1,Influenza A virus (A/Helsinki/490/2013(H1N1))
+CY266309.1,Influenza A virus (A/California/07-00014/2009(H1N1))
+MH672517.1,Influenza A virus
+CY121685.1,Influenza A virus (A/California/07/2009(H1N1))
+KF560219.1,Influenza A virus (A/Helsinki/979/2013(H1N1))
+CY121680.1,Influenza A virus (A/California/07/2009(H1N1))
+KF560214.1,Influenza A virus (A/Helsinki/979/2013(H1N1))
+KF560006.1,Influenza A virus (A/Helsinki/753/2013(H1N1))
+CY121683.1,Influenza A virus (A/California/07/2009(H1N1))
+KF560217.1,Influenza A virus (A/Helsinki/979/2013(H1N1))
+CY121682.1,Influenza A virus (A/California/07/2009(H1N1))
+CY121690.1,Influenza A virus (A/reassortant/NYMC X-181(A/NYMC X-157 x California/07/2009)(H1N1))
+CY121706.1,Influenza A virus (A/reassortant/NYMC X-181B(A/NYMC X-157 x California/07/2009)(H1N1))
+KF560216.1,Influenza A virus (A/Helsinki/979/2013(H1N1))
+CY112052.1,Influenza A virus (A/Hong Kong/H090-779-V21/2009(H1N1))
+CY120438.1,Influenza A virus (A/Hong Kong/H090-779-V12/2009(H1N1))
+CY120454.1,Influenza A virus (A/Hong Kong/H090-779-V22/2009(H1N1))
+CY121681.1,Influenza A virus (A/California/07/2009(H1N1))
+CY111631.1,Influenza A virus (A/Hong Kong/H090-665-V10/2009(H1N1))
+CY111663.1,Influenza A virus (A/Hong Kong/H090-681-V10/2009(H1N1))
+CY111671.1,Influenza A virus (A/Hong Kong/H090-681-V22/2009(H1N1))
+CY111679.1,Influenza A virus (A/Hong Kong/H090-681-V32/2009(H1N1))
+CY120113.1,Influenza A virus (A/Hong Kong/H090-665-V10/2009(H1N1))
+CY120137.1,Influenza A virus (A/Hong Kong/H090-681-V10/2009(H1N1))
+CY120145.1,Influenza A virus (A/Hong Kong/H090-681-V32/2009(H1N1))
+CY121684.1,Influenza A virus (A/California/07/2009(H1N1))
+KF560218.1,Influenza A virus (A/Helsinki/979/2013(H1N1))
+HQ840335.1,Influenza A virus (A/swine/South Dakota/152B/2009(H1N2))
+HQ840336.1,Influenza A virus (A/swine/South Dakota/152B/2009(H1N2))
+HQ840334.1,Influenza A virus (A/swine/South Dakota/152B/2009(H1N2))
+HQ840338.1,Influenza A virus (A/swine/South Dakota/152B/2009(H1N2))
+HQ840331.1,Influenza A virus (A/swine/South Dakota/152B/2009(H1N2))
+HQ424892.1,Influenza A virus (A/swine/Minnesota/44837-3/2009(H1N2))
+HQ840337.1,Influenza A virus (A/swine/South Dakota/152B/2009(H1N2))
+HQ424893.1,Influenza A virus (A/swine/Minnesota/44837-3/2009(H1N2))
+HQ840333.1,Influenza A virus (A/swine/South Dakota/152B/2009(H1N2))
+HQ840332.1,Influenza A virus (A/swine/South Dakota/152B/2009(H1N2))
+CY125845.1,Influenza A virus (A/Ann Arbor/7/1967(H2N2))
+CY125844.1,Influenza A virus (A/Ann Arbor/7/1967(H2N2))
+CY125843.1,Influenza A virus (A/Ann Arbor/7/1967(H2N2))
+CY125838.1,Influenza A virus (A/Ann Arbor/7/1967(H2N2))
+CY125841.1,Influenza A virus (A/Ann Arbor/7/1967(H2N2))
+CY125840.1,Influenza A virus (A/Ann Arbor/7/1967(H2N2))
+CY125839.1,Influenza A virus (A/Ann Arbor/7/1967(H2N2))
+CY125842.1,Influenza A virus (A/Ann Arbor/7/1967(H2N2))
+CY097333.1,Influenza A virus (A/mallard/Wisconsin/2549/2009(H3N2))
+CY097332.1,Influenza A virus (A/mallard/Wisconsin/2549/2009(H3N2))
+CY097331.1,Influenza A virus (A/mallard/Wisconsin/2549/2009(H3N2))
+CY097326.1,Influenza A virus (A/mallard/Wisconsin/2549/2009(H3N2))
+CY097329.1,Influenza A virus (A/mallard/Wisconsin/2549/2009(H3N2))
+CY097328.1,Influenza A virus (A/mallard/Wisconsin/2549/2009(H3N2))
+CY097327.1,Influenza A virus (A/mallard/Wisconsin/2549/2009(H3N2))
+CY097330.1,Influenza A virus (A/mallard/Wisconsin/2549/2009(H3N2))
+MK239128.1,Influenza A virus
+MK239126.1,Influenza A virus
+MK239124.1,Influenza A virus
+MK239073.1,Influenza A virus
+MK239074.1,Influenza A virus
+MK239123.1,Influenza A virus
+MK239125.1,Influenza A virus
+MK239127.1,Influenza A virus
+KJ609203.1,Influenza A virus (A/Perth/16/2009(H3N2))
+KJ609204.1,Influenza A virus (A/Perth/16/2009(H3N2))
+KJ609205.1,Influenza A virus (A/Perth/16/2009(H3N2))
+KJ609206.1,Influenza A virus (A/Perth/16/2009(H3N2))
+KJ609207.1,Influenza A virus (A/Perth/16/2009(H3N2))
+KJ609208.1,Influenza A virus (A/Perth/16/2009(H3N2))
+KJ609209.1,Influenza A virus (A/Perth/16/2009(H3N2))
+PP815011.1,Influenza A virus
+KJ609210.1,Influenza A virus (A/Perth/16/2009(H3N2))
+EF619975.1,Influenza A virus (A/turkey/Turkey/1/2005(H5N1))
+EF619976.1,Influenza A virus (A/turkey/Turkey/1/2005(H5N1))
+EF619979.1,Influenza A virus (A/turkey/Turkey/1/2005(H5N1))
+EF619980.1,Influenza A virus (A/turkey/Turkey/1/2005(H5N1))
+EF619977.1,Influenza A virus (A/turkey/Turkey/1/2005(H5N1))
+EF619973.1,Influenza A virus (A/turkey/Turkey/1/2005(H5N1))
+EF619978.1,Influenza A virus (A/turkey/Turkey/1/2005(H5N1))
+EF619974.1,Influenza A virus (A/turkey/Turkey/1/2005(H5N1))
+MF399585.1,Influenza A virus (A/Ferruginous Pochard/Ningxia/479-16/2015(H5N6))
+MF399586.1,Influenza A virus (A/Ferruginous Pochard/Ningxia/479-16/2015(H5N6))
+MF399563.1,Influenza A virus A/Eurasian Wigeon/Ningxia/476-12/2015(H5N6)
+MF399587.1,Influenza A virus (A/Ferruginous Pochard/Ningxia/479-16/2015(H5N6))
+MF399588.1,Influenza A virus (A/Ferruginous Pochard/Ningxia/479-16/2015(H5N6))
+MF399589.1,Influenza A virus (A/Ferruginous Pochard/Ningxia/479-16/2015(H5N6))
+MF399558.1,Influenza A virus (A/Northern Shoveler/Ningxia/475-11/2015(H5N6))
+MF399566.1,Influenza A virus A/Eurasian Wigeon/Ningxia/476-12/2015(H5N6)
+MF399590.1,Influenza A virus (A/Ferruginous Pochard/Ningxia/479-16/2015(H5N6))
+MF399622.1,Influenza A virus (A/Northern Shoveler/Ningxia/483-28/2015(H5N6))
+MF399591.1,Influenza A virus (A/Ferruginous Pochard/Ningxia/479-16/2015(H5N6))
+MF399592.1,Influenza A virus (A/Ferruginous Pochard/Ningxia/479-16/2015(H5N6))
+MK168596.1,Influenza A virus
+MK168597.1,Influenza A virus
+MK168598.1,Influenza A virus
+MK168599.1,Influenza A virus
+MK168600.1,Influenza A virus
+MK168601.1,Influenza A virus
+MK168602.1,Influenza A virus
+MK168603.1,Influenza A virus
+CY094172.1,Influenza A virus (A/mallard/California/8212/2008(H6N1))
+CY094171.1,Influenza A virus (A/mallard/California/8212/2008(H6N1))
+CY094170.1,Influenza A virus (A/mallard/California/8212/2008(H6N1))
+CY094165.1,Influenza A virus (A/mallard/California/8212/2008(H6N1))
+CY094168.1,Influenza A virus (A/mallard/California/8212/2008(H6N1))
+CY094167.1,Influenza A virus (A/mallard/California/8212/2008(H6N1))
+CY094166.1,Influenza A virus (A/mallard/California/8212/2008(H6N1))
+CY094169.1,Influenza A virus (A/mallard/California/8212/2008(H6N1))
+CY036001.1,Influenza A virus (A/Guinea fowl/New York/19495-6/2006(H7N2))
+CY036000.1,Influenza A virus (A/Guinea fowl/New York/19495-6/2006(H7N2))
+CY035999.1,Influenza A virus (A/Guinea fowl/New York/19495-6/2006(H7N2))
+CY035994.1,Influenza A virus (A/Guinea fowl/New York/19495-6/2006(H7N2))
+CY035997.1,Influenza A virus (A/Guinea fowl/New York/19495-6/2006(H7N2))
+CY035996.1,Influenza A virus (A/Guinea fowl/New York/19495-6/2006(H7N2))
+CY035995.1,Influenza A virus (A/Guinea fowl/New York/19495-6/2006(H7N2))
+CY034906.1,Influenza A virus (A/chicken/New York/19495-2/2006(H7N2))
+CY034914.1,Influenza A virus (A/chicken/New York/19495-3/2006(H7N2))
+CY035990.1,Influenza A virus (A/chicken/New York/19495-4/2006(H7N2))
+CY035998.1,Influenza A virus (A/Guinea fowl/New York/19495-6/2006(H7N2))
+CY036006.1,Influenza A virus (A/Muscovy duck/New York/19495-7/2006(H7N2))
+CY095152.1,Influenza A virus (A/environment/New York/19495-1/2006(H7N2))
+OP723740.1,Influenza A virus
+OP723739.1,Influenza A virus
+OP723738.1,Influenza A virus
+OP723735.1,Influenza A virus
+OP723737.1,Influenza A virus
+OP723736.1,Influenza A virus
+OP723733.1,Influenza A virus
+OP723734.1,Influenza A virus
+CY178197.1,Influenza A virus (A/mallard/Wisconsin/1169/1983(H7N4))
+CY178205.1,Influenza A virus (A/mallard/Wisconsin/1171/1983(H7N4))
+CY178213.1,Influenza A virus (A/mallard/Wisconsin/1177/1983(H7N4))
+CY178862.1,Influenza A virus (A/mallard/Wisconsin/1111/1982(H7N4))
+CY179506.1,Influenza A virus (A/mallard/Wisconsin/1168/1983(H7N4))
+CY178212.1,Influenza A virus (A/mallard/Wisconsin/1177/1983(H7N4))
+CY178211.1,Influenza A virus (A/mallard/Wisconsin/1177/1983(H7N4))
+CY178190.1,Influenza A virus (A/mallard/Wisconsin/1169/1983(H7N4))
+CY178198.1,Influenza A virus (A/mallard/Wisconsin/1171/1983(H7N4))
+CY178206.1,Influenza A virus (A/mallard/Wisconsin/1177/1983(H7N4))
+CY178855.1,Influenza A virus (A/mallard/Wisconsin/1111/1982(H7N4))
+CY179499.1,Influenza A virus (A/mallard/Wisconsin/1168/1983(H7N4))
+CY178193.1,Influenza A virus (A/mallard/Wisconsin/1169/1983(H7N4))
+CY178201.1,Influenza A virus (A/mallard/Wisconsin/1171/1983(H7N4))
+CY178209.1,Influenza A virus (A/mallard/Wisconsin/1177/1983(H7N4))
+CY178858.1,Influenza A virus (A/mallard/Wisconsin/1111/1982(H7N4))
+CY179502.1,Influenza A virus (A/mallard/Wisconsin/1168/1983(H7N4))
+CY178192.1,Influenza A virus (A/mallard/Wisconsin/1169/1983(H7N4))
+CY178200.1,Influenza A virus (A/mallard/Wisconsin/1171/1983(H7N4))
+CY178208.1,Influenza A virus (A/mallard/Wisconsin/1177/1983(H7N4))
+CY178857.1,Influenza A virus (A/mallard/Wisconsin/1111/1982(H7N4))
+CY179517.1,Influenza A virus (A/mallard/Wisconsin/1319/1983(H7N4))
+CY179533.1,Influenza A virus (A/mallard/Wisconsin/1391/1983(H7N4))
+CY178191.1,Influenza A virus (A/mallard/Wisconsin/1169/1983(H7N4))
+CY178199.1,Influenza A virus (A/mallard/Wisconsin/1171/1983(H7N4))
+CY178207.1,Influenza A virus (A/mallard/Wisconsin/1177/1983(H7N4))
+CY178856.1,Influenza A virus (A/mallard/Wisconsin/1111/1982(H7N4))
+CY179500.1,Influenza A virus (A/mallard/Wisconsin/1168/1983(H7N4))
+CY178194.1,Influenza A virus (A/mallard/Wisconsin/1169/1983(H7N4))
+CY178202.1,Influenza A virus (A/mallard/Wisconsin/1171/1983(H7N4))
+CY178210.1,Influenza A virus (A/mallard/Wisconsin/1177/1983(H7N4))
+CY178859.1,Influenza A virus (A/mallard/Wisconsin/1111/1982(H7N4))
+CY179503.1,Influenza A virus (A/mallard/Wisconsin/1168/1983(H7N4))
+KM922674.1,Influenza A virus (A/lesser white-fronted goose/HuNan/412-3Y/2010(H7N7))
+KM922675.1,Influenza A virus (A/lesser white-fronted goose/HuNan/412-3Y/2010(H7N7))
+KM922676.1,Influenza A virus (A/lesser white-fronted goose/HuNan/412-3Y/2010(H7N7))
+KM922677.1,Influenza A virus (A/lesser white-fronted goose/HuNan/412-3Y/2010(H7N7))
+KM922678.1,Influenza A virus (A/lesser white-fronted goose/HuNan/412-3Y/2010(H7N7))
+KM922679.1,Influenza A virus (A/lesser white-fronted goose/HuNan/412-3Y/2010(H7N7))
+KM922680.1,Influenza A virus (A/lesser white-fronted goose/HuNan/412-3Y/2010(H7N7))
+KM922673.1,Influenza A virus (A/lesser white-fronted goose/HuNan/412-3Y/2010(H7N7))
+CY181520.1,Influenza A virus (A/Anhui/DEWH72-01/2013(H7N9))
+CY181552.1,Influenza A virus (A/Anhui/DEWH72-05/2013(H7N9))
+CY181560.1,Influenza A virus (A/Anhui/DEWH72-06/2013(H7N9))
+CY187625.1,Influenza A virus (A/Anhui/1-DEWH730/2013(H7N9))
+CY181519.1,Influenza A virus (A/Anhui/DEWH72-01/2013(H7N9))
+CY181527.1,Influenza A virus (A/Anhui/DEWH72-02/2013(H7N9))
+CY181543.1,Influenza A virus (A/Anhui/DEWH72-04/2013(H7N9))
+CY181551.1,Influenza A virus (A/Anhui/DEWH72-05/2013(H7N9))
+CY181567.1,Influenza A virus (A/Anhui/DEWH72-07/2013(H7N9))
+CY187408.1,Influenza A virus (A/Anhui/1-BALF_RG33/2013(H7N9))
+CY187416.1,Influenza A virus (A/Anhui/1-JCVI1_RG1/2013(H7N9))
+CY187424.1,Influenza A virus (A/Anhui/1-JCVI1_RG2/2013(H7N9))
+CY187432.1,Influenza A virus (A/Anhui/1-JCVI1_RG3/2013(H7N9))
+CY187440.1,Influenza A virus (A/Anhui/1-BALF_RG6/2013(H7N9))
+CY187448.1,Influenza A virus (A/Anhui/1-BALF_RG7/2013(H7N9))
+CY187456.1,Influenza A virus (A/Anhui/1-BALF_RG8/2013(H7N9))
+CY187464.1,Influenza A virus (A/Anhui/1-BALF_RG9/2013(H7N9))
+CY187472.1,Influenza A virus (A/Anhui/1-BALF_RG17/2013(H7N9))
+CY187480.1,Influenza A virus (A/Anhui/1-BALF_RG18/2013(H7N9))
+CY187488.1,Influenza A virus (A/Anhui/1-BALF_RG19/2013(H7N9))
+CY187504.1,Influenza A virus (A/Anhui/1-BALF_RG21/2013(H7N9))
+CY187512.1,Influenza A virus (A/Anhui/1-BALF_RG29/2013(H7N9))
+CY187520.1,Influenza A virus (A/Anhui/1-BALF_RG31/2013(H7N9))
+CY187528.1,Influenza A virus (A/Anhui/1-BALF_RG32/2013(H7N9))
+CY187536.1,Influenza A virus (A/Anhui/1-BALF_RG40/2013(H7N9))
+CY187544.1,Influenza A virus (A/Anhui/1-BALF_RG41/2013(H7N9))
+CY187552.1,Influenza A virus (A/Anhui/1-BALF_RG42/2013(H7N9))
+CY187560.1,Influenza A virus (A/Anhui/1-BALF_RG43/2013(H7N9))
+CY187568.1,Influenza A virus (A/Anhui/1-BALF_RG44/2013(H7N9))
+CY187576.1,Influenza A virus (A/Anhui/1-BALF_RG45/2013(H7N9))
+CY187584.1,Influenza A virus (A/Anhui/1-BALF_RG1/2013(H7N9))
+CY187592.1,Influenza A virus (A/Anhui/1-BALF_RG2/2013(H7N9))
+CY187600.1,Influenza A virus (A/Anhui/1-BALF_RG3/2013(H7N9))
+CY187608.1,Influenza A virus (A/Anhui/1-BALF_RG4/2013(H7N9))
+CY187616.1,Influenza A virus (A/Anhui/1-BALF_RG5/2013(H7N9))
+CY181518.1,Influenza A virus (A/Anhui/DEWH72-01/2013(H7N9))
+CY181526.1,Influenza A virus (A/Anhui/DEWH72-02/2013(H7N9))
+CY181542.1,Influenza A virus (A/Anhui/DEWH72-04/2013(H7N9))
+CY181550.1,Influenza A virus (A/Anhui/DEWH72-05/2013(H7N9))
+CY181574.1,Influenza A virus (A/Anhui/DEWH72-08/2013(H7N9))
+CY181582.1,Influenza A virus (A/Anhui/DEWH72-09/2013(H7N9))
+CY181513.1,Influenza A virus (A/Anhui/DEWH72-01/2013(H7N9))
+CY181516.1,Influenza A virus (A/Anhui/DEWH72-01/2013(H7N9))
+CY181524.1,Influenza A virus (A/Anhui/DEWH72-02/2013(H7N9))
+CY181540.1,Influenza A virus (A/Anhui/DEWH72-04/2013(H7N9))
+CY181548.1,Influenza A virus (A/Anhui/DEWH72-05/2013(H7N9))
+CY181564.1,Influenza A virus (A/Anhui/DEWH72-07/2013(H7N9))
+CY181572.1,Influenza A virus (A/Anhui/DEWH72-08/2013(H7N9))
+CY181515.1,Influenza A virus (A/Anhui/DEWH72-01/2013(H7N9))
+CY181571.1,Influenza A virus (A/Anhui/DEWH72-08/2013(H7N9))
+CY181514.1,Influenza A virus (A/Anhui/DEWH72-01/2013(H7N9))
+CY181538.1,Influenza A virus (A/Anhui/DEWH72-04/2013(H7N9))
+CY181554.1,Influenza A virus (A/Anhui/DEWH72-06/2013(H7N9))
+CY181570.1,Influenza A virus (A/Anhui/DEWH72-08/2013(H7N9))
+CY181517.1,Influenza A virus (A/Anhui/DEWH72-01/2013(H7N9))
+CY181525.1,Influenza A virus (A/Anhui/DEWH72-02/2013(H7N9))
+CY181541.1,Influenza A virus (A/Anhui/DEWH72-04/2013(H7N9))
+CY181549.1,Influenza A virus (A/Anhui/DEWH72-05/2013(H7N9))
+CY181557.1,Influenza A virus (A/Anhui/DEWH72-06/2013(H7N9))
+CY181565.1,Influenza A virus (A/Anhui/DEWH72-07/2013(H7N9))
+AJ404631.1,Influenza A virus (A/Hong Kong/1074/1999(H9N2))
+AF258817.1,Influenza A virus (A/Hong Kong/1074/1999(H9N2))
+AF257192.1,Influenza A virus (A/Hong Kong/1074/1999(H9N2))
+AJ404627.1,Influenza A virus (A/Hong Kong/1074/1999(H9N2))
+AF255743.1,Influenza A virus (A/Hong Kong/1074/1999(H9N2))
+AJ404628.1,Influenza A virus (A/Hong Kong/1074/1999(H9N2))
+AF255364.1,Influenza A virus (A/Hong Kong/1074/1999(H9N2))
+AJ404735.1,Influenza A virus (A/Hong Kong/1074/1999(H9N2))
+CY115157.1,Influenza B virus (B/Brisbane/60/2008)
+CY115158.1,Influenza B virus (B/Brisbane/60/2008)
+CY115156.1,Influenza B virus (B/Brisbane/60/2008)
+CY115151.1,Influenza B virus (B/Brisbane/60/2008)
+CY115154.1,Influenza B virus (B/Brisbane/60/2008)
+CY115153.1,Influenza B virus (B/Brisbane/60/2008)
+CY115313.1,Influenza B virus (B/reassortant/NYMC BX-31(Lee/1940 x Brisbane/60/2008))
+CY115321.1,Influenza B virus (B/reassortant/NYMC BX-31-CL(Lee/1940 x Brisbane/60/2008))
+CY115337.1,Influenza B virus (B/reassortant/NYMC BX-33(Panama/45/1990 x Brisbane/60/2008))
+CY115152.1,Influenza B virus (B/Brisbane/60/2008)
+CY115155.1,Influenza B virus (B/Brisbane/60/2008)
+CY115251.1,Influenza B virus (B/reassortant/NYMC BX-23A(Lee/1940 x Pennsylvania/07/2007))
+CY115315.1,Influenza B virus (B/reassortant/NYMC BX-31(Lee/1940 x Brisbane/60/2008))
+CY115331.1,Influenza B virus (B/reassortant/NYMC BX-31B(Lee/1940 x Brisbane/60/2008))
+CY115261.1,Influenza B virus (B/Bangladesh/3333/2007)
+CY115262.1,Influenza B virus (B/Bangladesh/3333/2007)
+CY115148.1,Influenza B virus (B/reassortant/NYMC BX-25A(Lee/1940 x Bangladesh/3333/2007))
+CY115260.1,Influenza B virus (B/Bangladesh/3333/2007)
+CY115268.1,Influenza B virus (B/reassortant/NYMC BX-25(Lee/1940 x Bangladesh/3333/2007))
+CY115255.1,Influenza B virus (B/Bangladesh/3333/2007)
+CY115258.1,Influenza B virus (B/Bangladesh/3333/2007)
+CY115145.1,Influenza B virus (B/reassortant/NYMC BX-25A(Lee/1940 x Bangladesh/3333/2007))
+CY115257.1,Influenza B virus (B/Bangladesh/3333/2007)
+CY115265.1,Influenza B virus (B/reassortant/NYMC BX-25(Lee/1940 x Bangladesh/3333/2007))
+CY115256.1,Influenza B virus (B/Bangladesh/3333/2007)
+CY115264.1,Influenza B virus (B/reassortant/NYMC BX-25(Lee/1940 x Bangladesh/3333/2007))
+CY119939.1,Influenza B virus (B/Malaysia/30/2007)
+CY115147.1,Influenza B virus (B/reassortant/NYMC BX-25A(Lee/1940 x Bangladesh/3333/2007))
+CY115259.1,Influenza B virus (B/Bangladesh/3333/2007)
+CY115267.1,Influenza B virus (B/reassortant/NYMC BX-25(Lee/1940 x Bangladesh/3333/2007))
+AF170576.2,Influenza C virus (C/Johannesburg/1/66)
+AF170575.2,Influenza C virus (C/Johannesburg/1/66)
+AF170574.2,Influenza C virus (C/Johannesburg/1/66)
+AM410041.1,Influenza C virus (C/Johannesburg/1/66)
+AF170573.2,Influenza C virus (C/Johannesburg/1/66)
+AM410042.1,Influenza C virus
+AM410043.1,Influenza C virus
+U31535.1,Isla Vista hantavirus
+DQ345765.1,Hantavirus strain Itapua 37
+NC_043559.1,Jamestown Canyon virus
+HM007352.1,Jamestown Canyon virus
+NC_043560.1,Jamestown Canyon virus
+HM007351.1,Jamestown Canyon virus
+NC_043558.1,Jamestown Canyon virus
+U12796.1,Jamestown Canyon virus
+HM007350.1,Jamestown Canyon virus
+KX817317.1,Jamestown Canyon virus
+MH900532.1,Jamestown Canyon virus
+NC_001437.1,Japanese encephalitis virus
+M18370.1,Japanese encephalitis virus
+NC_001699.1,JC polyomavirus
+J02226.1,JC polyomavirus
+NC_005080.1,Mammarenavirus juninense
+AY358022.2,Mammarenavirus juninense
+NC_005081.1,Mammarenavirus juninense
+AY358023.2,Mammarenavirus juninense
+KF913849.1,Juquitiba virus
+KF913852.1,Juquitiba virus
+NC_009238.1,Betapolyomavirus tertihominis
+NC_039218.1,Kyasanur Forest disease virus
+AY323490.1,Kyasanur Forest disease virus
+NC_004108.1,La Crosse virus
+AF528165.1,La Crosse virus
+NC_004109.1,La Crosse virus
+AF528166.1,La Crosse virus
+NC_004110.1,La Crosse virus
+AF528167.1,La Crosse virus
+NC_020807.1,Lyssavirus lagos
+JX443696.1,LANV-2 Hantavirus
+JX443703.1,LANV-2 Hantavirus
+JX443704.1,LANV-2 Hantavirus
+OM101125.1,Langya virus
+NC_004297.1,Mammarenavirus lassaense
+U73034.2,Mammarenavirus lassaense
+NC_004296.1,Mammarenavirus lassaense
+J04324.1,Mammarenavirus lassaense
+NC_034253.1,LI polyomavirus
+NC_016144.1,Cuevavirus lloviuense
+JF828358.1,Cuevavirus lloviuense
+NC_012777.1,Mammarenavirus lujoense
+FJ952385.1,Mammarenavirus lujoense
+NC_012776.1,Mammarenavirus lujoense
+FJ952384.1,Mammarenavirus lujoense
+NC_038529.1,Eothenomys miletus hantavirus LX309
+HQ404253.1,Eothenomys miletus hantavirus LX309
+NC_038528.1,Eothenomys miletus hantavirus LX309
+HM756287.1,Eothenomys miletus hantavirus LX309
+NC_038530.1,Eothenomys miletus hantavirus LX309
+HM756286.1,Eothenomys miletus hantavirus LX309
+NC_004291.1,Mammarenavirus choriomeningitidis
+J04331.1,Mammarenavirus choriomeningitidis
+NC_004294.1,Mammarenavirus choriomeningitidis
+M20869.1,Mammarenavirus choriomeningitidis
+NC_005079.1,Mammarenavirus machupoense
+AY358021.2,Mammarenavirus machupoense
+NC_005078.1,Mammarenavirus machupoense
+AY129248.1,Mammarenavirus machupoense
+MT015970.1,Mammarenavirus machupoense
+NC_030922.1,Mamastrovirus 1
+AB308374.1,Mamastrovirus 1
+NC_016155.1,Astrovirus MLB2
+NC_013443.1,HMO Astrovirus A
+NC_013060.1,Astrovirus VA1
+FJ973620.1,Mamastrovirus 9
+NC_034553.1,Maporal virus
+EU788002.1,Maporal virus
+NC_034552.1,Maporal virus
+AY363179.1,Maporal virus
+NC_034566.1,Maporal virus
+AY267347.1,Maporal virus
+NC_001608.4,Marburg virus - Musoke, Kenya, 1980
+DQ217792.2,Marburg virus - Musoke, Kenya, 1980
+NC_003417.1,Mayaro virus
+AF237947.1,Mayaro virus
+NC_001498.1,Measles morbillivirus
+AB016162.1,Measles morbillivirus
+NC_039197.1,Menangle virus
+JX112711.1,Menangle virus
+NC_010277.2,Merkel cell polyomavirus
+HM011556.1,Merkel cell polyomavirus
+NC_038294.1,Betacoronavirus England 1
+KC164505.2,Betacoronavirus England 1
+NC_025352.1,Mojiang virus
+KF278639.1,Mojiang virus
+NC_006429.1,Lyssavirus mokola
+NC_003310.1,Monkeypox virus
+AF380138.1,Monkeypox virus Zaire-96-I-16
+MH539865.1,Monongahela hantavirus
+MH539866.1,Monongahela hantavirus
+MH539867.1,Monongahela hantavirus
+KX066125.1,Muleshoe hantavirus
+KX066124.1,Muleshoe hantavirus
+NC_002200.1,Mumps orthorubulavirus
+AB040874.1,Mumps orthorubulavirus
+NC_000943.1,Murray Valley encephalitis virus
+AF161266.1,Murray Valley encephalitis virus
+NC_018102.1,MW polyomavirus
+JQ898291.1,MW polyomavirus
+OP910238.1,MW polyomavirus
+NC_024118.1,New Jersey polyomavirus-2013
+KF954417.1,New Jersey polyomavirus-2013
+NC_002728.1,Henipavirus nipahense
+AF212302.2,Henipavirus nipahense
+NC_001959.2,Norovirus GI
+M87661.2,Norwalk virus
+NC_040876.1,Norovirus GII
+MH218645.1,Norovirus GII
+MH218666.1,Norovirus GII
+MH218673.1,Norovirus GII
+NC_029647.1,Norovirus GIV
+JQ613567.1,Norovirus Hu/GIV.1/LakeMacquarie/NSW268O/2010/AU
+OR050585.1,Norovirus GIX
+AB985418.2,Norovirus Hu/GVIII/2-18/Tokyo/1986/JPN
+NC_005062.1,Omsk hemorrhagic fever virus
+AY193805.1,Omsk hemorrhagic fever virus
+AF079457.1,Igbo Ora virus
+NC_005776.1,Oropouche virus
+AF484424.1,Oropouche virus
+NC_005775.1,Oropouche virus
+AF441119.1,Oropouche virus
+NC_005777.1,Oropouche virus
+AY237111.1,Oropouche virus
+EF576661.1,Hantavirus sp. Paranoa
+EU621719.1,Hantavirus sp. Paranoa
+NC_002058.3,Enterovirus C
+V01149.1,Human poliovirus 1 Mahoney
+AF311056.1,Deer tick virus
+NC_039192.1,Punta Toro virus
+KP272028.1,Punta Toro virus
+NC_039191.1,Punta Toro virus
+KP272029.1,Punta Toro virus
+NC_039193.1,Punta Toro virus
+KP272030.1,Punta Toro virus
+NC_005225.1,Orthohantavirus puumalaense
+Z66548.1,Orthohantavirus puumalaense
+NC_005223.1,Orthohantavirus puumalaense
+X61034.1,Orthohantavirus puumalaense
+NC_005224.1,Orthohantavirus puumalaense
+X61035.1,Orthohantavirus puumalaense
+NC_001542.1,Lyssavirus rabies
+EF446131.1,Ravn virus - Ravn, Kenya, 1987
+NC_004161.1,Reston ebolavirus
+AF522874.1,Reston ebolavirus
+NC_001617.1,Rhinovirus A
+NC_001490.1,rhinovirus B14
+K02121.1,rhinovirus B14
+NC_009996.1,Rhinovirus C
+EF582385.1,rhinovirus C4
+NC_014397.1,Rift Valley fever virus
+DQ375403.1,Rift Valley fever virus
+OQ440154.1,Rift Valley fever virus
+NC_014396.1,Rift Valley fever virus
+DQ380206.1,Rift Valley fever virus
+OQ440155.1,Rift Valley fever virus
+NC_014395.1,Rift Valley fever virus
+DQ380151.1,Rift Valley fever virus
+EU312138.1,Rift Valley fever virus
+OR805807.1,Rift Valley fever virus
+NC_075016.1,Ross River virus
+GQ433354.1,Ross River virus
+JF460823.1,Rotavirus A Hu/BEL/F01322/2009/G3P[6]
+JF460835.1,Rotavirus A Hu/BEL/F01498/2009/G3P[6]
+JF460824.1,Rotavirus A Hu/BEL/F01322/2009/G3P[6]
+JF460836.1,Rotavirus A Hu/BEL/F01498/2009/G3P[6]
+JF460825.1,Rotavirus A Hu/BEL/F01322/2009/G3P[6]
+JF460826.1,Rotavirus A Hu/BEL/F01322/2009/G3P[6]
+JF460840.1,Rotavirus A Hu/BEL/F01498/2009/G3P[6]
+JF460829.1,Rotavirus A Hu/BEL/F01322/2009/G3P[6]
+JF460838.1,Rotavirus A Hu/BEL/F01498/2009/G3P[6]
+JF460827.1,Rotavirus A Hu/BEL/F01322/2009/G3P[6]
+JF460842.1,Rotavirus A Hu/BEL/F01498/2009/G3P[6]
+JF460831.1,Rotavirus A Hu/BEL/F01322/2009/G3P[6]
+JF460841.1,Rotavirus A Hu/BEL/F01498/2009/G3P[6]
+JF460830.1,Rotavirus A Hu/BEL/F01322/2009/G3P[6]
+JF460828.1,Rotavirus A Hu/BEL/F01322/2009/G3P[6]
+JF460832.1,Rotavirus A Hu/BEL/F01322/2009/G3P[6]
+JF460844.1,Rotavirus A Hu/BEL/F01498/2009/G3P[6]
+JF460833.1,Rotavirus A Hu/BEL/F01322/2009/G3P[6]
+NC_021541.1,Human rotavirus B
+EU490415.1,Human rotavirus B
+NC_021545.1,Human rotavirus B
+AY238390.1,Rotavirus B
+NC_021551.1,Human rotavirus B
+EU490418.1,Human rotavirus B
+NC_021543.1,Human rotavirus B
+AY238388.1,Rotavirus B
+NC_021546.1,Human rotavirus B
+AY238391.1,Rotavirus B
+NC_021544.1,Human rotavirus B
+AY238389.1,Rotavirus B
+NC_021547.1,Human rotavirus B
+AY238392.1,Rotavirus B
+NC_021548.1,Human rotavirus B
+AY238393.1,Rotavirus B
+NC_021542.1,Human rotavirus B
+AY238385.1,Rotavirus B
+NC_021550.1,Human rotavirus B
+AY238384.1,Rotavirus B
+NC_021549.1,Human rotavirus B
+AY238394.1,Rotavirus B
+HQ185643.1,Human rotavirus C
+HQ185644.1,Human rotavirus C
+HQ185646.1,Human rotavirus C
+HQ185645.1,Human rotavirus C
+EF528570.1,Rotavirus C
+HQ185649.1,Human rotavirus C
+HQ185647.1,Human rotavirus C
+EF528571.1,Rotavirus C
+HQ185648.1,Human rotavirus C
+HQ185669.1,Human rotavirus C
+HQ185651.1,Human rotavirus C
+KT206192.1,Rotavirus C
+HQ185650.1,Human rotavirus C
+NC_007548.1,Adult diarrheal rotavirus strain J19
+DQ113897.1,Adult diarrheal rotavirus strain J19
+NC_007549.1,Adult diarrheal rotavirus strain J19
+DQ113898.1,Adult diarrheal rotavirus strain J19
+NC_007551.1,Adult diarrheal rotavirus strain J19
+DQ113900.1,Adult diarrheal rotavirus strain J19
+NC_007550.1,Adult diarrheal rotavirus strain J19
+DQ113899.1,Adult diarrheal rotavirus strain J19
+NC_007552.1,Adult diarrheal rotavirus strain J19
+DQ113901.1,Adult diarrheal rotavirus strain J19
+NC_007553.1,Adult diarrheal rotavirus strain J19
+DQ113902.1,Adult diarrheal rotavirus strain J19
+NC_007555.1,Adult diarrheal rotavirus strain J19
+DQ113904.1,Adult diarrheal rotavirus strain J19
+NC_007554.1,Adult diarrheal rotavirus strain J19
+DQ113903.1,Adult diarrheal rotavirus strain J19
+NC_007556.1,Adult diarrheal rotavirus strain J19
+DQ113905.1,Adult diarrheal rotavirus strain J19
+NC_007557.1,Adult diarrheal rotavirus strain J19
+DQ113906.1,Adult diarrheal rotavirus strain J19
+NC_007558.1,Adult diarrheal rotavirus strain J19
+DQ113907.1,Adult diarrheal rotavirus strain J19
+NC_001545.2,Rubella virus
+M15240.2,Rubella virus
+NC_006313.1,Sabia virus
+AY358026.2,Sabia virus
+NC_006317.1,Sabia virus
+U41071.1,Sabia virus
+NC_012986.1,Salivirus A
+GQ184145.1,Salivirus A
+NC_015412.1,sandfly fever Turkey virus
+GQ847513.2,sandfly fever Sicilian virus
+NC_015411.1,sandfly fever Turkey virus
+GQ847512.2,sandfly fever Sicilian virus
+NC_015413.1,sandfly fever Turkey virus
+GQ847511.2,sandfly fever Sicilian virus
+NC_034517.1,Orthohantavirus sangassouense
+JQ082302.1,Orthohantavirus sangassouense
+NC_034516.1,Orthohantavirus sangassouense
+JQ082301.1,Orthohantavirus sangassouense
+NC_034526.1,Orthohantavirus sangassouense
+JQ082300.1,Orthohantavirus sangassouense
+NC_075724.1,Sapovirus Hu/GI/Sapporo/MT-2010/1982
+HM002617.1,Sapovirus Hu/GI/Sapporo/MT-2010/1982
+NC_003215.1,Semliki Forest virus
+X04129.1,Semliki Forest virus
+NC_005238.1,Orthohantavirus seoulense
+X56492.1,Seoul virus 80-39
+NC_005237.1,Orthohantavirus seoulense
+S47716.1,Seoul virus 80-39
+NC_005236.1,Orthohantavirus seoulense
+AY273791.1,Orthohantavirus seoulense
+AY502923.1,SARS coronavirus TW10
+NC_045512.2,Severe acute respiratory syndrome coronavirus 2
+OU084341.1,Severe acute respiratory syndrome coronavirus 2
+OY093454.1,Severe acute respiratory syndrome coronavirus 2
+OY096952.1,Severe acute respiratory syndrome coronavirus 2
+OY064540.1,Severe acute respiratory syndrome coronavirus 2
+OY066151.1,Severe acute respiratory syndrome coronavirus 2
+OY070411.1,Severe acute respiratory syndrome coronavirus 2
+OY076315.1,Severe acute respiratory syndrome coronavirus 2
+OY092342.1,Severe acute respiratory syndrome coronavirus 2
+OY094667.1,Severe acute respiratory syndrome coronavirus 2
+OY127390.1,Severe acute respiratory syndrome coronavirus 2
+OY174093.1,Severe acute respiratory syndrome coronavirus 2
+OY198974.1,Severe acute respiratory syndrome coronavirus 2
+OY199163.1,Severe acute respiratory syndrome coronavirus 2
+OY199677.1,Severe acute respiratory syndrome coronavirus 2
+OY199681.1,Severe acute respiratory syndrome coronavirus 2
+OY202251.1,Severe acute respiratory syndrome coronavirus 2
+OY202256.1,Severe acute respiratory syndrome coronavirus 2
+OY202261.1,Severe acute respiratory syndrome coronavirus 2
+OY203269.1,Severe acute respiratory syndrome coronavirus 2
+MN908947.3,Severe acute respiratory syndrome coronavirus 2
+MT470129.1,Severe acute respiratory syndrome coronavirus 2
+MT470130.1,Severe acute respiratory syndrome coronavirus 2
+MT470131.1,Severe acute respiratory syndrome coronavirus 2
+MT470141.1,Severe acute respiratory syndrome coronavirus 2
+MT470150.1,Severe acute respiratory syndrome coronavirus 2
+MT470158.1,Severe acute respiratory syndrome coronavirus 2
+MT470163.1,Severe acute respiratory syndrome coronavirus 2
+MT470174.1,Severe acute respiratory syndrome coronavirus 2
+MT470175.1,Severe acute respiratory syndrome coronavirus 2
+MW960278.1,Severe acute respiratory syndrome coronavirus 2
+MZ379258.1,Severe acute respiratory syndrome coronavirus 2
+MZ722000.1,Severe acute respiratory syndrome coronavirus 2
+MZ722043.1,Severe acute respiratory syndrome coronavirus 2
+MZ722192.1,Severe acute respiratory syndrome coronavirus 2
+MZ722615.1,Severe acute respiratory syndrome coronavirus 2
+MZ722630.1,Severe acute respiratory syndrome coronavirus 2
+MZ722702.1,Severe acute respiratory syndrome coronavirus 2
+OK372367.1,Severe acute respiratory syndrome coronavirus 2
+OK372385.1,Severe acute respiratory syndrome coronavirus 2
+OK372407.1,Severe acute respiratory syndrome coronavirus 2
+OM065385.1,Severe acute respiratory syndrome coronavirus 2
+OM065386.1,Severe acute respiratory syndrome coronavirus 2
+OM065388.1,Severe acute respiratory syndrome coronavirus 2
+OM094978.1,Severe acute respiratory syndrome coronavirus 2
+OM095001.1,Severe acute respiratory syndrome coronavirus 2
+OM095004.1,Severe acute respiratory syndrome coronavirus 2
+OM095010.1,Severe acute respiratory syndrome coronavirus 2
+OM095127.1,Severe acute respiratory syndrome coronavirus 2
+OM095142.1,Severe acute respiratory syndrome coronavirus 2
+OM095202.1,Severe acute respiratory syndrome coronavirus 2
+OM108445.1,Severe acute respiratory syndrome coronavirus 2
+OM811810.1,Severe acute respiratory syndrome coronavirus 2
+OM811845.1,Severe acute respiratory syndrome coronavirus 2
+OM811848.1,Severe acute respiratory syndrome coronavirus 2
+OM811850.1,Severe acute respiratory syndrome coronavirus 2
+OM811876.1,Severe acute respiratory syndrome coronavirus 2
+OM811877.1,Severe acute respiratory syndrome coronavirus 2
+OM811879.1,Severe acute respiratory syndrome coronavirus 2
+OM811882.1,Severe acute respiratory syndrome coronavirus 2
+OM811898.1,Severe acute respiratory syndrome coronavirus 2
+OM811903.1,Severe acute respiratory syndrome coronavirus 2
+OM913709.1,Severe acute respiratory syndrome coronavirus 2
+OM913711.1,Severe acute respiratory syndrome coronavirus 2
+OP022255.1,Severe acute respiratory syndrome coronavirus 2
+OP022256.1,Severe acute respiratory syndrome coronavirus 2
+OP022257.1,Severe acute respiratory syndrome coronavirus 2
+OP022258.1,Severe acute respiratory syndrome coronavirus 2
+OP022259.1,Severe acute respiratory syndrome coronavirus 2
+OP022260.1,Severe acute respiratory syndrome coronavirus 2
+OP022261.1,Severe acute respiratory syndrome coronavirus 2
+OP022262.1,Severe acute respiratory syndrome coronavirus 2
+OP022263.1,Severe acute respiratory syndrome coronavirus 2
+OP022264.1,Severe acute respiratory syndrome coronavirus 2
+OP022265.1,Severe acute respiratory syndrome coronavirus 2
+OP022266.1,Severe acute respiratory syndrome coronavirus 2
+OP022267.1,Severe acute respiratory syndrome coronavirus 2
+OP022268.1,Severe acute respiratory syndrome coronavirus 2
+OP022269.1,Severe acute respiratory syndrome coronavirus 2
+OP022270.1,Severe acute respiratory syndrome coronavirus 2
+OP022271.1,Severe acute respiratory syndrome coronavirus 2
+OP022272.1,Severe acute respiratory syndrome coronavirus 2
+OP022273.1,Severe acute respiratory syndrome coronavirus 2
+OP022274.1,Severe acute respiratory syndrome coronavirus 2
+OP022275.1,Severe acute respiratory syndrome coronavirus 2
+OP022276.1,Severe acute respiratory syndrome coronavirus 2
+OP022277.1,Severe acute respiratory syndrome coronavirus 2
+OP022278.1,Severe acute respiratory syndrome coronavirus 2
+OP022279.1,Severe acute respiratory syndrome coronavirus 2
+OP022280.1,Severe acute respiratory syndrome coronavirus 2
+OP022281.1,Severe acute respiratory syndrome coronavirus 2
+OP022282.1,Severe acute respiratory syndrome coronavirus 2
+OP022283.1,Severe acute respiratory syndrome coronavirus 2
+OP022284.1,Severe acute respiratory syndrome coronavirus 2
+OP022285.1,Severe acute respiratory syndrome coronavirus 2
+OP022286.1,Severe acute respiratory syndrome coronavirus 2
+OP022287.1,Severe acute respiratory syndrome coronavirus 2
+OP022288.1,Severe acute respiratory syndrome coronavirus 2
+OP022289.1,Severe acute respiratory syndrome coronavirus 2
+OP022290.1,Severe acute respiratory syndrome coronavirus 2
+OP022291.1,Severe acute respiratory syndrome coronavirus 2
+OP022292.1,Severe acute respiratory syndrome coronavirus 2
+OP022293.1,Severe acute respiratory syndrome coronavirus 2
+OP022294.1,Severe acute respiratory syndrome coronavirus 2
+OP022295.1,Severe acute respiratory syndrome coronavirus 2
+OP022296.1,Severe acute respiratory syndrome coronavirus 2
+OP022297.1,Severe acute respiratory syndrome coronavirus 2
+OP022298.1,Severe acute respiratory syndrome coronavirus 2
+OP022299.1,Severe acute respiratory syndrome coronavirus 2
+OP022300.1,Severe acute respiratory syndrome coronavirus 2
+OP022301.1,Severe acute respiratory syndrome coronavirus 2
+OP022302.1,Severe acute respiratory syndrome coronavirus 2
+OP022303.1,Severe acute respiratory syndrome coronavirus 2
+OP022304.1,Severe acute respiratory syndrome coronavirus 2
+OP022305.1,Severe acute respiratory syndrome coronavirus 2
+OP022306.1,Severe acute respiratory syndrome coronavirus 2
+OP022307.1,Severe acute respiratory syndrome coronavirus 2
+OP022308.1,Severe acute respiratory syndrome coronavirus 2
+OP022309.1,Severe acute respiratory syndrome coronavirus 2
+OP022310.1,Severe acute respiratory syndrome coronavirus 2
+OP022311.1,Severe acute respiratory syndrome coronavirus 2
+OP022312.1,Severe acute respiratory syndrome coronavirus 2
+OP022313.1,Severe acute respiratory syndrome coronavirus 2
+OP022314.1,Severe acute respiratory syndrome coronavirus 2
+OP022315.1,Severe acute respiratory syndrome coronavirus 2
+OP022316.1,Severe acute respiratory syndrome coronavirus 2
+OP022317.1,Severe acute respiratory syndrome coronavirus 2
+OP022318.1,Severe acute respiratory syndrome coronavirus 2
+OP022319.1,Severe acute respiratory syndrome coronavirus 2
+OP022320.1,Severe acute respiratory syndrome coronavirus 2
+OP022321.1,Severe acute respiratory syndrome coronavirus 2
+OP022322.1,Severe acute respiratory syndrome coronavirus 2
+OP022323.1,Severe acute respiratory syndrome coronavirus 2
+OP022324.1,Severe acute respiratory syndrome coronavirus 2
+OP022325.1,Severe acute respiratory syndrome coronavirus 2
+OP022326.1,Severe acute respiratory syndrome coronavirus 2
+OP022327.1,Severe acute respiratory syndrome coronavirus 2
+OP022328.1,Severe acute respiratory syndrome coronavirus 2
+OP022329.1,Severe acute respiratory syndrome coronavirus 2
+OP022330.1,Severe acute respiratory syndrome coronavirus 2
+OP022331.1,Severe acute respiratory syndrome coronavirus 2
+OP022332.1,Severe acute respiratory syndrome coronavirus 2
+OP022333.1,Severe acute respiratory syndrome coronavirus 2
+OP022334.1,Severe acute respiratory syndrome coronavirus 2
+OP022335.1,Severe acute respiratory syndrome coronavirus 2
+OP022336.1,Severe acute respiratory syndrome coronavirus 2
+OP022337.1,Severe acute respiratory syndrome coronavirus 2
+OP268178.1,Severe acute respiratory syndrome coronavirus 2
+OP278726.1,Severe acute respiratory syndrome coronavirus 2
+OR240423.1,Severe acute respiratory syndrome coronavirus 2
+OR240514.1,Severe acute respiratory syndrome coronavirus 2
+PP434597.1,Severe acute respiratory syndrome coronavirus 2
+PQ008633.1,Severe acute respiratory syndrome coronavirus 2
+PQ008634.1,Severe acute respiratory syndrome coronavirus 2
+PQ008635.1,Severe acute respiratory syndrome coronavirus 2
+PQ008636.1,Severe acute respiratory syndrome coronavirus 2
+PQ567518.1,Severe acute respiratory syndrome coronavirus 2
+NC_018136.1,SFTS virus HB29
+HM745930.1,SFTS virus HB29
+NC_018138.1,SFTS virus HB29
+HM745931.1,SFTS virus HB29
+NC_018137.1,SFTS virus HB29
+HM745932.1,SFTS virus HB29
+NC_001669.1,Betapolyomavirus macacae
+NC_005217.1,Orthohantavirus sinnombreense
+L37901.1,Orthohantavirus sinnombreense
+NC_005215.1,Orthohantavirus sinnombreense
+L25783.1,Orthohantavirus sinnombreense
+NC_005216.1,Orthohantavirus sinnombreense
+L25784.1,Orthohantavirus sinnombreense
+AF429428.1,Sindbis virus
+NC_055196.1,Snowshoe hare virus
+EU203678.2,Snowshoe hare virus
+NC_055197.1,Snowshoe hare virus
+EU262553.1,Snowshoe hare virus
+NC_055198.1,Snowshoe hare virus
+EU294510.1,Snowshoe hare virus
+NC_025343.1,Sosuga virus
+KF774436.1,Sosuga virus
+NC_007580.2,St. Louis encephalitis virus
+DQ525916.1,St. Louis encephalitis virus
+NC_020106.1,STL polyomavirus
+JX463183.1,STL polyomavirus
+NC_006432.1,Sudan ebolavirus
+AY729654.1,Sudan ebolavirus
+NC_055425.1,Tacheng Tick Virus 2
+KM817684.1,Tacheng Tick Virus 2
+NC_055426.1,Tacheng Tick Virus 2
+KM817744.1,Tacheng Tick Virus 2
+MK820045.1,Tacheng Tick Virus 2
+NC_055207.1,Tahyna virus
+EU665255.1,Tahyna virus
+NC_055205.1,Tahyna virus
+EU622819.2,Tahyna virus
+NC_055206.1,Tahyna virus
+EU622820.2,Tahyna virus
+NC_014372.1,Tai Forest ebolavirus
+FJ217162.1,Tai Forest ebolavirus
+NC_001672.1,Tick-borne encephalitis virus
+U27495.1,tick-borne encephalitis virus-European subtype
+NC_002076.2,Torque teno virus 1
+AB041007.1,Torque teno virus 1
+JX867534.2,Toscana virus
+JX867535.1,Toscana virus
+JX867536.1,Toscana virus
+NC_014361.1,Trichodysplasia spinulosa-associated polyomavirus
+GU989205.1,Trichodysplasia spinulosa-associated polyomavirus
+NC_005226.1,Orthohantavirus tulaense
+AJ005637.1,Orthohantavirus tulaense
+NC_005228.1,Orthohantavirus tulaense
+Z69993.1,Orthohantavirus tulaense
+NC_005227.2,Orthohantavirus tulaense
+Z49915.1,Orthohantavirus tulaense
+NC_006551.1,Usutu virus
+AY453411.1,Usutu virus
+NC_001348.1,Human alphaherpesvirus 3
+X04370.1,Human herpesvirus 3 strain Dumas
+Y16780.1,Variola minor virus
+L00930.1,Venezuelan equine encephalitis virus
+D00246.1,Kunjin virus
+NC_003908.1,Western equine encephalitis virus
+AF214040.1,Western equine encephalitis virus
+NC_009539.1,WU Polyomavirus
+EF444549.1,WU Polyomavirus
+NC_002031.1,Yellow fever virus
+X03700.1,Yellow fever virus
+NC_012532.1,Zika virus
+AY632535.2,Zika virus

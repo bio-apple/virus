@@ -12,6 +12,10 @@ script_path = os.path.abspath(__file__)
 # 获取脚本所在目录
 script_dir = os.path.dirname(script_path)
 
+#get vsp species list
+accession=os.path.join(script_dir,'/plugin/accession.list')
+ssname=os.path.join(script_dir,'/plugin/sscinames.txt')
+
 parser=argparse.ArgumentParser("Virus NGS pipeline.\nEmail:fanyucai3@gmail.com\n")
 parser.add_argument("-p1","--pe1",help="R1 fastq",required=True, nargs='+')
 parser.add_argument("-p2","--pe2",help="R2 fastq",default=None,nargs='+')
@@ -30,6 +34,7 @@ args=parser.parse_args()
 
 args.outdir=os.path.abspath(args.outdir)
 os.makedirs(args.outdir,exist_ok=True)
+
 
 
 for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
@@ -83,6 +88,12 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
 
     print(index)
     subprocess.check_call(index,shell=True)
+    # ------------------------
+    # Step 6: parse blast result and find corresponding species in VSPv2
+    # ------------------------
+    core.blast2VSP.run(f"{args.outdir}/5.blast/{prefix}.blast_all.txt",accession,ssname,args.blastdb,args.outdir)
+
+
     chr=[]
     infile=open(f"{args.outdir}/5.blast/{prefix}.blast_all.txt","r")
     for line in infile:

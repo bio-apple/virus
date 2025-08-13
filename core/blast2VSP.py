@@ -32,21 +32,24 @@ def run(blast_out,VSP_accession,VSP_ssname,nt_virus_dir,outdir):
     #output positive species accession
     outfile=open(outdir+"/ref.list","w")
     infile = open(VSP_ssname,"r")
+    num=0
     for line in infile:
         line=line.strip()
         array=line.split(",")
         if array[0].split(".")[0] in accession and array[1] in blast_ssname:
             outfile.write(array[0]+"\n")
+            num+=1
     infile.close()
     outfile.close()
     #get species reference sequence from nt_viruses
-    cmd=(f"docker run -v {nt_virus_dir}:/ref -v {outdir}:/outdir {docker} sh -c \'"
-         f"export PATH=/opt/conda/envs/kraken2/bin/:$PATH && "
-         f"export BLASTDB=/ref/ && "
-         f"blastdbcmd -db /ref/nt_viruses "
-         f"-entry_batch /outdir/ref.list -out /outdir/ref.fasta\'")
-    print(cmd)
-    subprocess.run(cmd,shell=True)
+    if num>0:
+        cmd=(f"docker run -v {nt_virus_dir}:/ref -v {outdir}:/outdir {docker} sh -c \'"
+             f"export PATH=/opt/conda/envs/kraken2/bin/:$PATH && "
+             f"export BLASTDB=/ref/ && "
+             f"blastdbcmd -db /ref/nt_viruses "
+             f"-entry_batch /outdir/ref.list -out /outdir/ref.fasta\'")
+        print(cmd)
+        subprocess.run(cmd,shell=True)
 
     #build reference index
     cmd=(f'docker run --rm -v {outdir}/:/outdir/ {docker} '

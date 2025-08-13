@@ -8,4 +8,5 @@ from . import blast
 from . import mapping
 from . import consensus
 from . import trim_primer
+from . import blast2VSP
 
