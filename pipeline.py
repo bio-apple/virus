@@ -49,7 +49,6 @@ imap = subparsers.add_parser("imap", help="Run pipeline with imap", parents=[par
 imap.add_argument("-e", "--bed", help="bed file", required=True)
 imap.add_argument("-r", "--ref", help="ref fasta", required=True)
 imap.add_argument("-b", "--bowtie2", help="directory contains reference bowtie2 index", required=True)
-
 args = parser.parse_args()
 
 args.outdir=os.path.abspath(args.outdir)
