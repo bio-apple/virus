@@ -132,7 +132,6 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     core.consensus.run(f'{args.outdir}/6.mapping/denovo/{prefix}.bam', f'{args.outdir}/7.consensus/denovo', prefix,None, " ".join(chr))
 
     if os.path.exists(f"{args.outdir}/5.blast/ref.fasta"):
-        
         if args.command == "imap":
             core.trim_primer.run(args.bed,f'{args.outdir}/6.mapping/ref/{prefix}.bam', f'{args.outdir}/7.consensus/ref/',prefix)
             core.consensus.run(f'{args.outdir}/7.consensus/ref/{prefix}.soft.clipped.sort.bam', f'{args.outdir}/7.consensus/ref/', prefix)
