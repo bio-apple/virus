@@ -23,28 +23,34 @@ script_dir = os.path.dirname(script_path)
 accession=script_dir+'/plugin/accession.list'
 ssname=script_dir+'/plugin/sscinames.txt'
 
-parser=argparse.ArgumentParser("Virus NGS pipeline.\nEmail:fanyucai3@gmail.com\n")
+# 创建一个父解析器，其中包含所有共享参数
+parent_parser = argparse.ArgumentParser(add_help=False)
+parent_parser.add_argument("-p1", "--pe1", help="R1 fastq", required=True, nargs='+')
+parent_parser.add_argument("-p2", "--pe2", help="R2 fastq", default=None, nargs='+')
+parent_parser.add_argument("-p", "--prefix", help="prefix of output", required=True, nargs='+')
+parent_parser.add_argument("-o", "--outdir", help="diretory of output", required=True)
+parent_parser.add_argument("-c", "--config", help="config file", required=True)
+parent_parser.add_argument('-l', '--length', help="read length", type=int, required=True,
+                         choices=[50, 75, 100, 150, 200, 250, 300])
+
+# 创建主解析器
+parser = argparse.ArgumentParser(
+    "Virus NGS pipeline.\nEmail:fanyucai3@gmail.com\n",
+    parents=[parent_parser],  # 将父解析器作为主解析器的父级
+    formatter_class=argparse.RawDescriptionHelpFormatter
+)
 subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
-vsp_parser = subparsers.add_parser("vsp", help="Run pipeline with vsp")
-vsp_parser.add_argument("-p1","--pe1",help="R1 fastq",required=True, nargs='+')
-vsp_parser.add_argument("-p2","--pe2",help="R2 fastq",default=None,nargs='+')
-vsp_parser.add_argument("-p","--prefix",help="prefix of output",required=True, nargs='+')
-vsp_parser.add_argument("-o","--outdir",help="diretory of output",required=True)
-vsp_parser.add_argument("-c","--config",help="config file",required=True)
-vsp_parser.add_argument('-l','--length',help="read length",type=int,required=True,choices=[50,75,100,150,200,250,300])
+# 创建 vsp 子解析器，只添加其独有的参数
+vsp = subparsers.add_parser("vsp", help="Run pipeline with vsp", parents=[parent_parser])
 
-imap_parser = subparsers.add_parser("imap", help="Run pipeline with a imap")
-vsp_parser.add_argument("-p1","--pe1",help="R1 fastq",required=True, nargs='+')
-vsp_parser.add_argument("-p2","--pe2",help="R2 fastq",default=None,nargs='+')
-vsp_parser.add_argument("-p","--prefix",help="prefix of output",required=True, nargs='+')
-vsp_parser.add_argument("-o","--outdir",help="diretory of output",required=True)
-vsp_parser.add_argument("-c","--config",help="config file",required=True)
-vsp_parser.add_argument("-b","--bed",help="bed file",required=True)
-vsp_parser.add_argument("-r","--ref",help="ref fasta",required=True)
-vsp_parser.add_argument("-b","--bowtie2",help="directory contains reference bowtie2 index",required=True)
-vsp_parser.add_argument('-l','--length',help="read length",type=int,required=True,choices=[50,75,100,150,200,250,300])
-args=parser.parse_args()
+# 创建 imap 子解析器，只添加其独有的参数
+imap = subparsers.add_parser("imap", help="Run pipeline with imap", parents=[parent_parser])
+imap.add_argument("-e", "--bed", help="bed file", required=True)
+imap.add_argument("-r", "--ref", help="ref fasta", required=True)
+imap.add_argument("-b", "--bowtie2", help="directory contains reference bowtie2 index", required=True)
+
+args = parser.parse_args()
 
 args.outdir=os.path.abspath(args.outdir)
 os.makedirs(args.outdir,exist_ok=True)
