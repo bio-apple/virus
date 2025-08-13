@@ -44,6 +44,7 @@ kraken2=config.get('database','kraken2')
 host=config.get('database','host')
 identify=config.get('parameter','identify')
 contig=config.get('parameter','contig_min_length')
+bed=config.get('bed_file','bed')
 
 for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # ------------------------
@@ -128,8 +129,8 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     print("#------------------------\n#Step7:trim primer,variant calling,consensus sequence and plot coverage\n#------------------------\n")
     core.consensus.run(f'{args.outdir}/6.mapping/denovo/{prefix}.bam', f'{args.outdir}/7.consensus/denovo', prefix,None, " ".join(chr))
     if os.path.exists(f"{args.outdir}/5.blast/ref.fasta"):
-        if args.bed:
-            core.trim_primer.run(args.bed,f'{args.outdir}/6.mapping/ref/{prefix}.bam', f'{args.outdir}/7.consensus/ref/',prefix)
+        if bed:
+            core.trim_primer.run(bed,f'{args.outdir}/6.mapping/ref/{prefix}.bam', f'{args.outdir}/7.consensus/ref/',prefix)
             core.consensus.run(f'{args.outdir}/7.consensus/ref/{prefix}.soft.clipped.sort.bam', f'{args.outdir}/7.consensus/ref/', prefix,args.ref)
         else:
             core.consensus.run(f'{args.outdir}/6.mapping/ref/{prefix}.bam', f'{args.outdir}/7.consensus/ref/', prefix, f"{args.outdir}/5.blast/ref.fasta")
