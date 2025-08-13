@@ -1,0 +1,3 @@
+/staging/fanyucai/ncbi-blast-2.14.1+/bin/blastdbcmd -db /staging/fanyucai/virus/ref/ref_viruses_rep_genomes/ref_viruses_rep_genome -entry_batch accession.list -out vsp.fasta
+cd /staging/fanyucai/virus/ref/nt_virus/ && /staging/fanyucai/ncbi-blast-2.14.1+/bin/blastdbcmd -db nt_viruses -entry_batch accession.list -outfmt "%a\t%S" > sscinames.txt
+cd /staging/fanyucai/virus/ref/ref_viruses_rep_genomes && /staging/fanyucai/ncbi-blast-2.14.1+/bin/blastdbcmd -db ref_viruses_rep_genomes -taxnames "Severe acute respiratory syndrome coronavirus 2" -outfmt "%f" > sars-cov-2_sequences.fasta
