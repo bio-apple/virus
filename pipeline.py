@@ -1,9 +1,15 @@
 import os
 import argparse
 import subprocess
-
+import configparser
 import core
 from concurrent.futures import ThreadPoolExecutor, as_completed
+
+class Myconf(configparser.ConfigParser):
+    def __init__(self, defaults=None):
+        configparser.ConfigParser.__init__(self, defaults=defaults)
+    def optionxform(self, optionstr):
+        return optionstr
 
 docker='virus:latest'
 # 获取当前脚本的绝对路径
@@ -16,18 +22,17 @@ script_dir = os.path.dirname(script_path)
 accession=os.path.join(script_dir,'/plugin/accession.list')
 ssname=os.path.join(script_dir,'/plugin/sscinames.txt')
 
+
 parser=argparse.ArgumentParser("Virus NGS pipeline.\nEmail:fanyucai3@gmail.com\n")
 parser.add_argument("-p1","--pe1",help="R1 fastq",required=True, nargs='+')
 parser.add_argument("-p2","--pe2",help="R2 fastq",default=None,nargs='+')
 parser.add_argument("-p","--prefix",help="prefix of output",required=True, nargs='+')
-parser.add_argument("-d",'--blastdb',help="path+ prefix blast database: ",required=True)
-parser.add_argument('-k','--kraken2',help='kraken2 reference index',required=True)
 parser.add_argument("-i","--identify",type=float,default=0.998)
-parser.add_argument("-s","--host",help="directory host bowtie2 index",required=True)
 parser.add_argument("-o","--outdir",help="diretory of output",required=True)
 parser.add_argument('-t','--bowtie2',help="directory reference bowtie2 index",default=None)
 parser.add_argument("-b","--bed",help="bed file",default=None)
 parser.add_argument('-r','--ref',help="reference fasta reference",default=None)
+parser.add_argument("-c","--config",help="config file",default="config.ini")
 parser.add_argument('-l','--length',help="read length",type=int,required=True,choices=[50,75,100,150,200,250,300])
 parser.add_argument("-c", "--contig", help="min contig length,default:1000", type=int, default=1000,choices=[500,1000,1500])
 args=parser.parse_args()
@@ -35,6 +40,13 @@ args=parser.parse_args()
 args.outdir=os.path.abspath(args.outdir)
 os.makedirs(args.outdir,exist_ok=True)
 
+
+config = Myconf()
+config.read(args.config)
+
+blastdb=config.get('database','nt_viruses')
+kraken2=config.get('database','kraken2')
+host=config.get('database','host')
 
 
 for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
@@ -48,13 +60,13 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # Step 2: kraken2
     # ------------------------
     print("#------------------------\n#Step 2: kraken2\n#------------------------\n")
-    core.kraken2.run(r1,args.kraken2,prefix,args.outdir+"/2.kraken2",args.length,r2)
+    core.kraken2.run(r1,kraken2,prefix,args.outdir+"/2.kraken2",args.length,r2)
 
     # ------------------------
     # Step 3: bowtie2 host filter
     # ------------------------
     print("#------------------------\n#Step 3: bowtie2 host filter\n#------------------------\n")
-    core.filter_host.run(r1,args.outdir+"/3.filter_host",args.host,prefix,r2)
+    core.filter_host.run(r1,args.outdir+"/3.filter_host",host,prefix,r2)
 
     # ------------------------
     # Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
@@ -81,14 +93,14 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # Step 5: blast NCBI Database: nt virus and parse blast result and find corresponding species in VSPv2
     # ------------------------
     print("#------------------------\n#Step 5: blast NCBI Database: nt virus\n#------------------------\n")
-    core.blast.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna',args.blastdb,f"{args.outdir}/5.blast/",prefix,10)
+    core.blast.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna',blastdb,f"{args.outdir}/5.blast/",prefix,10)
     index=(f'docker run --rm -v {args.outdir}/4.assembly/:/raw_data/ {docker} sh -c '
            f'\'export PATH=/opt/conda/bin/:$PATH && '
            f'bowtie2-build /raw_data/{prefix}.non-redundant.fna /raw_data/{prefix}.non-redundant.fna\' ')
 
     print(index)
     subprocess.check_call(index,shell=True)
-    core.blast2VSP.run(f"{args.outdir}/5.blast/{prefix}.blast_all.txt",accession,ssname,args.blastdb,f"{args.outdir}/5.blast/")
+    core.blast2VSP.run(f"{args.outdir}/5.blast/{prefix}.blast_all.txt",accession,ssname,blastdb,f"{args.outdir}/5.blast/")
     chr = []
     infile = open(f"{args.outdir}/5.blast/{prefix}.blast_all.txt", "r")
     for line in infile:
