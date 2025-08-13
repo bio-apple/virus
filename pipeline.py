@@ -23,32 +23,17 @@ script_dir = os.path.dirname(script_path)
 accession=script_dir+'/plugin/accession.list'
 ssname=script_dir+'/plugin/sscinames.txt'
 
-# 创建一个父解析器，其中包含所有共享参数
-parent_parser = argparse.ArgumentParser(add_help=False)
-parent_parser.add_argument("-p1", "--pe1", help="R1 fastq", required=True, nargs='+')
-parent_parser.add_argument("-p2", "--pe2", help="R2 fastq", default=None, nargs='+')
-parent_parser.add_argument("-p", "--prefix", help="prefix of output", required=True, nargs='+')
-parent_parser.add_argument("-o", "--outdir", help="diretory of output", required=True)
-parent_parser.add_argument("-c", "--config", help="config file", required=True)
-parent_parser.add_argument('-l', '--length', help="read length", type=int, required=True,
-                         choices=[50, 75, 100, 150, 200, 250, 300])
-
-# 创建主解析器
-parser = argparse.ArgumentParser(
-    "Virus NGS pipeline.\nEmail:fanyucai3@gmail.com\n",
-    parents=[parent_parser],  # 将父解析器作为主解析器的父级
-    formatter_class=argparse.RawDescriptionHelpFormatter
-)
-subparsers = parser.add_subparsers(dest="command", help="Available commands")
-
-# 创建 vsp 子解析器，只添加其独有的参数
-vsp = subparsers.add_parser("vsp", help="Run pipeline with vsp", parents=[parent_parser])
-
-# 创建 imap 子解析器，只添加其独有的参数
-imap = subparsers.add_parser("imap", help="Run pipeline with imap", parents=[parent_parser])
-imap.add_argument("-e", "--bed", help="bed file", required=True)
-imap.add_argument("-r", "--ref", help="ref fasta", required=True)
-imap.add_argument("-b", "--bowtie2", help="directory contains reference bowtie2 index", required=True)
+parser = argparse.ArgumentParser("Virus NGS pipeline.\nEmail:fanyucai3@gmail.com\n")
+# 定义所有共享参数
+parser.add_argument("-p1", "--pe1", help="R1 fastq", required=True, nargs='+')
+parser.add_argument("-p2", "--pe2", help="R2 fastq", default=None, nargs='+')
+parser.add_argument("-p", "--prefix", help="prefix of output", required=True, nargs='+')
+parser.add_argument("-o", "--outdir", help="diretory of output", required=True)
+parser.add_argument("-c", "--config", help="config file", required=True)
+parser.add_argument('-l', '--length', help="read length", type=int, required=True,choices=[50, 75, 100, 150, 200, 250, 300])
+parser.add_argument("-e", "--bed", help="bed file", default=None)
+parser.add_argument("-r", "--ref", help="ref fasta", default=None)
+parser.add_argument("-b", "--bowtie2", help="directory contains reference bowtie2 index", default=None)
 args = parser.parse_args()
 
 args.outdir=os.path.abspath(args.outdir)
@@ -65,7 +50,6 @@ identify=config.get('parameter','identify')
 contig=config.get('parameter','contig_min_length')
 
 for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
-    """
     # ------------------------
     # Step 1: fastp qc
     # ------------------------
@@ -104,7 +88,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
             print(future.result())
     subprocess.check_call(f'cd {args.outdir}/4.assembly/ && cat spades_{prefix}/scaffolds_{contig}bp.fasta megahit_{prefix}/{prefix}.contigs.fa >{prefix}.contigs.fa',shell=True)
     core.cd_hit_est.run(f'{args.outdir}/4.assembly/{prefix}.contigs.fa',identify,prefix+".non-redundant",f'{args.outdir}/4.assembly/')
-    
+
     # ------------------------
     # Step 5: blast NCBI Database: nt virus and parse blast result and find corresponding species in VSPv2
     # ------------------------
@@ -126,7 +110,6 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
             if not array[0] in chr:
                 chr.append(array[0])
     print(chr)
-
     # ------------------------
     # step 6:mapping reference
     # ------------------------
@@ -150,7 +133,8 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     """
 
     if os.path.exists(f"{args.outdir}/5.blast/ref.fasta"):
-        if args.bed is not None:
+        
+        if args.command == "imap":
             core.trim_primer.run(args.bed,f'{args.outdir}/6.mapping/ref/{prefix}.bam', f'{args.outdir}/7.consensus/ref/',prefix)
             core.consensus.run(f'{args.outdir}/7.consensus/ref/{prefix}.soft.clipped.sort.bam', f'{args.outdir}/7.consensus/ref/', prefix)
         else:
