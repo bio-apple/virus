@@ -18,9 +18,10 @@ script_path = os.path.abspath(__file__)
 # 获取脚本所在目录
 script_dir = os.path.dirname(script_path)
 
+
 #get vsp species list
-accession=os.path.join(script_dir,'/plugin/accession.list')
-ssname=os.path.join(script_dir,'/plugin/sscinames.txt')
+accession=script_dir+'/plugin/accession.list'
+ssname=script_dir+'/plugin/sscinames.txt'
 
 parser=argparse.ArgumentParser("Virus NGS pipeline.\nEmail:fanyucai3@gmail.com\n")
 parser.add_argument("-p1","--pe1",help="R1 fastq",required=True, nargs='+')
@@ -28,6 +29,7 @@ parser.add_argument("-p2","--pe2",help="R2 fastq",default=None,nargs='+')
 parser.add_argument("-p","--prefix",help="prefix of output",required=True, nargs='+')
 parser.add_argument("-o","--outdir",help="diretory of output",required=True)
 parser.add_argument("-c","--config",help="config file",required=True)
+parser.add_argument("-b","--bed",help="bed file",default=None)
 parser.add_argument('-l','--length',help="read length",type=int,required=True,choices=[50,75,100,150,200,250,300])
 args=parser.parse_args()
 
@@ -43,9 +45,9 @@ kraken2=config.get('database','kraken2')
 host=config.get('database','host')
 identify=config.get('parameter','identify')
 contig=config.get('parameter','contig_min_length')
-bed=config.get('bed_file','bed')
 
 for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
+    """
     # ------------------------
     # Step 1: fastp qc
     # ------------------------
@@ -84,7 +86,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
             print(future.result())
     subprocess.check_call(f'cd {args.outdir}/4.assembly/ && cat spades_{prefix}/scaffolds_{contig}bp.fasta megahit_{prefix}/{prefix}.contigs.fa >{prefix}.contigs.fa',shell=True)
     core.cd_hit_est.run(f'{args.outdir}/4.assembly/{prefix}.contigs.fa',identify,prefix+".non-redundant",f'{args.outdir}/4.assembly/')
-
+    
     # ------------------------
     # Step 5: blast NCBI Database: nt virus and parse blast result and find corresponding species in VSPv2
     # ------------------------
@@ -96,7 +98,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
 
     print(index)
     subprocess.check_call(index,shell=True)
-    core.blast2VSP.run(f"{args.outdir}/5.blast/{prefix}.blast_all.txt",accession,ssname,blastdb,f"{args.outdir}/5.blast/")
+    core.blast2vsp.run(f"{args.outdir}/5.blast/{prefix}.blast_all.txt",accession,ssname,blastdb,f"{args.outdir}/5.blast/")
     chr = []
     infile = open(f"{args.outdir}/5.blast/{prefix}.blast_all.txt", "r")
     for line in infile:
@@ -127,9 +129,11 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # ------------------------
     print("#------------------------\n#Step7:trim primer,variant calling,consensus sequence and plot coverage\n#------------------------\n")
     core.consensus.run(f'{args.outdir}/6.mapping/denovo/{prefix}.bam', f'{args.outdir}/7.consensus/denovo', prefix,None, " ".join(chr))
+    """
+
     if os.path.exists(f"{args.outdir}/5.blast/ref.fasta"):
-        if bed:
-            core.trim_primer.run(bed,f'{args.outdir}/6.mapping/ref/{prefix}.bam', f'{args.outdir}/7.consensus/ref/',prefix)
-            core.consensus.run(f'{args.outdir}/7.consensus/ref/{prefix}.soft.clipped.sort.bam', f'{args.outdir}/7.consensus/ref/', prefix,args.ref)
+        if args.bed is not None:
+            core.trim_primer.run(args.bed,f'{args.outdir}/6.mapping/ref/{prefix}.bam', f'{args.outdir}/7.consensus/ref/',prefix)
+            core.consensus.run(f'{args.outdir}/7.consensus/ref/{prefix}.soft.clipped.sort.bam', f'{args.outdir}/7.consensus/ref/', prefix)
         else:
             core.consensus.run(f'{args.outdir}/6.mapping/ref/{prefix}.bam', f'{args.outdir}/7.consensus/ref/', prefix, f"{args.outdir}/5.blast/ref.fasta")
