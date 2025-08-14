@@ -16,7 +16,7 @@ docker tag fanyucai1/virus virus</pre>
 rm -rf /ref/nextclade_db/
 python3 core/update_nextclade_db.py -d /ref/nextclade_db</pre> 
 
-**2-2:virus genome and index**
+**2-2:virus genome and index(Optional)**
 <pre>
 mkdir -p /ref/bowtie2/
 python3 core/ref_index.py -o /ref/bowtie2/</pre>
