@@ -11,16 +11,19 @@ def run(blast_out,VSP_accession,VSP_ssname,nt_virus_dir,outdir):
     db_dir = os.path.abspath(os.path.dirname(nt_virus_dir))
     db_name=nt_virus_dir.split("/")[-1]
 
-    #parse blast ssname
+    #parse blast output ssname and accession
     infile = open(blast_out,"r")
-    blast_ssname=[]
+    blast_ssname={}
     for line in infile:
         line = line.strip()
         if not line.startswith("#"):
             if line.split("\t")[9] not in blast_ssname:
-                blast_ssname.append(line.split("\t")[9])
+                blast_ssname[line.split("\t")[9]]=[line.split("\t")[1]]
+            else:
+                blast_ssname[line.split("\t")[9]].append(line.split("\t")[1])
     infile.close()
     print(blast_ssname)
+
     #parse VSP accession
     accession=[]
     infile = open(VSP_accession,"r")
@@ -29,15 +32,17 @@ def run(blast_out,VSP_accession,VSP_ssname,nt_virus_dir,outdir):
         accession.append(line)
     infile.close()
     print(accession)
+
     #output positive species accession
-    outfile=open(outdir+"/ref.list","w")
     infile = open(VSP_ssname,"r")
+    outfile = open(outdir + "/ref.list", "w")
     num=0
     for line in infile:
         line=line.strip()
         array=line.split(",")
         if array[0].split(".")[0] in accession and array[1] in blast_ssname:
             outfile.write(array[0]+"\n")
+            del blast_ssname[array[1]]
             num+=1
     infile.close()
     outfile.close()

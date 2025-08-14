@@ -43,7 +43,8 @@ os.makedirs(args.outdir,exist_ok=True)
 config = Myconf()
 config.read(args.config)
 
-blastdb=config.get('database','nt_viruses')
+nt_viruses=config.get('database','nt_viruses')
+vsp=config.get('database','vsp')
 kraken2=config.get('database','kraken2')
 host=config.get('database','host')
 identify=config.get('parameter','identify')
@@ -68,72 +69,84 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     print("#------------------------\n#Step 3: bowtie2 host filter\n#------------------------\n")
     core.filter_host.run(r1,args.outdir+"/3.filter_host",host,prefix,r2)
 
-    # ------------------------
-    # Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
-    # ------------------------
-    print("#------------------------\n#Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)\n#------------------------\n")
-    read1,read2="",""
-    if r2:
-        read1=args.outdir+"/"+"3.filter_host/"+prefix+"_1.fastq"
-        read2=args.outdir+"/"+"3.filter_host/"+prefix+"_2.fastq"
+    if args.ref and args.bowtie2:
+        # ------------------------
+        # Step 4: mapping && trim primer,variant calling,consensus sequence and plot coverage
+        # ------------------------
+        read1, read2 = "", ""
+        if r2:
+            read1 = args.outdir + "/" + "3.filter_host/" + prefix + "_1.fastq"
+            read2 = args.outdir + "/" + "3.filter_host/" + prefix + "_2.fastq"
+        else:
+            read1 = args.outdir + "/" + "3.filter_host/" + prefix + ".unaligned.fastq"
+            read2 = None
+        #mapping
+        core.mapping.run(args.bowtie2,f'{args.outdir}/4.mapping',prefix,read1,read2)
+        if args.bed:
+            # trim primer
+            core.trim_primer.run(args.bed, f'{args.outdir}/4.mapping/{prefix}.bam', f'{args.outdir}/5.consensus/ref/',
+                                 prefix)
+            # consensus
+            core.consensus.run(f'{args.outdir}/5.consensus/ref/{prefix}.soft.clipped.sort.bam', f'{args.outdir}/5.consensus/ref/', prefix)
+        else:
+            # consensus
+            core.consensus.run(f'{args.outdir}/4.mapping/{prefix}.bam',f'{args.outdir}/5.consensus/ref/', prefix)
     else:
-        read1 = args.outdir + "/" + "3.filter_host/" + prefix +".unaligned.fastq"
-        read2=None
-    with ThreadPoolExecutor(max_workers=2) as executor:
-        futures = [
-            executor.submit(core.megahit.run, read1, prefix, args.outdir + "/4.assembly/", read2,contig),
-            executor.submit(core.metaspades.run, read1, prefix, args.outdir + "/4.assembly/", read2)
-        ]
-        for future in as_completed(futures):
-            print(future.result())
-    subprocess.check_call(f'cd {args.outdir}/4.assembly/ && cat spades_{prefix}/scaffolds_{contig}bp.fasta megahit_{prefix}/{prefix}.contigs.fa >{prefix}.contigs.fa',shell=True)
-    core.cd_hit_est.run(f'{args.outdir}/4.assembly/{prefix}.contigs.fa',identify,prefix+".non-redundant",f'{args.outdir}/4.assembly/')
-
-    # ------------------------
-    # Step 5: blast NCBI Database: nt virus and parse blast result and find corresponding species in VSPv2
-    # ------------------------
-    print("#------------------------\n#Step 5: blast NCBI Database: nt virus\n#------------------------\n")
-    core.blast.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna',blastdb,f"{args.outdir}/5.blast/",prefix,10)
-    index=(f'docker run --rm -v {args.outdir}/4.assembly/:/raw_data/ {docker} sh -c '
-           f'\'export PATH=/opt/conda/bin/:$PATH && '
-           f'bowtie2-build /raw_data/{prefix}.non-redundant.fna /raw_data/{prefix}.non-redundant.fna\' ')
-
-    print(index)
-    subprocess.check_call(index,shell=True)
-    core.blast2vsp.run(f"{args.outdir}/5.blast/{prefix}.blast_all.txt",accession,ssname,blastdb,f"{args.outdir}/5.blast/")
-    chr = []
-    infile = open(f"{args.outdir}/5.blast/{prefix}.blast_all.txt", "r")
-    for line in infile:
-        line = line.strip()
-        if not line.startswith("#"):
-            array = line.split("\t")
-            if not array[0] in chr:
-                chr.append(array[0])
-    print(chr)
-    # ------------------------
-    # step 6:mapping reference
-    # ------------------------
-    print("#------------------------\n#Step 6:mapping reference\n#------------------------\n")
-    if os.path.exists(f"{args.outdir}/5.blast/ref.fasta"):
+        # ------------------------
+        # Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
+        # ------------------------
+        print("#------------------------\n#Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)\n#------------------------\n")
+        read1,read2="",""
+        if r2:
+            read1=args.outdir+"/"+"3.filter_host/"+prefix+"_1.fastq"
+            read2=args.outdir+"/"+"3.filter_host/"+prefix+"_2.fastq"
+        else:
+            read1 = args.outdir + "/" + "3.filter_host/" + prefix +".unaligned.fastq"
+            read2=None
         with ThreadPoolExecutor(max_workers=2) as executor:
             futures = [
-                executor.submit(core.mapping.run, f'{args.outdir}/5.blast/',f'{args.outdir}/6.mapping/ref',prefix,r1, r2),
-                executor.submit(core.mapping.run, f'{args.outdir}/4.assembly/',f'{args.outdir}/6.mapping/denovo',prefix,r1,r2)
+                executor.submit(core.megahit.run, read1, prefix, args.outdir + "/4.assembly/", read2,contig),
+                executor.submit(core.metaspades.run, read1, prefix, args.outdir + "/4.assembly/", read2)
             ]
             for future in as_completed(futures):
                 print(future.result())
-    else:
-        core.mapping.run(f'{args.outdir}/4.assembly/',f'{args.outdir}/6.mapping/denovo',prefix,r1,r2)
+        subprocess.check_call(f'cd {args.outdir}/4.assembly/ && cat spades_{prefix}/scaffolds_{contig}bp.fasta megahit_{prefix}/{prefix}.contigs.fa >{prefix}.contigs.fa',shell=True)
+        core.cd_hit_est.run(f'{args.outdir}/4.assembly/{prefix}.contigs.fa',identify,prefix+".non-redundant",f'{args.outdir}/4.assembly/')
+        #build bowtie2 index
+        index = (f'docker run --rm -v {args.outdir}/4.assembly/:/raw_data/ {docker} sh -c '
+                 f'\'export PATH=/opt/conda/bin/:$PATH && '
+                 f'bowtie2-build /raw_data/{prefix}.non-redundant.fna /raw_data/{prefix}.non-redundant.fna\' ')
 
-    # ------------------------
-    # step7:trim primer,variant calling,consensus sequence and plot coverage
-    # ------------------------
-    print("#------------------------\n#Step7:trim primer,variant calling,consensus sequence and plot coverage\n#------------------------\n")
-    core.consensus.run(f'{args.outdir}/6.mapping/denovo/{prefix}.bam', f'{args.outdir}/7.consensus/denovo', prefix,None, " ".join(chr))
+        print(index)
+        subprocess.check_call(index, shell=True)
 
-    if os.path.exists(f"{args.outdir}/5.blast/ref.fasta"):
-        if args.command == "imap":
-            core.trim_primer.run(args.bed,f'{args.outdir}/6.mapping/ref/{prefix}.bam', f'{args.outdir}/7.consensus/ref/',prefix)
-            core.consensus.run(f'{args.outdir}/7.consensus/ref/{prefix}.soft.clipped.sort.bam', f'{args.outdir}/7.consensus/ref/', prefix)
+        # ------------------------
+        # Step 5: blast NCBI Database: nt virus and parse blast result
+        # ------------------------
+        print("#------------------------\n#Step 5: blast NCBI Database: nt virus and vsp\n#------------------------\n")
+        core.blast.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna',nt_viruses,f"{args.outdir}/5.blast/",prefix+".nt_viruses",10)
+        core.blast.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna', vsp, f"{args.outdir}/5.blast/", prefix+".vsp",10)
+        num=core.parse_blast.run(f"{args.outdir}/5.blast/{prefix}.vsp.blast_all.txt",f"{args.outdir}/5.blast/{prefix}.nt_viruses.blast_all.txt",nt_viruses,f"{args.outdir}/5.blast/")
+        # ------------------------
+        # step 6:mapping reference
+        # ------------------------
+        print("#------------------------\n#Step 6:mapping reference\n#------------------------\n")
+        if num!=0:
+            with ThreadPoolExecutor(max_workers=2) as executor:
+                futures = [
+                    executor.submit(core.mapping.run, f'{args.outdir}/5.blast/',f'{args.outdir}/6.mapping/ref',prefix,r1, r2),
+                    executor.submit(core.mapping.run, f'{args.outdir}/4.assembly/',f'{args.outdir}/6.mapping/denovo',prefix,r1,r2)
+                ]
+                for future in as_completed(futures):
+                    print(future.result())
         else:
-            core.consensus.run(f'{args.outdir}/6.mapping/ref/{prefix}.bam', f'{args.outdir}/7.consensus/ref/', prefix, f"{args.outdir}/5.blast/ref.fasta")
+            core.mapping.run(f'{args.outdir}/4.assembly/',f'{args.outdir}/6.mapping/denovo',prefix,r1,r2)
+
+        # ------------------------
+        # step7:trim primer,variant calling,consensus sequence and plot coverage
+        # ------------------------
+        print(
+            "#------------------------\n#Step7:trim primer,variant calling,consensus sequence and plot coverage\n#------------------------\n")
+        core.consensus.run(f'{args.outdir}/6.mapping/denovo/{prefix}.bam', f'{args.outdir}/7.consensus/denovo', prefix)
+        if num!=0:
+            core.consensus.run(f'{args.outdir}/7.consensus/ref/{prefix}.soft.clipped.sort.bam',f'{args.outdir}/7.consensus/ref/', prefix)
