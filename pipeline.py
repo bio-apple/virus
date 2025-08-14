@@ -157,11 +157,11 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         # step7:trim primer,variant calling,consensus sequence and plot coverage
         # ------------------------
         print("#------------------------\n#Step7:trim primer,variant calling,consensus sequence and plot coverage\n#------------------------\n")
-        core.consensus.run(f'{args.outdir}/6.mapping/denovo/{prefix}.bam', f'{args.outdir}/7.consensus/denovo', prefix,f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna')
+        core.consensus.run(f'{args.outdir}/6.mapping/denovo/{prefix}.bam', f'{args.outdir}/7.consensus/denovo', prefix)
         if num!=0:
             core.consensus.run(f'{args.outdir}/6.mapping/ref/{prefix}.bam',f'{args.outdir}/7.consensus/ref/', prefix,f"{args.outdir}/5.blast/ref.fasta")
         #step8:coverage
-        core.contig_cov.run(f"{args.outdir}/5.blast/ref.fasta", read1, f'{args.outdir}/8.coverage/ref/', args.prefix, read2)
+        core.contig_cov.run(f"{args.outdir}/5.blast/ref.fasta", read1, f'{args.outdir}/8.coverage/ref/', prefix, read2)
 
 end=time.time()
 print("\nElapse time is %g seconds\n" %(end-start))
