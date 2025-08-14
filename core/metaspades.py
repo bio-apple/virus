@@ -14,12 +14,12 @@ def run(pe1,prefix,outdir,pe2=None):
     if pe2:
         cmd+=(f'-v {pe2}:/raw_data/{pe2.split("/")[-1]} {docker} '
               f'sh -c \'export PATH=/opt/conda/bin:$PATH && '
-              f'spades.py --only-assembler --metaviral --cov-cutoff 5 --memory 500 --threads 48 -1 /raw_data/{pe1.split("/")[-1]} -2 /raw_data/{pe2.split("/")[-1]} -o /outdir/spades_{prefix}/ && '
+              f'spades.py --only-assembler --metaviral --memory 500 --threads 48 -1 /raw_data/{pe1.split("/")[-1]} -2 /raw_data/{pe2.split("/")[-1]} -o /outdir/spades_{prefix}/ && '
               f'quast.py --plots-format png --min-contig 500 --no-html --no-icarus --output-dir /outdir/spades_{prefix}/ /outdir/spades_{prefix}/scaffolds.fasta\'')
     else:
         cmd += (f'{docker} '
                 f'sh -c \'export PATH=/opt/conda/bin:$PATH && '
-                f'spades.py --only-assembler --metaviral --cov-cutoff 5 --memory 500 --threads 48 -s /raw_data/{pe1.split("/")[-1]} -o /outdir/spades_{prefix}/ && '
+                f'spades.py --only-assembler --metaviral --memory 500 --threads 48 -s /raw_data/{pe1.split("/")[-1]} -o /outdir/spades_{prefix}/ && '
                 f'quast.py --plots-format png --min-contig 500 --no-html --no-icarus --output-dir /outdir/spades_{prefix}/ /outdir/spades_{prefix}/scaffolds.fasta\'')
 
     print(cmd)
