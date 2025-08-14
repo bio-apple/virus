@@ -18,11 +18,6 @@ script_path = os.path.abspath(__file__)
 # 获取脚本所在目录
 script_dir = os.path.dirname(script_path)
 
-
-#get vsp species list
-accession=script_dir+'/plugin/accession.list'
-ssname=script_dir+'/plugin/sscinames.txt'
-
 parser = argparse.ArgumentParser("Virus NGS pipeline.\nEmail:fanyucai3@gmail.com\n")
 # 定义所有共享参数
 parser.add_argument("-p1", "--pe1", help="R1 fastq", required=True, nargs='+')
