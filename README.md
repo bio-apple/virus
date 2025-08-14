@@ -140,17 +140,9 @@ unzip grch38_1kgmaj_snvindels_bt2.zip
 <pre>
 usage: Virus NGS pipeline.
 Email:fanyucai3@gmail.com
- [-h] -p1 PE1 [PE1 ...]
-                                                      [-p2 PE2 [PE2 ...]] -p
-                                                      PREFIX [PREFIX ...] -d
-                                                      BLASTDB -k KRAKEN2
-                                                      [-i IDENTIFY] -s HOST -o
-                                                      OUTDIR [-t BOWTIE2]
-                                                      [-b BED] [-r REF] -l
-                                                      {50,75,100,150,200,250,300}
-                                                      [-c {500,1000,1500}]
+ [-h] -p1 PE1 [PE1 ...] [-p2 PE2 [PE2 ...]] -p PREFIX [PREFIX ...] -o OUTDIR -c CONFIG -l {50,75,100,150,200,250,300} [-e BED] [-r REF] [-b BOWTIE2]
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   -p1 PE1 [PE1 ...], --pe1 PE1 [PE1 ...]
                         R1 fastq
@@ -158,22 +150,18 @@ optional arguments:
                         R2 fastq
   -p PREFIX [PREFIX ...], --prefix PREFIX [PREFIX ...]
                         prefix of output
-  -d BLASTDB, --blastdb BLASTDB
-                        path + prefix of blast database name
-  -k KRAKEN2, --kraken2 KRAKEN2
-                        kraken2 reference index
-  -i IDENTIFY, --identify IDENTIFY
-  -s HOST, --host HOST  directory host bowtie2 index
   -o OUTDIR, --outdir OUTDIR
                         diretory of output
-  -t BOWTIE2, --bowtie2 BOWTIE2
-                        directory reference bowtie2 index
-  -b BED, --bed BED     bed file
-  -r REF, --ref REF     reference fasta reference
+  -c CONFIG, --config CONFIG
+                        config file
   -l {50,75,100,150,200,250,300}, --length {50,75,100,150,200,250,300}
                         read length
-  -c {500,1000,1500}, --contig {500,1000,1500}
-                        min contig length,default:1000
+
+Reference/Bowtie2 Index Options:
+  -e BED, --bed BED     bed file
+  -r REF, --ref REF     ref fasta
+  -b BOWTIE2, --bowtie2 BOWTIE2
+                        directory contains reference bowtie2 index
 </pre>
 
 Command-line example: 
