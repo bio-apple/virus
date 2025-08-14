@@ -4,10 +4,10 @@ from . import filter_host
 from . import megahit
 from . import metaspades
 from . import cd_hit_est
-from . import blast
+from . import blast_nt_viruses
+from . import blast_vsp
 from . import mapping
 from . import consensus
 from . import trim_primer
-from . import blast2vsp
 from . import parse_blast
 from . import contig_cov

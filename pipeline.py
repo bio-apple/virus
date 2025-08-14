@@ -58,6 +58,7 @@ identify=config.get('parameter','identify')
 contig=config.get('parameter','contig_min_length')
 
 for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
+    """
     # ------------------------
     # Step 1: fastp qc
     # ------------------------
@@ -75,7 +76,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # ------------------------
     print("#------------------------\n#Step 3: bowtie2 host filter\n#------------------------\n")
     core.filter_host.run(r1,args.outdir+"/3.filter_host",host,prefix,r2)
-
+    """
     read1, read2 = "", ""
     if r2:
         read1 = args.outdir + "/" + "3.filter_host/" + prefix + "_1.fastq"
@@ -132,8 +133,8 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         # Step 5: blast NCBI Database: nt virus and parse blast result
         # ------------------------
         print("#------------------------\n#Step 5: blast NCBI Database: nt virus and vsp\n#------------------------\n")
-        core.blast.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna',nt_viruses,f"{args.outdir}/5.blast/",prefix+".nt_viruses",10)
-        core.blast.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna', vsp, f"{args.outdir}/5.blast/", prefix+".vsp",10)
+        core.blast_nt_viruses.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna',nt_viruses,f"{args.outdir}/5.blast/",prefix+".nt_viruses",10)
+        core.blast_vsp.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna', vsp, f"{args.outdir}/5.blast/", prefix+".vsp",10)
         num=core.parse_blast.run(f"{args.outdir}/5.blast/{prefix}.vsp.blast_all.txt",f"{args.outdir}/5.blast/{prefix}.nt_viruses.blast_all.txt",nt_viruses,f"{args.outdir}/5.blast/")
         # ------------------------
         # step 6:mapping reference
