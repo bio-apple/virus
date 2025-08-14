@@ -26,11 +26,23 @@ parser.add_argument("-p", "--prefix", help="prefix of output", required=True, na
 parser.add_argument("-o", "--outdir", help="diretory of output", required=True)
 parser.add_argument("-c", "--config", help="config file", required=True)
 parser.add_argument('-l', '--length', help="read length", type=int, required=True,choices=[50, 75, 100, 150, 200, 250, 300])
-parser.add_argument("-e", "--bed", help="bed file", default=None)
-parser.add_argument("-r", "--ref", help="ref fasta", default=None)
-parser.add_argument("-b", "--bowtie2", help="directory contains reference bowtie2 index", default=None)
+
+# 创建一个参数组，用于组织 ref 和 bowtie2 参数
+ref_group = parser.add_argument_group("Reference/Bowtie2 Index Options")
+ref_group.add_argument("-e", "--bed", help="bed file", default=None)
+ref_group.add_argument("-r", "--ref", help="ref fasta", default=None)
+ref_group.add_argument("-b", "--bowtie2", help="directory contains reference bowtie2 index", default=None)
 args = parser.parse_args()
 
+# 检查依赖关系
+# 依赖关系一：如果 ref 和 bowtie2 只出现一个，则报错
+if (args.ref and not args.bowtie2) or (not args.ref and args.bowtie2):
+    parser.error("--ref and --bowtie2 must be provided together.")
+
+# 依赖关系二：如果 bed 存在，那么 ref 和 bowtie2 也必须同时存在
+if args.bed:
+    if not (args.ref and args.bowtie2):
+        parser.error("--bed requires both --ref and --bowtie2 to be provided.")
 args.outdir=os.path.abspath(args.outdir)
 os.makedirs(args.outdir,exist_ok=True)
 
@@ -64,40 +76,39 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     print("#------------------------\n#Step 3: bowtie2 host filter\n#------------------------\n")
     core.filter_host.run(r1,args.outdir+"/3.filter_host",host,prefix,r2)
 
+    read1, read2 = "", ""
+    if r2:
+        read1 = args.outdir + "/" + "3.filter_host/" + prefix + "_1.fastq"
+        read2 = args.outdir + "/" + "3.filter_host/" + prefix + "_2.fastq"
+    else:
+        read1 = args.outdir + "/" + "3.filter_host/" + prefix + ".unaligned.fastq"
+        read2 = None
+
     if args.ref and args.bowtie2:
         # ------------------------
-        # Step 4: mapping && trim primer,variant calling,consensus sequence and plot coverage
+        # Step 4: mapping
         # ------------------------
-        read1, read2 = "", ""
-        if r2:
-            read1 = args.outdir + "/" + "3.filter_host/" + prefix + "_1.fastq"
-            read2 = args.outdir + "/" + "3.filter_host/" + prefix + "_2.fastq"
-        else:
-            read1 = args.outdir + "/" + "3.filter_host/" + prefix + ".unaligned.fastq"
-            read2 = None
-        #mapping
+        print("#------------------------\n#Step 4: mapping refence\n#------------------------\n")
         core.mapping.run(args.bowtie2,f'{args.outdir}/4.mapping',prefix,read1,read2)
+
+        # ------------------------
+        # Step5:trim primer,variant calling,consensus sequence and plot coverage
+        # ------------------------
+        print("#------------------------\n#Step5:trim primer,variant calling,consensus sequence and plot coverage\n#------------------------\n")
         if args.bed:
             # trim primer
             core.trim_primer.run(args.bed, f'{args.outdir}/4.mapping/{prefix}.bam', f'{args.outdir}/5.consensus/ref/',
                                  prefix)
             # consensus
-            core.consensus.run(f'{args.outdir}/5.consensus/ref/{prefix}.soft.clipped.sort.bam', f'{args.outdir}/5.consensus/ref/', prefix)
+            core.consensus.run(f'{args.outdir}/5.consensus/ref/{prefix}.soft.clipped.sort.bam', f'{args.outdir}/5.consensus/ref/', prefix,args.ref)
         else:
             # consensus
-            core.consensus.run(f'{args.outdir}/4.mapping/{prefix}.bam',f'{args.outdir}/5.consensus/ref/', prefix)
+            core.consensus.run(f'{args.outdir}/4.mapping/{prefix}.bam',f'{args.outdir}/5.consensus/ref/', prefix,args.ref)
     else:
         # ------------------------
         # Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
         # ------------------------
         print("#------------------------\n#Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)\n#------------------------\n")
-        read1,read2="",""
-        if r2:
-            read1=args.outdir+"/"+"3.filter_host/"+prefix+"_1.fastq"
-            read2=args.outdir+"/"+"3.filter_host/"+prefix+"_2.fastq"
-        else:
-            read1 = args.outdir + "/" + "3.filter_host/" + prefix +".unaligned.fastq"
-            read2=None
         with ThreadPoolExecutor(max_workers=2) as executor:
             futures = [
                 executor.submit(core.megahit.run, read1, prefix, args.outdir + "/4.assembly/", read2,contig),
@@ -136,12 +147,10 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
                     print(future.result())
         else:
             core.mapping.run(f'{args.outdir}/4.assembly/',f'{args.outdir}/6.mapping/denovo',prefix,r1,r2)
-
         # ------------------------
         # step7:trim primer,variant calling,consensus sequence and plot coverage
         # ------------------------
-        print(
-            "#------------------------\n#Step7:trim primer,variant calling,consensus sequence and plot coverage\n#------------------------\n")
+        print("#------------------------\n#Step7:trim primer,variant calling,consensus sequence and plot coverage\n#------------------------\n")
         core.consensus.run(f'{args.outdir}/6.mapping/denovo/{prefix}.bam', f'{args.outdir}/7.consensus/denovo', prefix)
         if num!=0:
             core.consensus.run(f'{args.outdir}/7.consensus/ref/{prefix}.soft.clipped.sort.bam',f'{args.outdir}/7.consensus/ref/', prefix)
