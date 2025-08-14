@@ -64,19 +64,19 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # ------------------------
     # Step 1: fastp qc
     # ------------------------
-    print("#------------------------\n#Step1:fastp qc\n#------------------------\n")
+    print("\n#------------------------\n#Step1:fastp qc\n#------------------------\n")
     core.fastp.run(r1,args.outdir+"/1.fastp",prefix,r2)
 
     # ------------------------
     # Step 2: kraken2
     # ------------------------
-    print("#------------------------\n#Step 2: kraken2\n#------------------------\n")
+    print("\n#------------------------\n#Step 2: kraken2\n#------------------------\n")
     core.kraken2.run(r1,kraken2,prefix,args.outdir+"/2.kraken2",args.length,r2)
 
     # ------------------------
     # Step 3: bowtie2 host filter
     # ------------------------
-    print("#------------------------\n#Step 3: bowtie2 host filter\n#------------------------\n")
+    print("\n#------------------------\n#Step 3: bowtie2 host filter\n#------------------------\n")
     core.filter_host.run(r1,args.outdir+"/3.filter_host",host,prefix,r2)
     read1, read2 = "", ""
     if r2:
@@ -93,7 +93,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         # ------------------------
         # Step 4: mapping
         # ------------------------
-        print("#------------------------\n#Step 4: mapping refence\n#------------------------\n")
+        print("\n#------------------------\n#Step 4: mapping refence\n#------------------------\n")
         core.mapping.run(args.bowtie2,f'{args.outdir}/6.mapping',prefix,read1,read2)
 
         # ------------------------
@@ -114,7 +114,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         # ------------------------
         # Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
         # ------------------------
-        print("#------------------------\n#Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)\n#------------------------\n")
+        print("\n#------------------------\n#Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)\n#------------------------\n")
         with ThreadPoolExecutor(max_workers=2) as executor:
             futures = [
                 executor.submit(core.megahit.run, read1, prefix, args.outdir + "/4.assembly/", read2,contig),
@@ -135,14 +135,14 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         # ------------------------
         # Step 5: blast NCBI Database: nt virus and parse blast result
         # ------------------------
-        print("#------------------------\n#Step 5: blast NCBI Database: nt virus and vsp\n#------------------------\n")
+        print("\n#------------------------\n#Step 5: blast NCBI Database: nt virus and vsp\n#------------------------\n")
         core.blast_nt_viruses.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna',nt_viruses,f"{args.outdir}/5.blast/",prefix+".nt_viruses",10)
         core.blast_vsp.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna', vsp, f"{args.outdir}/5.blast/", prefix+".vsp",10)
         num=core.parse_blast.run(f"{args.outdir}/5.blast/{prefix}.vsp.blast_all.txt",f"{args.outdir}/5.blast/{prefix}.nt_viruses.blast_all.txt",nt_viruses,f"{args.outdir}/5.blast/")
         # ------------------------
         # step 6:mapping reference
         # ------------------------
-        print("#------------------------\n#Step 6:mapping reference\n#------------------------\n")
+        print("\n#------------------------\n#Step 6:mapping reference\n#------------------------\n")
         if num!=0:
             with ThreadPoolExecutor(max_workers=2) as executor:
                 futures = [
@@ -164,4 +164,4 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         core.contig_cov.run(f"{args.outdir}/5.blast/ref.fasta", read1, f'{args.outdir}/8.coverage/ref/', args.prefix, read2)
 
 end=time.time()
-print("Elapse time is %g seconds" %(end-start))
+print("\nElapse time is %g seconds\n" %(end-start))
