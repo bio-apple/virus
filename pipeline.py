@@ -109,6 +109,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         # Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
         # ------------------------
         print("#------------------------\n#Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)\n#------------------------\n")
+        """
         with ThreadPoolExecutor(max_workers=2) as executor:
             futures = [
                 executor.submit(core.megahit.run, read1, prefix, args.outdir + "/4.assembly/", read2,contig),
@@ -118,6 +119,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
                 print(future.result())
         subprocess.check_call(f'cd {args.outdir}/4.assembly/ && cat spades_{prefix}/scaffolds_{contig}bp.fasta megahit_{prefix}/{prefix}.contigs.fa >{prefix}.contigs.fa',shell=True)
         core.cd_hit_est.run(f'{args.outdir}/4.assembly/{prefix}.contigs.fa',identify,prefix+".non-redundant",f'{args.outdir}/4.assembly/')
+        """
         #build bowtie2 index
         index = (f'docker run --rm -v {args.outdir}/4.assembly/:/raw_data/ {docker} sh -c '
                  f'\'export PATH=/opt/conda/bin/:$PATH && '
