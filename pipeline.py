@@ -86,11 +86,14 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         read2 = None
 
     if args.ref and args.bowtie2:
+
+        os.makedirs(f"{args.outdir}/4.assembly/", exist_ok=True)
+        os.makedirs(f"{args.outdir}/5.blast/", exist_ok=True)
         # ------------------------
         # Step 4: mapping
         # ------------------------
         print("#------------------------\n#Step 4: mapping refence\n#------------------------\n")
-        core.mapping.run(args.bowtie2,f'{args.outdir}/4.mapping',prefix,read1,read2)
+        core.mapping.run(args.bowtie2,f'{args.outdir}/6.mapping',prefix,read1,read2)
 
         # ------------------------
         # Step5:trim primer,variant calling,consensus sequence and plot coverage
@@ -98,13 +101,14 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         print("#------------------------\n#Step5:trim primer,variant calling,consensus sequence and plot coverage\n#------------------------\n")
         if args.bed:
             # trim primer
-            core.trim_primer.run(args.bed, f'{args.outdir}/4.mapping/{prefix}.bam', f'{args.outdir}/5.consensus/ref/',
-                                 prefix)
+            core.trim_primer.run(args.bed, f'{args.outdir}/6.mapping/{prefix}.bam', f'{args.outdir}/7.consensus/ref/',prefix)
             # consensus
-            core.consensus.run(f'{args.outdir}/5.consensus/ref/{prefix}.soft.clipped.sort.bam', f'{args.outdir}/5.consensus/ref/', prefix,args.ref)
+            core.consensus.run(f'{args.outdir}/7.consensus/ref/{prefix}.soft.clipped.sort.bam', f'{args.outdir}/7.consensus/ref/', prefix,args.ref)
         else:
             # consensus
-            core.consensus.run(f'{args.outdir}/4.mapping/{prefix}.bam',f'{args.outdir}/5.consensus/ref/', prefix,args.ref)
+            core.consensus.run(f'{args.outdir}/6.mapping/{prefix}.bam',f'{args.outdir}/7.consensus/ref/', prefix,args.ref)
+            # coverage
+            core.contig_cov.run(args.ref,read1,f'{args.outdir}/8.coverage/ref/',args.prefix,read2)
     else:
         # ------------------------
         # Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
@@ -156,4 +160,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         print("#------------------------\n#Step7:trim primer,variant calling,consensus sequence and plot coverage\n#------------------------\n")
         core.consensus.run(f'{args.outdir}/6.mapping/denovo/{prefix}.bam', f'{args.outdir}/7.consensus/denovo', prefix)
         if num!=0:
-            core.consensus.run(f'{args.outdir}/7.consensus/ref/{prefix}.soft.clipped.sort.bam',f'{args.outdir}/7.consensus/ref/', prefix)
+            core.consensus.run(f'{args.outdir}/6.mapping/ref/{prefix}.bam',f'{args.outdir}/7.consensus/ref/', prefix)
+
+        #step8:coverage
+        core.contig_cov.run(f"{args.outdir}/5.blast/ref.fasta", read1, f'{args.outdir}/8.coverage/ref/', args.prefix, read2)
