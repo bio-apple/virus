@@ -161,7 +161,9 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         if num!=0:
             core.consensus.run(f'{args.outdir}/6.mapping/ref/{prefix}.bam',f'{args.outdir}/7.consensus/ref/', prefix,f"{args.outdir}/5.blast/ref.fasta")
         #step8:coverage
-        core.contig_cov.run(f"{args.outdir}/5.blast/ref.fasta", read1, f'{args.outdir}/8.coverage/ref/', prefix, read2)
+        core.contig_cov.run(f"{args.outdir}/4.assembly/{prefix}non-redundant.fna", read1,f'{args.outdir}/8.coverage/denovo/', prefix,read2)
+        if num != 0:
+            core.contig_cov.run(f"{args.outdir}/5.blast/ref.fasta", read1, f'{args.outdir}/8.coverage/ref/', prefix, read2)
 
 end=time.time()
 print("\nElapse time is %g seconds\n" %(end-start))
