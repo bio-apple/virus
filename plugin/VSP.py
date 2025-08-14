@@ -1,7 +1,7 @@
 import openpyxl
 
 
-outfile = open('accession.list',"w")
+outfile = open('../ref/VSP/accession.list', "w")
 def parse_microorganisms_by_column_name(file_path):
     """
     解析VSPv2_P-R_Panel_summary.xlsx文件，根据列名提取"Microorganisms"工作表中的数据。

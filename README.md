@@ -110,8 +110,17 @@ Download **nt_viruses**:
 
 **If above method fails, you can directly download the corresponding database files from the NCBI BLAST database using wget.** (https://ftp.ncbi.nlm.nih.gov/blast/db/)
 
+**2-4:vsp database**
+<pre>
+mkdir -p /ref/VSP/
+cd /ref/VSP/
+ncbi-blast-2.14.1+/bin/blastdbcmd -db nt_viruses -entry_batch /ref/VSP/accession.list -outfmt "%f" > /ref/VSP/VSP.fasta
+ncbi-blast-2.14.1+/bin/makeblastdb -dbtype nucl -in /ref/VSP/VSP.fasta
+wget https://ftp.ncbi.nlm.nih.gov/blast/db/taxdb.tar.gz
+tar xzvf taxdb.tar.gz
+</pre>
 
-**2-4:kraken2 database:https://benlangmead.github.io/aws-indexes/k2**
+**2-5:kraken2 database:https://benlangmead.github.io/aws-indexes/k2**
 <pre>
 mkdir -p /ref/kraken/
 cd /ref/kraken/

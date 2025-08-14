@@ -4,7 +4,7 @@ import sys
 infile=open("download_ncbi_viruses.sh","w")
 
 def run(num):
-    for i in range (0,22):
+    for i in range (0,num):
         if i<10:
             infile.write(f"nohup wget https://ftp.ncbi.nlm.nih.gov/blast/db/nt_viruses.0{i}.tar.gz&\n"
                      f"nohup wget https://ftp.ncbi.nlm.nih.gov/blast/db/nt_viruses.0{i}.tar.gz.md5&\n")
@@ -15,10 +15,9 @@ def run(num):
     infile.close()
     subprocess.check_call(f'bash download_ncbi_viruses.sh', shell=True)
 
-    for i in range(0,22):
+    for i in range(0,num):
         if i<10:
             subprocess.check_call(f'tar -xvf nt_viruses.0{i}.tar.gz',shell=True)
-
         else:
             subprocess.check_call(f'tar -xvf nt_viruses.{i}.tar.gz', shell=True)
 
