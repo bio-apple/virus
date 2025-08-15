@@ -252,11 +252,11 @@ def run(bam, outdir, prefix, ref=None, chrom_list=None, blast_db=None):
 
         # Step 4: Call variants and generate consensus with masked low coverage regions
         # The DOCKER_CMD_PREFIX is now part of the command string
-        consensus_cmd = cmd + f'{docker} sh -c \'{DOCKER_CMD_PREFIX} bcftools mpileup -Ou -f /ref/{os.path.basename(ref)} /raw_data/{os.path.basename(bam)} | {DOCKER_CMD_PREFIX} bcftools call --ploidy 1 -mv -Oz -o /outdir/{prefix}.vcf.gz\''
+        consensus_cmd = cmd + f'{docker} sh -c \'export PATH=/opt/conda/bin/:$PATH && bcftools mpileup -Ou -f /ref/{os.path.basename(ref)} /raw_data/{os.path.basename(bam)} | export PATH=/opt/conda/bin/:$PATH && bcftools call --ploidy 1 -mv -Oz -o /outdir/{prefix}.vcf.gz\''
         print(consensus_cmd)
         subprocess.check_call(consensus_cmd, shell=True)
 
-        temp = cmd + f'{docker} sh -c \'{DOCKER_CMD_PREFIX} bcftools index /outdir/{prefix}.vcf.gz && cat /ref/{os.path.basename(ref)} | {DOCKER_CMD_PREFIX} bcftools consensus -m /outdir/{prefix}.mask.bed -p {prefix} /outdir/{prefix}.vcf.gz > /outdir/{prefix}.consensus.fa\''
+        temp = cmd + f'{docker} sh -c \'export PATH=/opt/conda/bin/:$PATH && bcftools index /outdir/{prefix}.vcf.gz && cat /ref/{os.path.basename(ref)} | export PATH=/opt/conda/bin/:$PATH && bcftools consensus -m /outdir/{prefix}.mask.bed -p {prefix} /outdir/{prefix}.vcf.gz > /outdir/{prefix}.consensus.fa\''
         print(temp)
         subprocess.check_call(temp, shell=True)
 
