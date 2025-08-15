@@ -111,6 +111,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
             # coverage
             core.contig_cov.run(args.ref,read1,f'{args.outdir}/8.coverage/ref/',args.prefix,read2)
     else:
+
         # ------------------------
         # Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
         # ------------------------
@@ -139,30 +140,19 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         core.blast_nt_viruses.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna',nt_viruses,f"{args.outdir}/5.blast/",prefix+".nt_viruses",10)
         core.blast_vsp.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna', vsp, f"{args.outdir}/5.blast/", prefix+".vsp",10)
         num=core.parse_blast.run(f"{args.outdir}/5.blast/{prefix}.vsp.blast_all.txt",f"{args.outdir}/5.blast/{prefix}.nt_viruses.blast_all.txt",nt_viruses,f"{args.outdir}/5.blast/")
+
         # ------------------------
         # step 6:mapping reference
         # ------------------------
-        print("\n#------------------------\n#Step 6:mapping reference\n#------------------------\n")
-        if num!=0:
-            with ThreadPoolExecutor(max_workers=2) as executor:
-                futures = [
-                    executor.submit(core.mapping.run, f'{args.outdir}/5.blast/',f'{args.outdir}/6.mapping/ref',prefix,r1, r2),
-                    executor.submit(core.mapping.run, f'{args.outdir}/4.assembly/',f'{args.outdir}/6.mapping/denovo',prefix,r1,r2)
-                ]
-                for future in as_completed(futures):
-                    print(future.result())
-        else:
-            core.mapping.run(f'{args.outdir}/4.assembly/',f'{args.outdir}/6.mapping/denovo',prefix,r1,r2)
-        # ------------------------
-        # step7:trim primer,variant calling,consensus sequence and plot coverage
-        # ------------------------
-        print("#------------------------\n#Step7:trim primer,variant calling,consensus sequence and plot coverage\n#------------------------\n")
-        core.consensus.run(f'{args.outdir}/6.mapping/denovo/{prefix}.bam', f'{args.outdir}/7.consensus/denovo', prefix)
-        if num!=0:
-            core.consensus.run(f'{args.outdir}/6.mapping/ref/{prefix}.bam',f'{args.outdir}/7.consensus/ref/', prefix,f"{args.outdir}/5.blast/ref.fasta")
-        #step8:coverage
-        core.contig_cov.run(f"{args.outdir}/4.assembly/{prefix}non-redundant.fna", read1,f'{args.outdir}/8.coverage/denovo/', prefix,read2)
         if num != 0:
+            print("\n#------------------------\n#Step 6:mapping reference\n#------------------------\n")
+            core.mapping.run(f'{args.outdir}/5.blast/',f'{args.outdir}/6.mapping/ref',prefix,r1, r2)
+            # ------------------------
+            # step7:variant calling,consensus sequence and plot coverage
+            # ------------------------
+            print("#------------------------\n#Step7:variant calling,consensus sequence and plot coverage\n#------------------------\n")
+            core.consensus.run(f'{args.outdir}/6.mapping/ref/{prefix}.bam',f'{args.outdir}/7.consensus/ref/', prefix,f"{args.outdir}/5.blast/ref.fasta",None,nt_viruses)
+            #step8:coverage
             core.contig_cov.run(f"{args.outdir}/5.blast/ref.fasta", read1, f'{args.outdir}/8.coverage/ref/', prefix, read2)
 
 end=time.time()
