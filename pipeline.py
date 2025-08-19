@@ -32,9 +32,9 @@ parser.add_argument('-l', '--length', help="read length", type=int, required=Tru
 
 # 创建一个参数组，用于组织 ref 和 bowtie2 参数
 ref_group = parser.add_argument_group("Reference/Bowtie2 Index Options")
-ref_group.add_argument("-e", "--bed", help="bed file", default=None)
-ref_group.add_argument("-r", "--ref", help="ref fasta", default=None)
-ref_group.add_argument("-b", "--bowtie2", help="directory contains reference bowtie2 index", default=None)
+ref_group.add_argument("-e", "--bed", help="bed file(Optional)", default=None)
+ref_group.add_argument("-r", "--ref", help="ref fasta(Optional)", default=None)
+ref_group.add_argument("-b", "--bowtie2", help="directory contains reference bowtie2 index(Optional)", default=None)
 args = parser.parse_args()
 
 # 检查依赖关系
