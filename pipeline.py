@@ -120,20 +120,12 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
                 print(future.result())
         subprocess.check_call(f'cd {args.outdir}/4.assembly/ && cat spades_{prefix}/scaffolds_{contig}bp.fasta megahit_{prefix}/{prefix}.contigs.fa >{prefix}.contigs.fa',shell=True)
         core.cd_hit_est.run(f'{args.outdir}/4.assembly/{prefix}.contigs.fa',identify,prefix+".non-redundant",f'{args.outdir}/4.assembly/')
-        #build bowtie2 index
-        index = (f'docker run --rm -v {args.outdir}/4.assembly/:/raw_data/ {docker} sh -c '
-                 f'\'export PATH=/opt/conda/bin/:$PATH && '
-                 f'bowtie2-build /raw_data/{prefix}.non-redundant.fna /raw_data/{prefix}.non-redundant.fna\' ')
-
-        print(index)
-        subprocess.check_call(index, shell=True)
-
         # ------------------------
         # Step 5: blast NCBI Database: nt virus and parse blast result
         # ------------------------
         print("\n#------------------------\n#Step 5: blast NCBI Database: nt virus and vsp\n#------------------------\n")
         core.blast_nt_viruses.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna',nt_viruses,f"{args.outdir}/5.blast/",prefix+".nt_viruses",10)
-        core.blast_vsp.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna', vsp, f"{args.outdir}/5.blast/", prefix+".vsp",10)
+        #core.blast_vsp.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna', vsp, f"{args.outdir}/5.blast/", prefix+".vsp",10)
         num=core.parse_blast.run(f"{args.outdir}/5.blast/{prefix}.vsp.blast_all.txt",f"{args.outdir}/5.blast/{prefix}.nt_viruses.blast_all.txt",nt_viruses,f"{args.outdir}/5.blast/")
 
         if num != 0:
