@@ -72,7 +72,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # ------------------------
     print("\n#------------------------\n#Step 2: kraken2\n#------------------------\n")
     core.kraken2.run(r1,kraken2,prefix,args.outdir+"/2.kraken2",args.length,r2)
-
+    
     # ------------------------
     # Step 3: bowtie2 host filter
     # ------------------------

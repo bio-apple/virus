@@ -23,8 +23,8 @@ def blastn(query_fasta, db, out_file):
           f'-query /raw_data/{query_fasta.split("/")[-1]} '
           f'-out /outdir/{out_file.split("/")[-1]} '
           f'-outfmt \'6 qseqid sacc pident length mismatch qcovs evalue bitscore score sscinames stitle\' '
-          f'-perc_identity 98 -qcov_hsp_perc 80 '
-          f'-max_target_seqs 5 '
+          f'-perc_identity 98 -max_hsps 1 '
+          f'-max_target_seqs 1 '
           f'-evalue 1e-10 '
           f'-num_threads 5\"')
     print(cmd)
