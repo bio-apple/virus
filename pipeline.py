@@ -85,9 +85,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     else:
         read1 = args.outdir + "/" + "3.filter_host/" + prefix + ".unaligned.fastq"
         read2 = None
-
     if args.ref and args.bowtie2:
-
         os.makedirs(f"{args.outdir}/4.assembly/", exist_ok=True)
         os.makedirs(f"{args.outdir}/5.blast/", exist_ok=True)
         # ------------------------
@@ -95,21 +93,18 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         # ------------------------
         print("\n#------------------------\n#Step 4: mapping refence\n#------------------------\n")
         core.mapping.run(args.bowtie2,f'{args.outdir}/6.mapping',prefix,read1,read2)
-
         # ------------------------
         # Step5:trim primer,variant calling,consensus sequence and plot coverage
         # ------------------------
         print("#------------------------\n#Step5:trim primer,variant calling,consensus sequence and plot coverage\n#------------------------\n")
         if args.bed:
             # trim primer
-            core.trim_primer.run(args.bed, f'{args.outdir}/6.mapping/{prefix}.bam', f'{args.outdir}/7.consensus/ref/',prefix)
+            core.trim_primer.run(args.bed, f'{args.outdir}/6.mapping/{prefix}.bam', f'{args.outdir}/7.consensus/',prefix)
             # consensus
-            core.consensus.run(f'{args.outdir}/7.consensus/ref/{prefix}.soft.clipped.sort.bam', f'{args.outdir}/7.consensus/ref/', prefix,args.ref)
+            core.ref_consensus.run(f'{args.outdir}/7.consensus/{prefix}.soft.clipped.sort.bam', f'{args.outdir}/7.consensus/', prefix,args.ref)
         else:
             # consensus
-            core.consensus.run(f'{args.outdir}/6.mapping/{prefix}.bam',f'{args.outdir}/7.consensus/ref/', prefix,args.ref)
-            # coverage
-            core.contig_cov.run(args.ref,read1,f'{args.outdir}/8.coverage/ref/',args.prefix,read2)
+            core.ref_consensus.run(f'{args.outdir}/6.mapping/{prefix}.bam',f'{args.outdir}/7.consensus/', prefix,args.ref)
     else:
 
         # ------------------------
@@ -141,19 +136,18 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         core.blast_vsp.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna', vsp, f"{args.outdir}/5.blast/", prefix+".vsp",10)
         num=core.parse_blast.run(f"{args.outdir}/5.blast/{prefix}.vsp.blast_all.txt",f"{args.outdir}/5.blast/{prefix}.nt_viruses.blast_all.txt",nt_viruses,f"{args.outdir}/5.blast/")
 
-        # ------------------------
-        # step 6:mapping reference
-        # ------------------------
         if num != 0:
+            # ------------------------
+            # step 6:mapping reference
+            # ------------------------
             print("\n#------------------------\n#Step 6:mapping reference\n#------------------------\n")
-            core.mapping.run(f'{args.outdir}/5.blast/',f'{args.outdir}/6.mapping/ref',prefix,r1, r2)
+            core.mapping.run(f'{args.outdir}/5.blast/',f'{args.outdir}/6.mapping/',prefix,r1, r2)
+
             # ------------------------
             # step7:variant calling,consensus sequence and plot coverage
             # ------------------------
             print("#------------------------\n#Step7:variant calling,consensus sequence and plot coverage\n#------------------------\n")
-            core.consensus.run(f'{args.outdir}/6.mapping/ref/{prefix}.bam',f'{args.outdir}/7.consensus/ref/', prefix,f"{args.outdir}/5.blast/ref.fasta",None,nt_viruses)
-            #step8:coverage
-            core.contig_cov.run(f"{args.outdir}/5.blast/ref.fasta", read1, f'{args.outdir}/8.coverage/ref/', prefix, read2)
+            core.consensus.run(f'{args.outdir}/6.mapping/{prefix}.bam', f'{args.outdir}/7.consensus/', prefix,nt_viruses)
 
 end=time.time()
 print("\nElapse time is %g seconds\n" %(end-start))

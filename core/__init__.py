@@ -7,7 +7,9 @@ from . import cd_hit_est
 from . import blast_nt_viruses
 from . import blast_vsp
 from . import mapping
-from . import consensus
+from . import ref_consensus
 from . import trim_primer
 from . import parse_blast
 from . import contig_cov
+from . import consensus
+from . import ref_consensus

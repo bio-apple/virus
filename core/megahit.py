@@ -9,7 +9,7 @@ def run(pe1,prefix,outdir,pe2=None,length=500):
     a="/raw_data/"+os.path.abspath(array[0]).split("/")[-1]
     outdir =os.path.abspath(outdir)
     if not os.path.exists(outdir):
-        os.mkdir(outdir)
+        os.makedirs(outdir, exist_ok=True)
     else:
         if os.path.exists(outdir+"/megahit_%s/"%(prefix)):
             subprocess.call(["rm","-rf",outdir+"/megahit_%s/"%(prefix)],shell=True)
