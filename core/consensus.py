@@ -21,37 +21,39 @@ def run(bam, outdir, prefix, blast_db):
            f"samtools depth -J -d 8000 -Q 0 -q 20 -aa /raw_data/{os.path.basename(bam)} > /outdir/{prefix}.depth.txt && "
            f"pileup.sh in=/raw_data/{os.path.basename(bam)} out=/outdir/{prefix}.cov\'")
     subprocess.check_call(depth_cmd, shell=True)
-    mask_bed = f"{outdir}/{prefix}.mask.bed"
-    with open(f"{outdir}/{prefix}.depth.txt") as infile, open(mask_bed, "w") as outbed:
-        for line in infile:
-            chrom, pos, depth = line.strip().split("\t")
-            if int(depth) < 10:
-                outbed.write(f"{chrom}\t{int(pos) - 1}\t{pos}\n")
 
     print("Step 2: Filtering chromosomes based on coverage...")
-    chr_list = []
+    chr_raw,chr_pos,chr_plot = [],[],[]
+    positive,plot=10,70
     with open(f"{outdir}/{prefix}.cov", "r") as infile:
         for line in infile:
             line = line.strip()
             if not line.startswith("#"):
                 array = line.split("\t")
-                if float(array[1]) >= 10 or float(array[9]) >= 10:  # mean fold or median fold >= 10
-                    chr_list.append(array[0])
+                if not (float(array[1]) == 0 and float(array[4]) == 0 and float(array[9]) == 0):
+                    chr_raw.append(array[0])
+                if (float(array[1]) >= positive or float(array[9]) >= positive):# mean fold or median fold >= 10 and Covered_percent >50
+                    chr_pos.append(array[0])
+                    if float(array[4]) >= plot:#plot
+                        chr_plot.append(array[0])
 
     print("Step 3: Extracting depth data for filtered chromosomes...")
-    with open(f"{outdir}/{prefix}.depth.txt", "r") as infile, \
-            open(f"{outdir}/{prefix}.depth.plot", "w") as outfile:
+    mask_bed = f"{outdir}/{prefix}.mask.bed"
+    with open(f"{outdir}/{prefix}.depth.txt", "r") as infile,open(f"{outdir}/{prefix}.depth.plot", "w") as outfile,open(mask_bed, "w") as outbed:
         for line in infile:
-            array = line.strip().split("\t")
-            if array[0] in chr_list:
+            chrom, pos, depth = line.strip().split("\t")
+            if chrom in chr_plot:
                 outfile.write(line)
+                if int(depth) < positive:
+                    outbed.write(f"{chrom}\t{int(pos) - 1}\t{pos}\n")
 
     descriptions = {}
     if blast_db:
         print("Step 4: Fetching descriptions and fasta sequence from BLAST database...")
-        for key in chr_list:
+        if os.path.exists(f"{outdir}/ref.final.fasta"):
+            os.remove(f"{outdir}/ref.final.fasta")
+        for key in chr_raw:#raw
             blast_cmd =cmd+f"export PATH=/opt/conda/envs/kraken2/bin/:$PATH && blastdbcmd -db /ref/{blast_db_name} -entry {key} -outfmt \"%t\"\'"
-            print(blast_cmd)
             process = subprocess.Popen(blast_cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                        universal_newlines=True)
             stdout, stderr = process.communicate()
@@ -60,25 +62,24 @@ def run(bam, outdir, prefix, blast_db):
                 if all_descriptions:
                     chosen_description = random.choice(all_descriptions)
                     descriptions[key] = chosen_description
+            if key in chr_plot:#plot
+                fasta_cmd = cmd+(f"export PATH=/opt/conda/envs/kraken2/bin/:$PATH && "
+                             f"blastdbcmd -db /ref/{blast_db_name} -entry {key} >> /outdir/ref.final.fasta\'")
+                subprocess.check_call(fasta_cmd, shell=True)
 
-            fasta_cmd = cmd+(f"export PATH=/opt/conda/envs/kraken2/bin/:$PATH && "
-                         f"blastdbcmd -db /ref/{blast_db_name} -entry {key} > /outdir/{key}.fasta\'")
-            print(fasta_cmd)
-            subprocess.check_call(fasta_cmd, shell=True)
+        print("Step 5: variant calling...")
+        vcf_cmd = cmd+(f'export PATH=/opt/conda/bin/:$PATH && '
+                        f'bcftools mpileup -Ou -f /outdir/ref.final.fasta /raw_data/{bam_file_name} | '
+                        f'bcftools call --ploidy 1 -mv -Oz -o /outdir/{prefix}.vcf.gz\'')
+        print(vcf_cmd)
+        subprocess.check_call(vcf_cmd, shell=True)
 
-            print("Step 5: variant calling...")
-            vcf_cmd = cmd+(f'export PATH=/opt/conda/bin/:$PATH && '
-                            f'bcftools mpileup -Ou -f /outdir/{key}.fasta /raw_data/{bam_file_name} | '
-                             f'bcftools call --ploidy 1 -mv -Oz -o /outdir/{key}.vcf.gz\'')
-            print(vcf_cmd)
-            subprocess.check_call(vcf_cmd, shell=True)
-
-            print("Step 6: consensus...")
-            consensus = cmd + (f'export PATH=/opt/conda/bin/:$PATH && '
-                          f'bcftools index /outdir/{key}.vcf.gz && cat /outdir/{key}.fasta | '
-                          f'bcftools consensus -m /outdir/{prefix}.mask.bed -p {prefix} /outdir/{key}.vcf.gz > /outdir/{key}.consensus.fa\'')
-            print(consensus)
-            subprocess.check_call(consensus, shell=True)
+        print("Step 6: consensus...")
+        consensus = cmd + (f'export PATH=/opt/conda/bin/:$PATH && '
+                      f'bcftools index /outdir/{prefix}.vcf.gz && cat /outdir/ref.final.fasta | '
+                      f'bcftools consensus -m /outdir/{prefix}.mask.bed -p {prefix} /outdir/{prefix}.vcf.gz > /outdir/{prefix}.consensus.fa\'')
+        print(consensus)
+        subprocess.check_call(consensus, shell=True)
 
     print("Step 7: Generating plots...")
 
@@ -196,23 +197,38 @@ def run(bam, outdir, prefix, blast_db):
     plt.savefig(f"{outdir}/{prefix}_all_chromosomes_subplots.png", dpi=300)
     plt.close()
     print(f"Subplot plot for all chromosomes saved to {outdir}/{prefix}_all_chromosomes_subplots.png")
-    num=0
-    with open(f"{outdir}/{prefix}.cov", "r") as infile ,open(f"{outdir}/{prefix}.final.cov.txt", "w") as outfile:
+    with open(f"{outdir}/{prefix}.cov", "r") as infile, \
+            open(f"{outdir}/{prefix}.cov.txt", "w") as outfile, \
+            open(f"{outdir}/{prefix}.final.cov.txt", "w") as outfile1:
         for line in infile:
             line = line.strip()
-            array = line.split("\t")
+
             if line.startswith("#"):
-                outfile.write(line+"\n")
-            else:
-                if array[0] in chr_list:
-                    num += 1
-                    if array[0] in descriptions:
-                        outfile.write(f"{descriptions[array[0]]}")
-                        for i in range(1, len(array)):
-                            outfile.write(f"\t{array[i]}")
-                        outfile.write("\n")
-                    else:
-                        outfile.write(line+"\n")
+                outfile.write(line + "\n")
+                outfile1.write(line + "\n")
+                continue
+
+            array = line.split("\t")
+
+            # Write to outfile if the chromosome is in chr_list_raw
+            if array[0] in chr_raw:
+                if array[0] in descriptions:
+                    outfile.write(f"{descriptions[array[0]]}")
+                    for i in range(1, len(array)):
+                        outfile.write(f"\t{array[i]}")
+                    outfile.write("\n")
+                else:
+                    outfile.write(line + "\n")
+
+            # Write to outfile1 if the chromosome is in chr_list
+            if array[0] in chr_pos:
+                if array[0] in descriptions:
+                    outfile1.write(f"{descriptions[array[0]]}")
+                    for i in range(1, len(array)):
+                        outfile1.write(f"\t{array[i]}")
+                    outfile1.write("\n")
+                else:
+                    outfile1.write(line + "\n")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Variant calling + consensus with N mask and coverage plotting.")

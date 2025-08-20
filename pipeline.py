@@ -85,6 +85,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     else:
         read1 = args.outdir + "/" + "3.filter_host/" + prefix + ".unaligned.fastq"
         read2 = None
+
     if args.ref and args.bowtie2:
         os.makedirs(f"{args.outdir}/4.assembly/", exist_ok=True)
         os.makedirs(f"{args.outdir}/5.blast/", exist_ok=True)
@@ -106,7 +107,6 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
             # consensus
             core.ref_consensus.run(f'{args.outdir}/6.mapping/{prefix}.bam',f'{args.outdir}/7.consensus/', prefix,args.ref)
     else:
-
         # ------------------------
         # Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
         # ------------------------
@@ -125,9 +125,8 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         # ------------------------
         print("\n#------------------------\n#Step 5: blast NCBI Database: nt virus and vsp\n#------------------------\n")
         core.blast_nt_viruses.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna',nt_viruses,f"{args.outdir}/5.blast/",prefix+".nt_viruses",10)
-        #core.blast_vsp.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna', vsp, f"{args.outdir}/5.blast/", prefix+".vsp",10)
+        core.blast_vsp.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna', vsp, f"{args.outdir}/5.blast/", prefix+".vsp",10)
         num=core.parse_blast.run(f"{args.outdir}/5.blast/{prefix}.vsp.blast_all.txt",f"{args.outdir}/5.blast/{prefix}.nt_viruses.blast_all.txt",nt_viruses,f"{args.outdir}/5.blast/")
-
         if num != 0:
             # ------------------------
             # step 6:mapping reference
