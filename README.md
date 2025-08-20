@@ -115,6 +115,7 @@ Download file:VSPV2_2-7-0_Panel_Summary.xlsx
 <pre>
 mkdir -p /ref/VSP/
 cd /ref/VSP/
+python3 VSP.py
 ncbi-blast-2.14.1+/bin/blastdbcmd -db nt_viruses -entry_batch /ref/VSP/accession.list -outfmt "%f" > /ref/VSP/VSP.fasta
 ncbi-blast-2.14.1+/bin/makeblastdb -dbtype nucl -in /ref/VSP/VSP.fasta
 wget https://ftp.ncbi.nlm.nih.gov/blast/db/taxdb.tar.gz
