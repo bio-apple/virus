@@ -110,7 +110,8 @@ Download **nt_viruses**:
 
 **If above method fails, you can directly download the corresponding database files from the NCBI BLAST database using wget.** (https://ftp.ncbi.nlm.nih.gov/blast/db/)
 
-**2-4:vsp database**
+**2-4:vsp database:https://help.idm.illumina.com/dragen-microbial-enrichment-plus/dragen-microbial-enrichment-plus**
+Download file:VSPV2_2-7-0_Panel_Summary.xlsx
 <pre>
 mkdir -p /ref/VSP/
 cd /ref/VSP/
@@ -175,4 +176,3 @@ Command-line example:
 
 Bacterial and Viral Bioinformatics Resource Center (BV-BRC):https://www.bv-brc.org
 
-123
