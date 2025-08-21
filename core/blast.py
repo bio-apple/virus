@@ -2,9 +2,11 @@ import os
 import subprocess,argparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+from virus.pipeline import identify
+
 docker="virus:latest"
 
-def blastn(query_fasta, db, out_file):
+def blastn(query_fasta, db, out_file,identify,qcov_hsp_perc,evalue,max_target_seqs):
     query_fasta=os.path.abspath(query_fasta)
     out_file=os.path.abspath(out_file)
     db_dir=os.path.abspath(os.path.dirname(db))
@@ -23,15 +25,15 @@ def blastn(query_fasta, db, out_file):
           f'-query /raw_data/{query_fasta.split("/")[-1]} '
           f'-out /outdir/{out_file.split("/")[-1]} '
           f'-outfmt \'6 qseqid sacc pident length mismatch qcovs evalue bitscore score sscinames stitle\' '
-          f'-perc_identity 98 -max_hsps 1 -qcov_hsp_perc 10 '
-          f'-max_target_seqs 5 '
-          f'-evalue 1e-10 '
+          f'-perc_identity {identify} -max_hsps 1 -qcov_hsp_perc {qcov_hsp_perc} '
+          f'-max_target_seqs {max_target_seqs} '
+          f'-evalue {evalue} '
           f'-num_threads 5\"')
     print(cmd)
     subprocess.check_call(cmd, shell=True)
     print(f"Run blast Done: {query_fasta}")
 
-def run(input_fasta,db, output_dir,prefix,num_parts):
+def run(input_fasta,db, output_dir,prefix,num_parts,identify,qcov_hsp_perc,evalue,max_target_seqs):
     output_dir = os.path.abspath(output_dir)
     os.makedirs(output_dir, exist_ok=True)
 
@@ -77,7 +79,7 @@ def run(input_fasta,db, output_dir,prefix,num_parts):
 
     with ThreadPoolExecutor(max_workers=num_parts) as executor:
         futures = [
-            executor.submit(blastn, queries[i], db, outputs[i])
+            executor.submit(blastn, queries[i], db, outputs[i],identify,qcov_hsp_perc,evalue,max_target_seqs)
             for i in range(num_parts)
         ]
         for future in as_completed(futures):
@@ -101,5 +103,10 @@ if __name__ == "__main__":
     parser.add_argument("-o","--outdir",help="directory of output",default=os.getcwd())
     parser.add_argument("-p","--prefix",help="prefix of output",required=True)
     parser.add_argument("-n",'--num_parts',help="number split part",type=int,default=10)
+    parser.add_argument("-i","--identify",help="Percent identity <Real, 0..100>",default=90,type=int)
+    parser.add_argument("-c","--qcov_hsp_perc",help="Percent query coverage per hsp <Real, 0..100>",type=int,default=50)
+    parser.add_argument("-e","--evalue",help="Expectation value (E) threshold for saving hits.",type=float,default=0.00001)
+    parser.add_argument("-m","-max_target_seqs",help="Maximum number of aligned sequences to keep",type=int,default=5)
+    parser.add_argument()
     args=parser.parse_args()
-    run(args.query,args.db_name,args.outdir,args.prefix,args.num_parts)
+    run(args.query,args.db_name,args.outdir,args.prefix,args.num_parts,args.identify,args.qcov_hsp_perc,args.evalue,args.max_target_seqs)

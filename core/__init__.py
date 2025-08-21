@@ -4,8 +4,7 @@ from . import filter_host
 from . import megahit
 from . import metaspades
 from . import cd_hit_est
-from . import blast_nt_viruses
-from . import blast_vsp
+from . import blast
 from . import mapping
 from . import ref_consensus
 from . import trim_primer

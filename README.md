@@ -176,4 +176,3 @@ Command-line example:
 **Relevant external resources:**
 
 Bacterial and Viral Bioinformatics Resource Center (BV-BRC):https://www.bv-brc.org
-
