@@ -6,6 +6,7 @@ import core
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
 
+
 start=time.time()
 
 class Myconf(configparser.ConfigParser):
@@ -57,6 +58,7 @@ nt_viruses=config.get('database','nt_viruses')
 vsp=config.get('database','vsp')
 kraken2=config.get('database','kraken2')
 host=config.get('database','host')
+vsp_fa=config.get('fasta','vsp')
 identify=config.get('parameter','identify')
 contig=config.get('parameter','contig_min_length')
 
@@ -87,30 +89,37 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         read2 = None
 
     if args.ref and args.bowtie2:
-        os.makedirs(f"{args.outdir}/4.assembly/", exist_ok=True)
-        os.makedirs(f"{args.outdir}/5.blast/", exist_ok=True)
+        os.makedirs(f"{args.outdir}/4.vsp",exist_ok=True)
+        os.makedirs(f"{args.outdir}/5.assembly/", exist_ok=True)
+        os.makedirs(f"{args.outdir}/6.blast/", exist_ok=True)
         # ------------------------
-        # Step 4: mapping
+        # Step 7: mapping
         # ------------------------
-        print("\n#------------------------\n#Step 4: mapping refence\n#------------------------\n")
-        core.mapping.run(args.bowtie2,f'{args.outdir}/6.mapping',prefix,read1,read2)
+        print("\n#------------------------\n#Step 7: mapping refence\n#------------------------\n")
+        core.mapping.run(args.bowtie2,f'{args.outdir}/7.mapping',prefix,read1,read2)
         # ------------------------
-        # Step5:trim primer,variant calling,consensus sequence and plot coverage
+        # Step8:trim primer,variant calling,consensus sequence and plot coverage
         # ------------------------
-        print("#------------------------\n#Step5:trim primer,variant calling,consensus sequence and plot coverage\n#------------------------\n")
+        print("#------------------------\n#Step8:trim primer,variant calling,consensus sequence and plot coverage\n#------------------------\n")
         if args.bed:
             # trim primer
-            core.trim_primer.run(args.bed, f'{args.outdir}/6.mapping/{prefix}.bam', f'{args.outdir}/7.consensus/',prefix)
+            core.trim_primer.run(args.bed, f'{args.outdir}/7.mapping/{prefix}.bam', f'{args.outdir}/8.consensus/',prefix)
             # consensus
-            core.ref_consensus.run(f'{args.outdir}/7.consensus/{prefix}.soft.clipped.sort.bam', f'{args.outdir}/7.consensus/', prefix,args.ref)
+            core.ref_consensus.run(f'{args.outdir}/8.consensus/{prefix}.soft.clipped.sort.bam', f'{args.outdir}/8.consensus/', prefix,args.ref)
         else:
             # consensus
-            core.ref_consensus.run(f'{args.outdir}/6.mapping/{prefix}.bam',f'{args.outdir}/7.consensus/', prefix,args.ref)
+            core.ref_consensus.run(f'{args.outdir}/7.mapping/{prefix}.bam',f'{args.outdir}/8.consensus/', prefix,args.ref)
     else:
         # ------------------------
-        # Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
+        # Step 4: non-host reads mapping VSP database
         # ------------------------
-        print("\n#------------------------\n#Step 4: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)\n#------------------------\n")
+        print("\n#------------------------\n#Step 4: non-host reads mapping VSP database\n#------------------------\n")
+        accession=core.contig_cov.run(vsp_fa,read1,f'{args.outdir}/4.vsp/',prefix,read2,args.length)
+
+        # ------------------------
+        # Step 5: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
+        # ------------------------
+        print("\n#------------------------\n#Step 5: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)\n#------------------------\n")
         with ThreadPoolExecutor(max_workers=2) as executor:
             futures = [
                 executor.submit(core.megahit.run, read1, prefix, args.outdir + "/4.assembly/", read2,contig),
@@ -121,14 +130,14 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         subprocess.check_call(f'cd {args.outdir}/4.assembly/ && cat spades_{prefix}/scaffolds_{contig}bp.fasta megahit_{prefix}/{prefix}.contigs.fa >{prefix}.contigs.fa',shell=True)
         core.cd_hit_est.run(f'{args.outdir}/4.assembly/{prefix}.contigs.fa',identify,prefix+".non-redundant",f'{args.outdir}/4.assembly/')
         # ------------------------
-        # Step 5: blast NCBI Database: nt virus and parse blast result
+        # Step 6: blast nt & vsp
         # ------------------------
-        print("\n#------------------------\n#Step 5: blast NCBI Database: nt virus and vsp\n#------------------------\n")
+        print("\n#------------------------\n#Step 6: blast NCBI Database: nt virus and vsp\n#------------------------\n")
         #blast nt
         core.blast.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna',nt_viruses,f"{args.outdir}/5.blast/",prefix+".nt_viruses",10,95,50,1e-10,5)
         #blast vsp
         core.blast.run(f'{args.outdir}/4.assembly/{prefix}.non-redundant.fna', vsp, f"{args.outdir}/5.blast/", prefix+".vsp",10,90,50,1e-5,1)
-        num=core.parse_blast.run(f"{args.outdir}/5.blast/{prefix}.vsp.blast_all.txt",f"{args.outdir}/5.blast/{prefix}.nt_viruses.blast_all.txt",nt_viruses,f"{args.outdir}/5.blast/")
+        num=core.parse_blast.run(f"{args.outdir}/5.blast/{prefix}.vsp.blast_all.txt",f"{args.outdir}/5.blast/{prefix}.nt_viruses.blast_all.txt",nt_viruses,f"{args.outdir}/5.blast/",accession)
         if num != 0:
             # ------------------------
             # step 6:mapping reference

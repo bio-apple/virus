@@ -4,14 +4,14 @@ import subprocess
 
 
 docker="virus:latest"
-def run(blast_out_vsp,blast_out_nt_viruses,nt_virus_db_dir,outdir):
+def run(blast_out_vsp,blast_out_nt_viruses,nt_virus_db_dir,outdir,accession):
     outdir = os.path.abspath(outdir)
     os.makedirs(outdir, exist_ok=True)
     db_dir = os.path.abspath(os.path.dirname(nt_virus_db_dir))
     db_name = nt_virus_db_dir.split("/")[-1]
-
-    num=0
-    query,accession={},[]
+    if accession is None:
+        accession=[]
+    num,query=len(accession),{}
     outfile = open(outdir + "/ref.list", "w")
     infile = open(blast_out_vsp, 'r')
     for line in infile:
@@ -68,7 +68,8 @@ if __name__=="__main__":
     parser.add_argument("-n","--blast_out_nt_viruses",help='blast output file from nt_viruses',required=True)
     parser.add_argument("-d","--nt_virus_dir",help='NT virus directory',required=True)
     parser.add_argument("-o","--outdir",help='output directory',default=os.getcwd())
+    parser.add_argument("-a","--accession",help='accession',default=None)
     args = parser.parse_args()
-    run(args.blast_out_vsp,args.blast_out_nt_viruses,args.nt_virus_dir,args.outdir)
+    run(args.blast_out_vsp,args.blast_out_nt_viruses,args.nt_virus_dir,args.outdir,args.accession)
 
 

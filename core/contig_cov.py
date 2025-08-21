@@ -1,9 +1,9 @@
-import os,sys,re
+import os
 import argparse
 import subprocess
 
 docker='virus:latest'
-def run(ref,pe1,outdir,prefix,pe2=None):
+def run(ref,pe1,outdir,prefix,pe2=None,read_length=150):
     ref=os.path.abspath(ref)
     pe1=os.path.abspath(pe1)
     outdir=os.path.abspath(outdir)
@@ -28,6 +28,18 @@ def run(ref,pe1,outdir,prefix,pe2=None):
                f'pileup.sh in=/outdir/{prefix}.sam.gz out=/outdir/{prefix}.cov.txt\'')
     print(cmd)
     subprocess.check_call(cmd, shell=True)
+    infile=open(f"{outdir}/{prefix}.cov.txt","r")
+    accession=[]
+    for line in infile:
+        line=line.strip()
+        array=line.split("\t")
+        if not line.startswith("#"):
+            if float(array[5]) >max(int(read_length)*3,500) or float(array[1])>=10 or float(array[9])>=10:
+                if not array[0].split(" ")[0] in accession:
+                    accession.append(array[0].split(" ")[0])
+    infile.close()
+    print(accession)
+    return accession
 
 
 if __name__=='__main__':
@@ -37,5 +49,6 @@ if __name__=='__main__':
     parser.add_argument("-p2","--pe2",help='PE2 fastq file',default=None)
     parser.add_argument("-o","--outdir",help='Output directory',default=os.getcwd())
     parser.add_argument("-p","--prefix",help='Output prefix',required=True)
+    parser.add_argument("-l","--length",help='read length',default=150,type=int,required=True)
     args = parser.parse_args()
     run(args.ref,args.pe1,args.outdir,args.prefix,args.pe2)

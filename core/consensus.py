@@ -7,7 +7,7 @@ import random
 
 docker = "virus:latest"
 
-def run(bam, outdir, prefix, blast_db):
+def run(bam, outdir, prefix, blast_db,read_length):
     outdir = os.path.abspath(outdir)
     os.makedirs(outdir, exist_ok=True)
     bam = os.path.abspath(bam)
@@ -32,7 +32,7 @@ def run(bam, outdir, prefix, blast_db):
                 array = line.split("\t")
                 if not (float(array[1]) == 0 and float(array[4]) == 0 and float(array[9]) == 0):
                     chr_raw.append(array[0])
-                if (float(array[1]) >= positive or float(array[9]) >= positive):# mean fold or median fold >= 10 and Covered_percent >50
+                if float(array[5]) >max(int(read_length)*3,500) or float(array[1])>=10 or float(array[9])>=10:# mean fold or median fold >= 10 and Covered_percent >50
                     chr_pos.append(array[0])
                     if float(array[4]) >= plot:#plot
                         chr_plot.append(array[0])
@@ -236,5 +236,6 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--outdir", required=True, help="Output directory")
     parser.add_argument("-p", "--prefix", required=True, help="Prefix for output")
     parser.add_argument("-d", "--blast-db", default=None,help="Path to the local BLAST database for getting species descriptions (optional).")
+
     args = parser.parse_args()
     run(args.bam, args.outdir, args.prefix, args.blast_db)
