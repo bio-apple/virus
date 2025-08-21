@@ -2,7 +2,6 @@ import os
 import subprocess,argparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from virus.pipeline import identify
 
 docker="virus:latest"
 

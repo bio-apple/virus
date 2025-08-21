@@ -1,10 +1,10 @@
-import os,sys,re
+import os
 import argparse
 import subprocess
 
-
 docker="virus:latest"
 def run(blast_out_vsp,blast_out_nt_viruses,nt_virus_db_dir,outdir,accession):
+    print(accession)
     outdir = os.path.abspath(outdir)
     os.makedirs(outdir, exist_ok=True)
     db_dir = os.path.abspath(os.path.dirname(nt_virus_db_dir))
@@ -17,15 +17,9 @@ def run(blast_out_vsp,blast_out_nt_viruses,nt_virus_db_dir,outdir,accession):
     for line in infile:
         line = line.strip()
         array=line.split("\t")
-        if not line.startswith("#"):
-            if not array[1] in accession:
-                accession.append(array[1])
-                outfile.write(f"{array[1]}\n")
-                num+=1
-            if not array[0] in query:#query in vsp
-                query[array[0]]=1
+        if not line.startswith("#") and array[0] in query:
+            query[array[0]]=1
     infile.close()
-    print(f"query: {query} in vsp.")
 
     infile=open(blast_out_nt_viruses,'r')
     for line in infile:
@@ -34,13 +28,13 @@ def run(blast_out_vsp,blast_out_nt_viruses,nt_virus_db_dir,outdir,accession):
         if not line.startswith("#"):
             if not array[0] in query:
                 num+=1
-                if not array[1] in accession:
-                    accession.append(array[1])
-                    outfile.write(f"{array[1]}\n")
-                    print(f"query: {query} only in nt_viruses.")
+                tmp=array[1].split(".")[0]
+                if not tmp in accession:
+                    accession.append(tmp)
+                    outfile.write(tmp+"\n")
     infile.close()
     outfile.close()
-
+    print(accession)
     # get species reference sequence from nt_viruses
     if num > 0:
         cmd = (f"docker run -v {db_dir}:/ref -v {outdir}:/outdir {docker} sh -c \'"
@@ -50,6 +44,7 @@ def run(blast_out_vsp,blast_out_nt_viruses,nt_virus_db_dir,outdir,accession):
                f"-entry_batch /outdir/ref.list -out /outdir/ref.fasta\'")
         print(cmd)
         subprocess.run(cmd, shell=True)
+
 
     # build reference index
     cmd = (f'docker run --rm -v {outdir}/:/outdir/ {docker} '
