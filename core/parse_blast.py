@@ -45,13 +45,13 @@ def run(blast_out_vsp,blast_out_nt_viruses,nt_virus_db_dir,outdir,accession):
         print(cmd)
         subprocess.run(cmd, shell=True)
 
-
-    # build reference index
+    # get non-redundant fna and build reference index
     cmd = (f'docker run --rm -v {outdir}/:/outdir/ {docker} '
            f'sh -c \'export PATH=/opt/conda/bin:$PATH && '
-           f'bowtie2-build /outdir/ref.fasta /outdir/ref.fasta && '
-           f'samtools faidx /outdir/ref.fasta && '
-           f'bwa index -a bwtsw /outdir/ref.fasta\'')
+           f'cd-hit-est -i /outdir/ref.fasta -o /outdir/ref.non-redundant.fna -c 0.95 -M 0 && '
+           f'bowtie2-build /outdir/ref.non-redundant.fna /outdir/ref.non-redundant.fna && '
+           f'samtools faidx /outdir/ref.non-redundant.fna && '
+           f'bwa index -a bwtsw /outdir/ref.non-redundant.fna\'')
     print(cmd)
     subprocess.check_call(cmd, shell=True)
     print("Done")
