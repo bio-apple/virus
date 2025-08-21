@@ -4,15 +4,17 @@ import subprocess
 
 docker="virus:latest"
 def run(blast_out_vsp,blast_out_nt_viruses,nt_virus_db_dir,outdir,accession):
-    print(accession)
+    outfile = open(outdir + "/ref.list", "w")
     outdir = os.path.abspath(outdir)
     os.makedirs(outdir, exist_ok=True)
     db_dir = os.path.abspath(os.path.dirname(nt_virus_db_dir))
     db_name = nt_virus_db_dir.split("/")[-1]
     if accession is None:
         accession=[]
+    else:
+        for key in accession:
+            outfile.write(f"{key}\n")
     num,query=len(accession),{}
-    outfile = open(outdir + "/ref.list", "w")
     infile = open(blast_out_vsp, 'r')
     for line in infile:
         line = line.strip()

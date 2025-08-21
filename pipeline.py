@@ -63,7 +63,6 @@ identify=config.get('parameter','identify')
 contig=config.get('parameter','contig_min_length')
 
 for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
-    """
     # ------------------------
     # Step 1: fastp qc
     # ------------------------
@@ -81,7 +80,6 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # ------------------------
     print("\n#------------------------\n#Step 3: bowtie2 host filter\n#------------------------\n")
     core.filter_host.run(r1,args.outdir+"/3.filter_host",host,prefix,r2)
-    """
     read1, read2 = "", ""
     if r2:
         read1 = args.outdir + "/" + "3.filter_host/" + prefix + "_1.fastq"
@@ -120,7 +118,6 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         # ------------------------
         # Step 5: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
         # ------------------------
-        """
         print("\n#------------------------\n#Step 5: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)\n#------------------------\n")
         with ThreadPoolExecutor(max_workers=2) as executor:
             futures = [
@@ -131,7 +128,6 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
                 print(future.result())
         subprocess.check_call(f'cd {args.outdir}/5.assembly/ && cat spades_{prefix}/scaffolds_{contig}bp.fasta megahit_{prefix}/{prefix}.contigs.fa >{prefix}.contigs.fa',shell=True)
         core.cd_hit_est.run(f'{args.outdir}/5.assembly/{prefix}.contigs.fa',identify,prefix+".non-redundant",f'{args.outdir}/5.assembly/')
-        """
         # ------------------------
         # Step 6: blast nt & vsp
         # ------------------------
