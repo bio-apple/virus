@@ -16,7 +16,7 @@ def run(fna,identify,prefix,outdir):
     # 99.8% sequence identity
     cmd=(f'docker run --rm -v {fna}:/raw_data/{fna.split("/")[-1]} -v {outdir}:/outdir {docker} sh -c \''
          f'export PATH=/opt/conda/bin:$PATH && '
-         f'cd-hit-est -i /raw_data/{fna.split("/")[-1]} -o /outdir/{prefix}.fna -M 0 -T 0 -c {identify}\'')
+         f'cd-hit-est -i /raw_data/{fna.split("/")[-1]} -o /outdir/{prefix}.fna -M 0 -c {identify}\'')
     subprocess.check_call(cmd,shell=True)
 
     end=time.time()
