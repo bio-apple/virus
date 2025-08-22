@@ -32,7 +32,7 @@ def run(bam, outdir, prefix, blast_db,read_length):
                 array = line.split("\t")
                 if not (float(array[1]) == 0 and float(array[4]) == 0 and float(array[9]) == 0):
                     chr_raw.append(array[0])
-                if float(array[5]) >max(int(read_length)*3,500) or float(array[1])>=10 or float(array[9])>=10:# mean fold or median fold >= 10 and Covered_percent >50
+                if float(array[5]) >max(int(read_length)*3,500):# > 3 unique reads length
                     chr_pos.append(array[0])
                     if float(array[4]) >= plot:#plot
                         chr_plot.append(array[0])
