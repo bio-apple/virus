@@ -34,7 +34,7 @@ def run(ref,pe1,outdir,prefix,pe2=None,read_length=150):
         line=line.strip()
         array=line.split("\t")
         if not line.startswith("#"):
-            if float(array[5]) >max(int(read_length)*3,500):
+            if float(array[5]) >max(int(read_length)*3,500) or float(array[1])>=10 or float(array[9])>=10:
                 if not array[0].split(" ")[0] in accession:
                     accession.append(array[0].split(" ")[0].split(".")[0])
     infile.close()
