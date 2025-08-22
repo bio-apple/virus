@@ -202,7 +202,6 @@ def run(bam, outdir, prefix, blast_db,read_length):
             open(f"{outdir}/{prefix}.final.cov.txt", "w") as outfile1:
         for line in infile:
             line = line.strip()
-
             if line.startswith("#"):
                 outfile.write(line + "\n")
                 outfile1.write(line + "\n")
