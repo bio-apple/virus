@@ -2,11 +2,9 @@
 import os
 import subprocess
 import argparse
-import time
 
 docker="virus:latest"
 def run(fna,identify,prefix,outdir):
-    start=time.time()
     outdir=os.path.abspath(outdir)
     fna=os.path.abspath(fna)
     os.makedirs(outdir,exist_ok=True)
@@ -19,13 +17,10 @@ def run(fna,identify,prefix,outdir):
          f'cd-hit-est -i /raw_data/{fna.split("/")[-1]} -o /outdir/{prefix}.fna -M 0 -c {identify}\'')
     subprocess.check_call(cmd,shell=True)
 
-    end=time.time()
-    print("Elapse time is %g seconds" % (end - start))
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("")
     parser.add_argument("-f", "--fna", help="fasta sequence", required=True)
-    parser.add_argument("-c", "--identify", help="sequence identity threshold, default: 0.998", default=0.998,
+    parser.add_argument("-c", "--identify", help="sequence identity threshold, default: 0.95", default=0.95,
                         type=float, required=True)
     parser.add_argument("-p", "--prefix", help="prefix of output", default=time.strftime("%Y-%m-%d"))
     parser.add_argument("-o", "--outdir", help="output directory", default=os.getcwd(), required=True)

@@ -53,7 +53,7 @@ def run(bam, outdir, prefix, blast_db,read_length):
         if os.path.exists(f"{outdir}/ref.final.fasta"):
             os.remove(f"{outdir}/ref.final.fasta")
         for key in chr_raw:#raw
-            blast_cmd =cmd+f"export PATH=/opt/conda/envs/kraken2/bin/:$PATH && blastdbcmd -db /ref/{blast_db_name} -entry {key} -outfmt \"%t\"\'"
+            blast_cmd =cmd+f"export PATH=/opt/conda/envs/kraken2/bin/:$PATH && blastdbcmd -db /ref/{blast_db_name} -entry {key} -outfmt \"%a|%t\"\'"
             process = subprocess.Popen(blast_cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                        universal_newlines=True)
             stdout, stderr = process.communicate()
@@ -235,6 +235,6 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--outdir", required=True, help="Output directory")
     parser.add_argument("-p", "--prefix", required=True, help="Prefix for output")
     parser.add_argument("-d", "--blast-db", default=None,help="Path to the local BLAST database for getting species descriptions (optional).")
-
+    parser.add_argument("-l", "--read_length", type=int, help="read length",required=True)
     args = parser.parse_args()
-    run(args.bam, args.outdir, args.prefix, args.blast_db)
+    run(args.bam, args.outdir, args.prefix, args.blast_db,args.read_length)

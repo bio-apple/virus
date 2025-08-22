@@ -63,50 +63,14 @@ dnf install perl-JSON-PP
 </pre>
 
 *View currently available databases for download:*
-<pre>perl ncbi-blast-2.16.0+/bin/update_blastdb.pl --showall
-
-    Betacoronavirus
-    ITS_RefSeq_Fungi
-    28S_fungal_sequences
-    18S_fungal_sequences
-    ITS_eukaryote_sequences
-    LSU_eukaryote_rRNA
-    LSU_prokaryote_rRNA
-    16S_ribosomal_RNA
-    SSU_eukaryote_rRNA
-    env_nt
-    env_nr
-    human_genome
-    landmark
-    mito
-    mouse_genome
-    nr
-    nt_euk
-    nt
-    nt_others
-    nt_prok
-    nt_viruses
-    pataa
-    patnt
-    pdbaa
-    pdbnt
-    ref_euk_rep_genomes
-    ref_prok_rep_genomes
-    ref_viroids_rep_genomes
-    ref_viruses_rep_genomes
-    refseq_select_rna
-    refseq_select_prot
-    refseq_protein
-    refseq_rna
-    swissprot
-    tsa_nr
-    tsa_nt
-    taxdb
-    core_nt
+<pre>
+perl ncbi-blast-2.16.0+/bin/update_blastdb.pl --showall
 </pre>
 
 Download **nt_viruses**:
-<pre>perl ncbi-blast-2.16.0+/bin/update_blastdb.pl nt_viruses --decompress</pre>
+<pre>
+perl ncbi-blast-2.16.0+/bin/update_blastdb.pl nt_viruses --decompress
+</pre>
 
 **If above method fails, you can directly download the corresponding database files from the NCBI BLAST database using wget.** (https://ftp.ncbi.nlm.nih.gov/blast/db/)
 
