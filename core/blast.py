@@ -26,7 +26,7 @@ def blastn(query_fasta, db, out_file,identify,qcov_hsp_perc,evalue,max_target_se
           f'-perc_identity {identify} -max_hsps 1 -qcov_hsp_perc {qcov_hsp_perc} '
           f'-max_target_seqs {max_target_seqs} '
           f'-evalue {evalue} '
-          f'-num_threads 5\"')
+          f'-num_threads 10\"')
     print(cmd)
     subprocess.check_call(cmd, shell=True)
     print(f"Run blast Done: {query_fasta}")

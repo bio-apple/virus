@@ -6,7 +6,6 @@ import core
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
 
-start=time.time()
 
 class Myconf(configparser.ConfigParser):
     def __init__(self, defaults=None):
@@ -63,6 +62,7 @@ identify=config.get('parameter','identify')
 contig=config.get('parameter','contig_min_length')
 
 for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
+    start = time.time()
     # ------------------------
     # Step 1: fastp qc
     # ------------------------
@@ -74,7 +74,6 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # ------------------------
     print("\n#------------------------\n#Step 2: kraken2\n#------------------------\n")
     core.kraken2.run(r1,kraken2,prefix,args.outdir+"/2.kraken2",args.length,r2)
-    
     # ------------------------
     # Step 3: bowtie2 host filter
     # ------------------------
@@ -160,6 +159,5 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
             # ------------------------
             print("#------------------------\n#Step7:variant calling,consensus sequence and plot coverage\n#------------------------\n")
             core.consensus.run(f'{args.outdir}/7.mapping/{prefix}.bam', f'{args.outdir}/8.consensus/', prefix,nt_viruses,args.length)
-
-end=time.time()
-print("\nElapse time is %g seconds\n" %(end-start))
+    end=time.time()
+    print(f"\nSample {prefix}:Elapse time is {(end-start)} seconds\n")
