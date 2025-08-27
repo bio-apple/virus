@@ -60,6 +60,8 @@ The currently available list of reference genomes for viral species includes:
 <pre>
 dnf install perl-Archive-Tar
 dnf install perl-JSON-PP
+mkdir -p /ref/nt_viruses
+cd /ref/nt_viruses
 perl ncbi-blast-2.16.0+/bin/update_blastdb.pl nt_viruses --decompress
 </pre>
 **If above method fails, you can directly download the corresponding database files from the NCBI BLAST database using wget.** (https://ftp.ncbi.nlm.nih.gov/blast/db/)
@@ -70,7 +72,7 @@ Download file:VSPV2_2-7-0_Panel_Summary.xlsx
 mkdir -p /ref/VSP/
 cd /ref/VSP/
 python3 VSP.py
-ncbi-blast-2.14.1+/bin/blastdbcmd -db nt_viruses -entry_batch /ref/VSP/accession.list -outfmt "%f" > /ref/VSP/VSP.fasta
+ncbi-blast-2.14.1+/bin/blastdbcmd -db /ref/nt_viruses/nt_viruses -entry_batch /ref/VSP/accession.list -outfmt "%f" > /ref/VSP/VSP.fasta
 ncbi-blast-2.14.1+/bin/makeblastdb -dbtype nucl -in /ref/VSP/VSP.fasta
 wget https://ftp.ncbi.nlm.nih.gov/blast/db/taxdb.tar.gz
 tar xzvf taxdb.tar.gz
