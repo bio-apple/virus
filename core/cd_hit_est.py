@@ -2,6 +2,7 @@
 import os
 import subprocess
 import argparse
+import time
 
 docker="virus:latest"
 def run(fna,identify,prefix,outdir):

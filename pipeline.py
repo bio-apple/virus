@@ -54,7 +54,7 @@ os.makedirs(args.outdir,exist_ok=True)
 config = Myconf()
 config.read(args.config)
 
-nt_viruses=config.get('database','nt_viruses')
+virus=config.get('database','virus')
 vsp=config.get('database','vsp')
 kraken2=config.get('database','kraken2')
 host=config.get('database','host')
@@ -80,14 +80,16 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # ------------------------
     print("\n#------------------------\n#Step 3: bowtie2 host filter\n#------------------------\n")
     core.filter_host.run(r1,args.outdir+"/3.filter_host",host,prefix,r2)
-    read1, read2 = "", ""
+    read1, read2 ,accession1= "", "",[]
     if r2:
         read1 = args.outdir + "/" + "3.filter_host/" + prefix + "_1.fastq"
         read2 = args.outdir + "/" + "3.filter_host/" + prefix + "_2.fastq"
+        if args.length >100:
+            core.merge_fastq.run(read1, read2, prefix, f'{args.outdir}/3.filter_host/', args.length)
+            accession1 = core.blast.run(f'{args.outdir}/3.filter_host/{prefix}.non-redundant.fna', virus,f'{args.outdir}/3.filter_host/', prefix, 10, 98, 95, 1e-10, 1)
     else:
         read1 = args.outdir + "/" + "3.filter_host/" + prefix + ".unaligned.fastq"
         read2 = None
-
     if args.ref and args.bowtie2:
         os.makedirs(f"{args.outdir}/4.vsp",exist_ok=True)
         os.makedirs(f"{args.outdir}/5.assembly/", exist_ok=True)
@@ -114,7 +116,9 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         # Step 4: non-host reads mapping VSP database
         # ------------------------
         print("\n#------------------------\n#Step 4: non-host reads mapping VSP database\n#------------------------\n")
-        accession=core.contig_cov.run(vsp_fa,read1,f'{args.outdir}/4.vsp/',prefix,read2,args.length)
+        accession2=core.contig_cov.run(vsp_fa,read1,f'{args.outdir}/4.vsp/',prefix,read2,args.length)
+        accession = list(set(accession1 + accession2))
+
         # ------------------------
         # Step 5: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
         # ------------------------
@@ -128,15 +132,16 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
                 print(future.result())
         subprocess.check_call(f'cd {args.outdir}/5.assembly/ && cat spades_{prefix}/scaffolds_{contig}bp.fasta megahit_{prefix}/{prefix}.contigs.fa >{prefix}.contigs.fa',shell=True)
         core.cd_hit_est.run(f'{args.outdir}/5.assembly/{prefix}.contigs.fa',identify,prefix+".non-redundant",f'{args.outdir}/5.assembly/')
+        
         # ------------------------
         # Step 6: blast nt & vsp
         # ------------------------
         print("\n#------------------------\n#Step 6: blast NCBI Database: nt virus and vsp\n#------------------------\n")
         #blast nt
-        core.blast.run(f'{args.outdir}/5.assembly/{prefix}.non-redundant.fna',nt_viruses,f"{args.outdir}/6.blast/",prefix+".nt_viruses",10,98,70,1e-10,1)
+        core.blast.run(f'{args.outdir}/5.assembly/{prefix}.non-redundant.fna',virus,f"{args.outdir}/6.blast/",prefix+".nt_viruses",10,98,70,1e-10,1)
         #blast vsp
-        core.blast.run(f'{args.outdir}/5.assembly/{prefix}.non-redundant.fna', vsp, f"{args.outdir}/6.blast/", prefix+".vsp",10,90,50,1e-5,1)
-        num=core.parse_blast.run(f"{args.outdir}/6.blast/{prefix}.vsp.blast_all.txt",f"{args.outdir}/6.blast/{prefix}.nt_viruses.blast_all.txt",nt_viruses,f"{args.outdir}/6.blast/",accession)
+        core.blast.run(f'{args.outdir}/5.assembly/{prefix}.non-redundant.fna', vsp, f"{args.outdir}/6.blast/", prefix+".vsp",10,98,70,1e-10,1)
+        num=core.parse_blast.run(f"{args.outdir}/6.blast/{prefix}.vsp.blast_all.txt",f"{args.outdir}/6.blast/{prefix}.nt_viruses.blast_all.txt",virus,f"{args.outdir}/6.blast/",accession)
         if num != 0:
             # ------------------------
             # step 7:mapping reference
@@ -148,7 +153,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
             # step8:variant calling,consensus sequence and plot coverage
             # ------------------------
             print("#------------------------\n#Step7:variant calling,consensus sequence and plot coverage\n#------------------------\n")
-            core.consensus.run(f'{args.outdir}/7.mapping/{prefix}.bam', f'{args.outdir}/8.consensus/', prefix,nt_viruses,args.length)
+            core.consensus.run(f'{args.outdir}/7.mapping/{prefix}.bam', f'{args.outdir}/8.consensus/', prefix,virus,args.length)
 
 end=time.time()
 print("\nElapse time is %g seconds\n" %(end-start))

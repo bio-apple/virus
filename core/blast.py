@@ -2,7 +2,6 @@ import os
 import subprocess,argparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-
 docker="virus:latest"
 
 def blastn(query_fasta, db, out_file,identify,qcov_hsp_perc,evalue,max_target_seqs):
@@ -94,6 +93,16 @@ def run(input_fasta,db, output_dir,prefix,num_parts,identify,qcov_hsp_perc,evalu
             subprocess.check_call(f'rm -rf {f}', shell=True)
     subprocess.check_call(f'rm -rf {output_dir}/part_*.fasta', shell=True)
     print(f"\nAll task finished: {merged_out}")
+    accession=[]
+    with open(merged_out,"r") as f:
+        for line in f:
+            line = line.strip()
+            array=line.split("\t")
+            if not line.startswith("#"):
+                if not array[1] in accession:
+                    accession.append(array[1])
+    print(f"\nAccession: {accession}")
+    return accession
 
 if __name__ == "__main__":
     parser=argparse.ArgumentParser("")
@@ -105,7 +114,6 @@ if __name__ == "__main__":
     parser.add_argument("-i","--identify",help="Percent identity <Real, 0..100>",default=90,type=int)
     parser.add_argument("-c","--qcov_hsp_perc",help="Percent query coverage per hsp <Real, 0..100>",type=int,default=50)
     parser.add_argument("-e","--evalue",help="Expectation value (E) threshold for saving hits.",type=float,default=0.00001)
-    parser.add_argument("-m","-max_target_seqs",help="Maximum number of aligned sequences to keep",type=int,default=5)
-    parser.add_argument()
+    parser.add_argument("-m","--max_target_seqs",help="Maximum number of aligned sequences to keep",type=int,default=5)
     args=parser.parse_args()
     run(args.query,args.db_name,args.outdir,args.prefix,args.num_parts,args.identify,args.qcov_hsp_perc,args.evalue,args.max_target_seqs)

@@ -54,24 +54,14 @@ The currently available list of reference genomes for viral species includes:
     Yellow_fever_virus
     Zika_virus
 
-**2-3:ncbi nt virus**
+**2-3:nt_viruses**
 
-*Download NCBI database using BLAST*:https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/
+*Download NCBI database using BLAST*:https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ and nt_viruses
 <pre>
 dnf install perl-Archive-Tar
 dnf install perl-JSON-PP
-</pre>
-
-*View currently available databases for download:*
-<pre>
-perl ncbi-blast-2.16.0+/bin/update_blastdb.pl --showall
-</pre>
-
-Download **nt_viruses**:
-<pre>
 perl ncbi-blast-2.16.0+/bin/update_blastdb.pl nt_viruses --decompress
 </pre>
-
 **If above method fails, you can directly download the corresponding database files from the NCBI BLAST database using wget.** (https://ftp.ncbi.nlm.nih.gov/blast/db/)
 
 **2-4:vsp database:https://help.idm.illumina.com/dragen-microbial-enrichment-plus/dragen-microbial-enrichment-plus**
@@ -85,6 +75,23 @@ ncbi-blast-2.14.1+/bin/makeblastdb -dbtype nucl -in /ref/VSP/VSP.fasta
 wget https://ftp.ncbi.nlm.nih.gov/blast/db/taxdb.tar.gz
 tar xzvf taxdb.tar.gz
 </pre>
+
+**2-5:combine VSP,RVDB and NCBI virus**
+
+    mkdir -p /ref/NCBI_Nucleotide_Completeness
+    cd /ref/NCBI_Nucleotide_Completeness
+
+Download NCBI virus Nucleotide (Completeness) and Accession without version:**sequences.acc**:https://www.ncbi.nlm.nih.gov/labs/virus/vssi/#/virus?SeqType_s=Nucleotide&Completeness_s=complete
+
+Download Current Release **Reference Viral DataBase(RVDB)**:https://rvdb.dbi.udel.edu/previous-release
+
+    grep ">" U-RVDBv30.0.fasta|awk -F"|" '{print $3}' |awk -F"." '{print $1}'>RVDB_accession.list
+    sort RVDB_accession.list sequences.acc | uniq -d | cat VSP_accession.list - | sort -u > final.txt
+    ncbi-blast-2.14.1+/bin/blastdbcmd -db /ref/nt_viruses/nt_viruses -out virus.fasta -entry_batch final.txt -outfmt "%f"
+    grep ">" virus.fasta|sort -u|awk -F" " '{print $1}'|awk -F">" '{print $2}' >acc.id
+    rm -rf virus.fasta final.txt
+    ncbi-blast-2.14.1+/bin/blastdbcmd -db /ref/nt_viruses/nt_viruses -out virus_completeness_unique.fasta -entry_batch acc.id -outfmt "%f"
+    ncbi-blast-2.14.1+/bin/makeblastdb -in virus_completeness_unique.fasta -dbtype nucl
 
 **2-5:kraken2 database:https://benlangmead.github.io/aws-indexes/k2**
 <pre>
@@ -140,3 +147,4 @@ Command-line example:
 **Relevant external resources:**
 
 Bacterial and Viral Bioinformatics Resource Center (BV-BRC):https://www.bv-brc.org
+

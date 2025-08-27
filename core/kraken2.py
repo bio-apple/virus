@@ -17,10 +17,9 @@ def run(pe1,index,prefix,outdir,read_length,pe2=None):
         pe2=os.path.abspath(pe2)
         cmd+=f"-v {pe2}:/raw_data/{os.path.basename(pe2)} "
 
-    cmd+=f"{docker} sh -c \'export PATH=/opt/conda/envs/kraken2/bin/:$PATH && kraken2 --confidence 0.4 --db /ref --threads 24 --output /outdir/{prefix}.txt --minimum-base-quality 20 --report /outdir/{prefix}.report.txt "
-    if pe2:
-        cmd+=f"{'--paired /raw_data/' + os.path.basename(pe1) + ' /raw_data/' + os.path.basename(pe2) if pe2 else '/raw_data/' + os.path.basename(pe1)} && "
+    cmd+=f"{docker} sh -c \'export PATH=/opt/conda/envs/kraken2/bin/:$PATH && kraken2 --confidence 0.8 --db /ref --threads 24 --output /outdir/{prefix}.txt --minimum-base-quality 20 --report /outdir/{prefix}.report.txt "
 
+    cmd+=f"{'--paired /raw_data/' + os.path.basename(pe1) + ' /raw_data/' + os.path.basename(pe2) if pe2 else '/raw_data/' + os.path.basename(pe1)} && "
     # Run Bracken for Abundance Estimation of Microbiome Samples
     cmd += f"bracken -d /ref/ -i /outdir/{prefix}.report.txt -r {read_length} -o /outdir/{prefix}.bracken -w /outdir/{prefix}.breport -t 10 && "
 
