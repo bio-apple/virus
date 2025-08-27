@@ -64,7 +64,6 @@ identify=config.get('parameter','identify')
 contig=config.get('parameter','contig_min_length')
 
 for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
-    """
     # ------------------------
     # Step 1: fastp qc
     # ------------------------
@@ -82,15 +81,12 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # ------------------------
     print("\n#------------------------\n#Step 3: bowtie2 host filter\n#------------------------\n")
     core.filter_host.run(r1,args.outdir+"/3.filter_host",host,prefix,r2)
-    """
     read1, read2 ,accession1= "", "",[]
     if r2:
         read1 = args.outdir + "/" + "3.filter_host/" + prefix + "_1.fastq"
         read2 = args.outdir + "/" + "3.filter_host/" + prefix + "_2.fastq"
         if args.length >100:
-            """
             core.merge_fastq.run(read1, read2, prefix, f'{args.outdir}/3.filter_host/', args.length)
-            """
             accession1 = core.blast.run(f'{args.outdir}/3.filter_host/{prefix}.non-redundant.fna', virus,f'{args.outdir}/3.filter_host/', prefix, 10, 98, 95, 1e-10, 1)
             print(accession1)
     else:
@@ -125,7 +121,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         accession2=core.contig_cov.run(vsp_fa,read1,f'{args.outdir}/4.vsp/',prefix,read2,args.length)
         accession = list(set(accession1 + accession2))
         print(accession)
-        """
+
         # ------------------------
         # Step 5: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
         # ------------------------
@@ -139,7 +135,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
                 print(future.result())
         subprocess.check_call(f'cd {args.outdir}/5.assembly/ && cat spades_{prefix}/scaffolds_{contig}bp.fasta megahit_{prefix}/{prefix}.contigs.fa >{prefix}.contigs.fa',shell=True)
         core.cd_hit_est.run(f'{args.outdir}/5.assembly/{prefix}.contigs.fa',identify,prefix+".non-redundant",f'{args.outdir}/5.assembly/')
-        """
+
         # ------------------------
         # Step 6: blast nt & vsp
         # ------------------------
