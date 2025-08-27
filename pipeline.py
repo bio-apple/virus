@@ -85,7 +85,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     if r2:
         read1 = args.outdir + "/" + "3.filter_host/" + prefix + "_1.fastq"
         read2 = args.outdir + "/" + "3.filter_host/" + prefix + "_2.fastq"
-        if args.length >100:
+        if args.length >100 and not args.ref:
             core.merge_fastq.run(read1, read2, prefix, f'{args.outdir}/3.filter_host/', args.length)
             accession1 = core.blast.run(f'{args.outdir}/3.filter_host/{prefix}.non-redundant.fna', virus,f'{args.outdir}/3.filter_host/', prefix, 10, 98, 95, 1e-10, 1)
             print(accession1)
