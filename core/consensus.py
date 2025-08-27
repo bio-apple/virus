@@ -77,7 +77,7 @@ def run(bam, outdir, prefix, blast_db,read_length):
         print("Step 6: consensus...")
         consensus = cmd + (f'export PATH=/opt/conda/bin/:$PATH && '
                       f'bcftools index /outdir/{prefix}.vcf.gz && cat /outdir/ref.final.fasta | '
-                      f'bcftools consensus -m /outdir/{prefix}.mask.bed -p {prefix} /outdir/{prefix}.vcf.gz > /outdir/{prefix}.consensus.fa\'')
+                      f'bcftools consensus -m /outdir/{prefix}.mask.bed -H R -p {prefix} /outdir/{prefix}.vcf.gz > /outdir/{prefix}.consensus.fa\'')
         print(consensus)
         subprocess.check_call(consensus, shell=True)
 

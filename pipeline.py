@@ -145,9 +145,9 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         # ------------------------
         print("\n#------------------------\n#Step 6: blast NCBI Database: nt virus and vsp\n#------------------------\n")
         #blast nt
-        core.blast.run(f'{args.outdir}/5.assembly/{prefix}.non-redundant.fna',virus,f"{args.outdir}/6.blast/",prefix+".nt_viruses",10,98,70,1e-10,1)
+        core.blast.run(f'{args.outdir}/5.assembly/{prefix}.non-redundant.fna',virus,f"{args.outdir}/6.blast/",prefix+".nt_viruses",10,98,70,1e-10,5)
         #blast vsp
-        core.blast.run(f'{args.outdir}/5.assembly/{prefix}.non-redundant.fna', vsp, f"{args.outdir}/6.blast/", prefix+".vsp",10,98,70,1e-10,1)
+        core.blast.run(f'{args.outdir}/5.assembly/{prefix}.non-redundant.fna', vsp, f"{args.outdir}/6.blast/", prefix+".vsp",10,95,50,1e-5,5)
         num=core.parse_blast.run(f"{args.outdir}/6.blast/{prefix}.vsp.blast_all.txt",f"{args.outdir}/6.blast/{prefix}.nt_viruses.blast_all.txt",nt_viruses,f"{args.outdir}/6.blast/",accession)
         if num != 0:
             # ------------------------
