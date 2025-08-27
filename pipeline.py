@@ -96,11 +96,13 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         os.makedirs(f"{args.outdir}/4.vsp",exist_ok=True)
         os.makedirs(f"{args.outdir}/5.assembly/", exist_ok=True)
         os.makedirs(f"{args.outdir}/6.blast/", exist_ok=True)
+
         # ------------------------
         # Step 7: mapping
         # ------------------------
         print("\n#------------------------\n#Step 7: mapping refence\n#------------------------\n")
         core.mapping.run(args.bowtie2,f'{args.outdir}/7.mapping',prefix,read1,read2)
+
         # ------------------------
         # Step8:trim primer,variant calling,consensus sequence and plot coverage
         # ------------------------
@@ -114,6 +116,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
             # consensus
             core.ref_consensus.run(f'{args.outdir}/7.mapping/{prefix}.bam',f'{args.outdir}/8.consensus/', prefix,args.ref)
     else:
+
         # ------------------------
         # Step 4: non-host reads mapping VSP database
         # ------------------------
@@ -146,6 +149,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         core.blast.run(f'{args.outdir}/5.assembly/{prefix}.non-redundant.fna', vsp, f"{args.outdir}/6.blast/", prefix+".vsp",10,95,50,1e-5,5)
         num=core.parse_blast.run(f"{args.outdir}/6.blast/{prefix}.vsp.blast_all.txt",f"{args.outdir}/6.blast/{prefix}.nt_viruses.blast_all.txt",nt_viruses,f"{args.outdir}/6.blast/",accession)
         if num != 0:
+
             # ------------------------
             # step 7:mapping reference
             # ------------------------
