@@ -71,7 +71,7 @@ Download file:VSPV2_2-7-0_Panel_Summary.xlsx
 <pre>
 mkdir -p /ref/VSP/
 cd /ref/VSP/
-python3 VSP.py
+python3 ../../plugin/VSP.py
 ncbi-blast-2.14.1+/bin/blastdbcmd -db /ref/nt_viruses/nt_viruses -entry_batch /ref/VSP/accession.list -outfmt "%f" > /ref/VSP/VSP.fasta
 ncbi-blast-2.14.1+/bin/makeblastdb -dbtype nucl -in /ref/VSP/VSP.fasta
 wget https://ftp.ncbi.nlm.nih.gov/blast/db/taxdb.tar.gz
@@ -86,7 +86,9 @@ tar xzvf taxdb.tar.gz
 Download NCBI virus Nucleotide (Completeness) and Accession without version:**sequences.acc**:https://www.ncbi.nlm.nih.gov/labs/virus/vssi/#/virus?SeqType_s=Nucleotide&Completeness_s=complete
 
 Download Current Release **Reference Viral DataBase(RVDB)**:https://rvdb.dbi.udel.edu/previous-release
-
+    
+    wget https://rvdb.dbi.udel.edu/download/U-RVDBv30.0.fasta.gz
+    gunzip U-RVDBv30.0.fasta.gz
     grep ">" U-RVDBv30.0.fasta|awk -F"|" '{print $3}' |awk -F"." '{print $1}'>RVDB_accession.list
     sort RVDB_accession.list sequences.acc | uniq -d | cat VSP_accession.list - | sort -u > final.txt
     ncbi-blast-2.14.1+/bin/blastdbcmd -db /ref/nt_viruses/nt_viruses -out virus.fasta -entry_batch final.txt -outfmt "%f"
