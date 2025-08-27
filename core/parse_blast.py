@@ -21,6 +21,9 @@ def run(blast_out_vsp,blast_out_nt_viruses,nt_virus_db_dir,outdir,accession):
         array=line.split("\t")
         if not line.startswith("#") and array[0] in query:
             query[array[0]]=1
+            if not array[1] in accession:
+                accession.append(array[1])
+                outfile.write(array[1] + "\n")
     infile.close()
 
     infile=open(blast_out_nt_viruses,'r')
@@ -30,10 +33,9 @@ def run(blast_out_vsp,blast_out_nt_viruses,nt_virus_db_dir,outdir,accession):
         if not line.startswith("#"):
             if not array[0] in query:
                 num+=1
-                tmp=array[1].split(".")[0]
-                if not tmp in accession:
-                    accession.append(tmp)
-                    outfile.write(tmp+"\n")
+                if not array[1] in accession:
+                    accession.append(array[1])
+                    outfile.write(array[1]+"\n")
     infile.close()
     outfile.close()
     print(accession)

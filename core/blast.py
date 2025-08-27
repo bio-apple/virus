@@ -100,8 +100,7 @@ def run(input_fasta,db, output_dir,prefix,num_parts,identify,qcov_hsp_perc,evalu
             array=line.split("\t")
             if not line.startswith("#"):
                 if not array[1] in accession:
-                    accession.append(array[1].split(".")[0])
-    print(f"\nAccession: {accession}")
+                    accession.append(array[1])
     return accession
 
 if __name__ == "__main__":
