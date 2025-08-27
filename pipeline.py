@@ -6,7 +6,6 @@ import core
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
 
-
 start=time.time()
 
 class Myconf(configparser.ConfigParser):

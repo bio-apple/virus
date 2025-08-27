@@ -80,6 +80,7 @@ def run(bam, outdir, prefix, blast_db,read_length):
                       f'bcftools consensus -m /outdir/{prefix}.mask.bed -H R -p {prefix} /outdir/{prefix}.vcf.gz > /outdir/{prefix}.consensus.fa\'')
         print(consensus)
         subprocess.check_call(consensus, shell=True)
+        os.remove(f"{outdir}/ref.final.fasta")
 
     print("Step 7: Generating plots...")
 
