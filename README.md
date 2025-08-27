@@ -143,11 +143,11 @@ Reference/Bowtie2 Index Options:
 
 Command-line example: 
 
-    python3 pipeline.py -p1 sampleID_S7_L001_R1_001.fastq.gz -p2 sampleID_S7_L001_R2_001.fastq.gz -o outdir/ -l 150 -c config.ini -p sampleID
+    python3 pipeline.py -p1 sampleID_R1.fastq.gz -p2 sampleID_R2.fastq.gz -p sampleID -o outdir/ -l 150 -c config.ini
     
-    python3 pipeline.py -p1 sampleID_S29_L001_R1_001.fastq.gz -p2 sampleID_S29_L001_R2_001.fastq.gz -p sampleID -o outdir/ -r ref.fasta -b /bowtie2/Chikungunya_virus_D250282/ -e primer.bed -c config.ini -l 150
+    python3 pipeline.py -p1 sampleID_R1.fastq.gz -p2 sampleID_R2.fastq.gz -p sampleID -o outdir/ -l 150 -c config.ini -r ref.fasta -b /ref/bowtie2/Chikungunya_virus/ -e primer.bed
     
-    python3 pipeline.py -p1 sampleID_S29_L001_R1_001.fastq.gz -p2 sampleID_S29_L001_R2_001.fastq.gz -p sampleID -o outdir/ -r ref.fasta -b /bowtie2/Chikungunya_virus_D250282/ -c config.ini -l 150
+    python3 pipeline.py -p1 sampleID_R1.fastq.gz -p2 sampleID_R2.fastq.gz -p sampleID -o outdir/ -l 150 -c config.ini -r ref.fasta -b /ref/bowtie2/Chikungunya_virus/
 
 **Relevant external resources:**
 
