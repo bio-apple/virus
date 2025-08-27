@@ -35,7 +35,7 @@ def run(bam, outdir, prefix, ref):
     consensus_fa_path = f"{outdir}/{prefix}.consensus.fa"
     temp = cmd + (f'export PATH=/opt/conda/bin/:$PATH && '
                   f'bcftools index /outdir/{prefix}.vcf.gz && cat /ref/{ref_name} | '
-                  f'bcftools consensus -m /outdir/{prefix}.mask.bed -p {prefix} /outdir/{prefix}.vcf.gz > /outdir/{os.path.basename(consensus_fa_path)}\'')
+                  f'bcftools consensus -m /outdir/{prefix}.mask.bed -H R -p {prefix} /outdir/{prefix}.vcf.gz > /outdir/{os.path.basename(consensus_fa_path)}\'')
     print(temp)
     subprocess.check_call(temp, shell=True)
 
