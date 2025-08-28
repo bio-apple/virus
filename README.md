@@ -65,13 +65,15 @@ cd /ref/nt_viruses
 perl ncbi-blast-2.16.0+/bin/update_blastdb.pl nt_viruses --decompress
 </pre>
 **If above method fails, you can directly download the corresponding database files from the NCBI BLAST database using wget.** (https://ftp.ncbi.nlm.nih.gov/blast/db/)
-
+<pre>
+python3 core/download_NCBI_db.py 22
+</pre>
 **2-4:vsp database:https://help.idm.illumina.com/dragen-microbial-enrichment-plus/dragen-microbial-enrichment-plus**
 Download file:VSPV2_2-7-0_Panel_Summary.xlsx
 <pre>
 mkdir -p /ref/VSP/
 cd /ref/VSP/
-python3 ../../plugin/VSP.py
+python3 core/VSP.py
 ncbi-blast-2.14.1+/bin/blastdbcmd -db /ref/nt_viruses/nt_viruses -entry_batch /ref/VSP/accession.list -outfmt "%f" > /ref/VSP/VSP.fasta
 ncbi-blast-2.14.1+/bin/makeblastdb -dbtype nucl -in /ref/VSP/VSP.fasta
 wget https://ftp.ncbi.nlm.nih.gov/blast/db/taxdb.tar.gz
