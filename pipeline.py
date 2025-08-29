@@ -160,4 +160,4 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
             print("#------------------------\n#Step7:variant calling,consensus sequence and plot coverage\n#------------------------\n")
             core.consensus.run(f'{args.outdir}/7.mapping/{prefix}.bam', f'{args.outdir}/8.consensus/', prefix,nt_viruses,args.length)
     end=time.time()
-    print(f"\nSample {prefix}:Elapse time is {(end-start)} seconds\n")
+    print(f"\nSampleID {prefix}:Elapse time is {(end-start)} seconds\n")

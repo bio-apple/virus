@@ -7,7 +7,7 @@ import random
 
 docker = "virus:latest"
 
-def run(bam, outdir, prefix, blast_db,read_length):
+def run(bam, outdir, prefix, blast_db,read_length,plot=60,fa=70):
     outdir = os.path.abspath(outdir)
     os.makedirs(outdir, exist_ok=True)
     bam = os.path.abspath(bam)
@@ -23,8 +23,7 @@ def run(bam, outdir, prefix, blast_db,read_length):
     subprocess.check_call(depth_cmd, shell=True)
 
     print("Step 2: Filtering chromosomes based on coverage...")
-    chr_raw,chr_pos,chr_plot = [],[],[]
-    positive,plot=10,70
+    chr_raw,chr_pos,chr_plot,chr_fa = [],[],[],[]
     with open(f"{outdir}/{prefix}.cov", "r") as infile:
         for line in infile:
             line = line.strip()
@@ -36,7 +35,8 @@ def run(bam, outdir, prefix, blast_db,read_length):
                     chr_pos.append(array[0])
                     if float(array[4]) >= plot:#plot
                         chr_plot.append(array[0])
-
+                    if float(array[4]) >= fa:#output fasta
+                        chr_fa.append(array[0])
     print("Step 3: Extracting depth data for filtered chromosomes...")
     mask_bed = f"{outdir}/{prefix}.mask.bed"
     with open(f"{outdir}/{prefix}.depth.txt", "r") as infile,open(f"{outdir}/{prefix}.depth.plot", "w") as outfile,open(mask_bed, "w") as outbed:
@@ -44,7 +44,7 @@ def run(bam, outdir, prefix, blast_db,read_length):
             chrom, pos, depth = line.strip().split("\t")
             if chrom in chr_plot:
                 outfile.write(line)
-                if int(depth) < positive:
+                if int(depth) < 10:
                     outbed.write(f"{chrom}\t{int(pos) - 1}\t{pos}\n")
 
     descriptions = {}
@@ -54,150 +54,149 @@ def run(bam, outdir, prefix, blast_db,read_length):
             os.remove(f"{outdir}/ref.final.fasta")
         for key in chr_raw:#raw
             blast_cmd =cmd+f"export PATH=/opt/conda/envs/kraken2/bin/:$PATH && blastdbcmd -db /ref/{blast_db_name} -entry {key} -outfmt \"%a|%t\"\'"
-            process = subprocess.Popen(blast_cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                       universal_newlines=True)
+            process = subprocess.Popen(blast_cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,universal_newlines=True)
             stdout, stderr = process.communicate()
             if process.returncode == 0 and stdout.strip():
                 all_descriptions = [line.strip() for line in stdout.strip().split('\n') if line.strip()]
                 if all_descriptions:
                     chosen_description = random.choice(all_descriptions)
                     descriptions[key] = chosen_description
-            if key in chr_plot:#plot
+            if key in chr_fa:#plot
                 fasta_cmd = cmd+(f"export PATH=/opt/conda/envs/kraken2/bin/:$PATH && "
                              f"blastdbcmd -db /ref/{blast_db_name} -entry {key} >> /outdir/ref.final.fasta\'")
+                print(fasta_cmd)
                 subprocess.check_call(fasta_cmd, shell=True)
+        if len(chr_fa)!=0:
+            print("Step 5: variant calling...")
+            vcf_cmd = cmd+(f'export PATH=/opt/conda/bin/:$PATH && '
+                            f'bcftools mpileup -Ou -f /outdir/ref.final.fasta /raw_data/{bam_file_name} | '
+                            f'bcftools call --ploidy 1 -mv -Oz -o /outdir/{prefix}.vcf.gz\'')
+            print(vcf_cmd)
+            subprocess.check_call(vcf_cmd, shell=True)
 
-        print("Step 5: variant calling...")
-        vcf_cmd = cmd+(f'export PATH=/opt/conda/bin/:$PATH && '
-                        f'bcftools mpileup -Ou -f /outdir/ref.final.fasta /raw_data/{bam_file_name} | '
-                        f'bcftools call --ploidy 1 -mv -Oz -o /outdir/{prefix}.vcf.gz\'')
-        print(vcf_cmd)
-        subprocess.check_call(vcf_cmd, shell=True)
+            print("Step 6: consensus...")
+            consensus = cmd + (f'export PATH=/opt/conda/bin/:$PATH && '
+                          f'bcftools index /outdir/{prefix}.vcf.gz && cat /outdir/ref.final.fasta | '
+                          f'bcftools consensus -m /outdir/{prefix}.mask.bed -H R -p {prefix} /outdir/{prefix}.vcf.gz > /outdir/{prefix}.consensus.fa\'')
+            print(consensus)
+            subprocess.check_call(consensus, shell=True)
+    if len(chr_plot)!=0:
+        print("Step 7: Generating plots...")
 
-        print("Step 6: consensus...")
-        consensus = cmd + (f'export PATH=/opt/conda/bin/:$PATH && '
-                      f'bcftools index /outdir/{prefix}.vcf.gz && cat /outdir/ref.final.fasta | '
-                      f'bcftools consensus -m /outdir/{prefix}.mask.bed -H R -p {prefix} /outdir/{prefix}.vcf.gz > /outdir/{prefix}.consensus.fa\'')
-        print(consensus)
-        subprocess.check_call(consensus, shell=True)
-        os.remove(f"{outdir}/ref.final.fasta")
+        # Load data for plotting
+        try:
+            df = pd.read_csv(f"{outdir}/{prefix}.depth.plot", sep='\t', header=None, names=['Chr', 'Pos', 'Depth'])
+        except pd.errors.EmptyDataError:
+            print("The depth data file is empty. No plots will be generated.")
+            return
 
-    print("Step 7: Generating plots...")
+        # Get unique chromosomes from the DataFrame
+        unique_chromosomes = df['Chr'].unique()
 
-    # Load data for plotting
-    try:
-        df = pd.read_csv(f"{outdir}/{prefix}.depth.plot", sep='\t', header=None, names=['Chr', 'Pos', 'Depth'])
-    except pd.errors.EmptyDataError:
-        print("The depth data file is empty. No plots will be generated.")
-        return
+        # Part A: Plotting each chromosome individually and saving as separate files
+        print("Generating individual plots for each chromosome...")
+        for chr_name in unique_chromosomes:
+            plt.figure(figsize=(15, 6))
 
-    # Get unique chromosomes from the DataFrame
-    unique_chromosomes = df['Chr'].unique()
+            # Get data for the current chromosome
+            chr_data = df[df['Chr'] == chr_name]
 
-    # Part A: Plotting each chromosome individually and saving as separate files
-    print("Generating individual plots for each chromosome...")
-    for chr_name in unique_chromosomes:
-        plt.figure(figsize=(15, 6))
+            # Plot the depth
+            plt.plot(chr_data['Pos'], chr_data['Depth'], color='blue', alpha=0.7)
 
-        # Get data for the current chromosome
-        chr_data = df[df['Chr'] == chr_name]
+            # Set y-axis to a logarithmic scale
+            plt.yscale('log')
+            plt.tick_params(axis='y', which='both', labelsize=12)
 
-        # Plot the depth
-        plt.plot(chr_data['Pos'], chr_data['Depth'], color='blue', alpha=0.7)
+            # Calculate key statistics for the legend
+            median_depth = chr_data['Depth'].median()
+            low_coverage_bases = (chr_data['Depth'] < 10).sum()
 
-        # Set y-axis to a logarithmic scale
-        plt.yscale('log')
-        plt.tick_params(axis='y', which='both', labelsize=12)
+            # Add horizontal lines
+            plt.axhline(y=median_depth, color='r', linestyle='--', linewidth=2, label=f'Median: {int(median_depth)}')
+            plt.axhline(y=10, color='gray', linestyle='--', linewidth=2, label=f'<10X: {low_coverage_bases} bp')
 
-        # Calculate key statistics for the legend
-        median_depth = chr_data['Depth'].median()
-        low_coverage_bases = (chr_data['Depth'] < 10).sum()
+            # Check if a description exists before adding it to the title
+            title_desc = descriptions.get(chr_name)
+            if title_desc:
+                # If a description exists, include both chromosome and species info
+                title_str = f"Chromosome: {chr_name}\nSpecies Description: {title_desc}"
+            else:
+                # If no description exists, only show the chromosome name
+                title_str = f"Chromosome: {chr_name}"
 
-        # Add horizontal lines
-        plt.axhline(y=median_depth, color='r', linestyle='--', linewidth=2, label=f'Median: {int(median_depth)}')
-        plt.axhline(y=10, color='gray', linestyle='--', linewidth=2, label=f'<10X: {low_coverage_bases} bp')
+            plt.title(title_str, fontsize=16)
+            plt.xlabel("Position (bp)", fontsize=12)
+            plt.ylabel("Depth", fontsize=12)
+            plt.grid(True, linestyle='--', alpha=0.6)
+            plt.legend(loc='lower right', title="", frameon=True)
 
-        # Check if a description exists before adding it to the title
-        title_desc = descriptions.get(chr_name)
-        if title_desc:
-            # If a description exists, include both chromosome and species info
-            title_str = f"Chromosome: {chr_name}\nSpecies Description: {title_desc}"
-        else:
-            # If no description exists, only show the chromosome name
-            title_str = f"Chromosome: {chr_name}"
+            plt.tight_layout()
 
-        plt.title(title_str, fontsize=16)
-        plt.xlabel("Position (bp)", fontsize=12)
-        plt.ylabel("Depth", fontsize=12)
-        plt.grid(True, linestyle='--', alpha=0.6)
-        plt.legend(loc='lower right', title="", frameon=True)
+            # Save the individual plot
+            plt.savefig(f"{outdir}/{prefix}_{chr_name}.png", dpi=300)
+            plt.close()
+            print(f"Individual plot saved for {chr_name}.")
+
+        # Part B: Plotting all chromosomes as subplots on a single large figure
+        print("\nGenerating a combined plot with subplots for all chromosomes...")
+        num_plots = len(unique_chromosomes)
+        ncols = 2
+        nrows = (num_plots + ncols - 1) // ncols
+
+        labels = {chr_name: descriptions.get(chr_name, chr_name) for chr_name in unique_chromosomes}
+        longest_label_len = max(len(label) for label in labels.values()) if labels else 0
+        base_width = 15
+        title_extra_width = max(0, (longest_label_len - 50) * 0.1)
+        fig_width = ncols * (base_width + title_extra_width)
+        fig_height = nrows * 6
+
+        fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(fig_width, fig_height), sharex=False)
+        if num_plots == 1:
+            axes = np.array([axes])
+        axes = axes.flatten()
+
+        for i, chr_name in enumerate(unique_chromosomes):
+            ax = axes[i]
+            chr_data = df[df['Chr'] == chr_name]
+
+            ax.plot(chr_data['Pos'], chr_data['Depth'], color='blue', alpha=0.7)
+            ax.set_yscale('log')
+
+            # Calculate key statistics for the legend
+            median_depth = chr_data['Depth'].median()
+            low_coverage_bases = (chr_data['Depth'] < 10).sum()
+
+            # Add horizontal lines without labels
+            ax.axhline(y=median_depth, color='r', linestyle='--', linewidth=2)
+            ax.axhline(y=10, color='gray', linestyle='--', linewidth=2)
+
+            # Create custom legend for the statistics
+            legend_handles = [
+                plt.Line2D([0], [0], linestyle='None', marker='None', color='w'),
+                plt.Line2D([0], [0], linestyle='--', color='gray'),
+                plt.Line2D([0], [0], linestyle='--', color='r')
+            ]
+            legend_labels = [
+                "",  # An empty line for spacing
+                f'<10X: {low_coverage_bases} bp',
+                f'Median: {int(median_depth)}'
+            ]
+            ax.legend(legend_handles, legend_labels, loc='lower right', frameon=True)
+
+            title = labels.get(chr_name, chr_name)
+            ax.set_title(f"{title}", fontsize=14)
+            ax.set_xlabel("Position (bp)", fontsize=10)
+            ax.set_ylabel("Depth", fontsize=10)
+            ax.grid(True, linestyle='--', alpha=0.6)
+
+        for i in range(num_plots, len(axes)):
+            fig.delaxes(axes[i])
 
         plt.tight_layout()
-
-        # Save the individual plot
-        plt.savefig(f"{outdir}/{prefix}_{chr_name}.png", dpi=300)
+        plt.savefig(f"{outdir}/{prefix}_all_chromosomes_subplots.png", dpi=300)
         plt.close()
-        print(f"Individual plot saved for {chr_name}.")
-
-    # Part B: Plotting all chromosomes as subplots on a single large figure
-    print("\nGenerating a combined plot with subplots for all chromosomes...")
-    num_plots = len(unique_chromosomes)
-    ncols = 2
-    nrows = (num_plots + ncols - 1) // ncols
-
-    labels = {chr_name: descriptions.get(chr_name, chr_name) for chr_name in unique_chromosomes}
-    longest_label_len = max(len(label) for label in labels.values()) if labels else 0
-    base_width = 15
-    title_extra_width = max(0, (longest_label_len - 50) * 0.1)
-    fig_width = ncols * (base_width + title_extra_width)
-    fig_height = nrows * 6
-
-    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(fig_width, fig_height), sharex=False)
-    if num_plots == 1:
-        axes = np.array([axes])
-    axes = axes.flatten()
-
-    for i, chr_name in enumerate(unique_chromosomes):
-        ax = axes[i]
-        chr_data = df[df['Chr'] == chr_name]
-
-        ax.plot(chr_data['Pos'], chr_data['Depth'], color='blue', alpha=0.7)
-        ax.set_yscale('log')
-
-        # Calculate key statistics for the legend
-        median_depth = chr_data['Depth'].median()
-        low_coverage_bases = (chr_data['Depth'] < 10).sum()
-
-        # Add horizontal lines without labels
-        ax.axhline(y=median_depth, color='r', linestyle='--', linewidth=2)
-        ax.axhline(y=10, color='gray', linestyle='--', linewidth=2)
-
-        # Create custom legend for the statistics
-        legend_handles = [
-            plt.Line2D([0], [0], linestyle='None', marker='None', color='w'),
-            plt.Line2D([0], [0], linestyle='--', color='gray'),
-            plt.Line2D([0], [0], linestyle='--', color='r')
-        ]
-        legend_labels = [
-            "",  # An empty line for spacing
-            f'<10X: {low_coverage_bases} bp',
-            f'Median: {int(median_depth)}'
-        ]
-        ax.legend(legend_handles, legend_labels, loc='lower right', frameon=True)
-
-        title = labels.get(chr_name, chr_name)
-        ax.set_title(f"{title}", fontsize=14)
-        ax.set_xlabel("Position (bp)", fontsize=10)
-        ax.set_ylabel("Depth", fontsize=10)
-        ax.grid(True, linestyle='--', alpha=0.6)
-
-    for i in range(num_plots, len(axes)):
-        fig.delaxes(axes[i])
-
-    plt.tight_layout()
-    plt.savefig(f"{outdir}/{prefix}_all_chromosomes_subplots.png", dpi=300)
-    plt.close()
-    print(f"Subplot plot for all chromosomes saved to {outdir}/{prefix}_all_chromosomes_subplots.png")
+        print(f"Subplot plot for all chromosomes saved to {outdir}/{prefix}_all_chromosomes_subplots.png")
     with open(f"{outdir}/{prefix}.cov", "r") as infile, \
             open(f"{outdir}/{prefix}.cov.txt", "w") as outfile, \
             open(f"{outdir}/{prefix}.final.cov.txt", "w") as outfile1:
@@ -236,6 +235,8 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--outdir", required=True, help="Output directory")
     parser.add_argument("-p", "--prefix", required=True, help="Prefix for output")
     parser.add_argument("-d", "--blast-db", default=None,help="Path to the local BLAST database for getting species descriptions (optional).")
+    parser.add_argument("-plot", "--plot", default=60, type=int, help="plot when Covered_percent >default=60")
+    parser.add_argument("-fa", "--fa", default=70, type=int, help="output consensus fasta when Covered_percent >default=70")
     parser.add_argument("-l", "--read_length", type=int, help="read length",required=True)
     args = parser.parse_args()
-    run(args.bam, args.outdir, args.prefix, args.blast_db,args.read_length)
+    run(args.bam, args.outdir, args.prefix, args.blast_db,args.read_length,args.plot, args.fa)
