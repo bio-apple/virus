@@ -58,7 +58,7 @@ def run(blast_out_vsp,blast_out_nt_viruses,nt_virus_db_dir,outdir,accession):
     print(cmd)
     subprocess.check_call(cmd, shell=True)
     print("Done")
-    return num
+    return accession
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser(description='blast2VSP')

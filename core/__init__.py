@@ -12,3 +12,4 @@ from . import trim_primer
 from . import parse_blast
 from . import contig_cov
 from . import consensus
+from . import consensus_dev

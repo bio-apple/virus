@@ -6,7 +6,7 @@ import numpy as np
 
 docker = "virus:latest"
 
-def run(accession,pe1,outdir, prefix, blast_db,read_length,plot=60,fa=70,pe2=None):
+def run(accession,pe1,outdir, prefix, blast_db,read_length,pe2=None,plot=60,fa=70):
     outdir = os.path.abspath(outdir)
     os.makedirs(outdir, exist_ok=True)
     blast_db_dir = os.path.abspath(os.path.dirname(blast_db))

@@ -145,7 +145,11 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         core.blast.run(f'{args.outdir}/5.assembly/{prefix}.non-redundant.fna',virus,f"{args.outdir}/6.blast/",prefix+".nt_viruses",10,98,70,1e-10,5)
         #blast vsp
         core.blast.run(f'{args.outdir}/5.assembly/{prefix}.non-redundant.fna', vsp, f"{args.outdir}/6.blast/", prefix+".vsp",10,95,50,1e-5,5)
-        num=core.parse_blast.run(f"{args.outdir}/6.blast/{prefix}.vsp.blast_all.txt",f"{args.outdir}/6.blast/{prefix}.nt_viruses.blast_all.txt",nt_viruses,f"{args.outdir}/6.blast/",accession)
+        new_accession=core.parse_blast.run(f"{args.outdir}/6.blast/{prefix}.vsp.blast_all.txt",f"{args.outdir}/6.blast/{prefix}.nt_viruses.blast_all.txt", nt_viruses,f"{args.outdir}/6.blast/", accession)
+        print(new_accession)
+        core.consensus_dev.run(new_accession,read1,f'{args.outdir}/8.consensus/',prefix,nt_viruses,args.length,read2)
+        #num=len(core.parse_blast.run(f"{args.outdir}/6.blast/{prefix}.vsp.blast_all.txt",f"{args.outdir}/6.blast/{prefix}.nt_viruses.blast_all.txt",nt_viruses,f"{args.outdir}/6.blast/",accession))
+        """
         if num != 0:
 
             # ------------------------
@@ -159,5 +163,6 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
             # ------------------------
             print("#------------------------\n#Step7:variant calling,consensus sequence and plot coverage\n#------------------------\n")
             core.consensus.run(f'{args.outdir}/7.mapping/{prefix}.bam', f'{args.outdir}/8.consensus/', prefix,nt_viruses,args.length)
+        """
     end=time.time()
     print(f"\nSampleID {prefix}:Elapse time is {(end-start)} seconds\n")

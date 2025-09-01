@@ -2,6 +2,8 @@ import os,sys,re
 import subprocess
 import argparse
 
+from virus.pipeline import accession
+
 docker='virus:latest'
 # align reads with bowtie2 and sort bam with samtools
 def run(ref_index_dir,outdir,prefix,R1,R2=None):
@@ -23,9 +25,19 @@ def run(ref_index_dir,outdir,prefix,R1,R2=None):
     if R2:
         cmd+=f'-1 /raw_data/{R1.split("/")[-1]} -2 /raw_data/{R2.split("/")[-1]}|samtools view -bh |samtools sort > /outdir/{prefix}.bam && samtools index /outdir/{prefix}.bam\''
     else:
-        cmd= f'-U {R1}|samtools view -bh |samtools sort > /outdir/{prefix}.bam && samtools index /outdir/{prefix}.bam\''
+        cmd= f'-U {R1}|samtools view -bh |samtools sort > /outdir/{prefix}.bam && samtools index /outdir/{prefix}.bam && pileup.sh in=/outdir/{prefix}.bam out=/outdir/{prefix}.cov\''
     print(cmd)
     subprocess.check_call(cmd, shell=True)
+    accession=[]
+    with open(f"{outdir}/{prefix}.cov", "r") as f:
+        for line in f:
+            line = line.strip()
+            if not line.startswith("#"):
+                array = line.split("\t")
+                if not (float(array[1]) == 0 and float(array[4]) == 0 and float(array[9]) == 0):
+                    if array[0] not in accession:
+                        accession.append(array[0])
+    return accession
 
 
 if __name__=="__main__":
