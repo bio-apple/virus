@@ -17,8 +17,7 @@ def run(accession,pe1,outdir, prefix, blast_db,read_length,pe2=None,plot=60,fa=7
 
     cmd = f'docker run --rm -v {outdir}:/outdir -v {blast_db_dir}:/ref {docker} sh -c \''
 
-    outfile1=open(f"{outdir}/{prefix}.cov.txt","w")
-    outfile2=open(f"{outdir}/{prefix}.final.txt","w")
+    outfile1=open(f"{outdir}/{prefix}.final.txt","w")
 
     num,chr_plot = 0,[]
     for key in accession:
@@ -26,58 +25,45 @@ def run(accession,pe1,outdir, prefix, blast_db,read_length,pe2=None,plot=60,fa=7
         fasta_cmd = cmd + (f"export PATH=/opt/conda/envs/kraken2/bin/:$PATH && blastdbcmd -db /ref/{blast_db_name} -entry {key} > /outdir/{key}.fasta\'")
         print(fasta_cmd)
         subprocess.check_call(fasta_cmd, shell=True)
-        
-        cov=""
+
+        # Step 2: Map reads and generate a sorted BAM file directly.
+        # This is more efficient than generating an intermediate SAM file.
         if pe2 is not None:
-            cov = (f'docker run '
-                   f'-v {pe1}:/raw_data/{pe1.split("/")[-1]} '
-                   f'-v {pe2}:/raw_data/{pe2.split("/")[-1]} '
-                   f'-v {outdir}:/outdir/ {docker} '
-                   f'sh -c \'export PATH=/opt/conda/bin:$PATH && '
-                   f'bbwrap.sh ref=/outdir/{key}.fasta in1=/raw_data/{pe1.split("/")[-1]} in2=/raw_data/{pe2.split("/")[-1]} out=/outdir/{key}.sam.gz && '
-                   f'pileup.sh in=/outdir/{key}.sam.gz out=/outdir/{key}.cov.txt\'')
+            mapping_cmd = (f'docker run '
+                           f'-v {pe1}:/raw_data/{os.path.basename(pe1)} '
+                           f'-v {pe2}:/raw_data/{os.path.basename(pe2)} '
+                           f'-v {outdir}:/outdir/ {docker} '
+                           f'sh -c \'export PATH=/opt/conda/bin/:$PATH && '
+                           f'bbwrap.sh ref=/outdir/{key}.fasta in1=/raw_data/{os.path.basename(pe1)} in2=/raw_data/{os.path.basename(pe2)} | '
+                           f'samtools view -bh | samtools sort > /outdir/{key}.bam && samtools index /outdir/{key}.bam\'')
         else:
-            cov = (f'docker run '
-                   f'-v {pe1}:/raw_data/{pe1.split("/")[-1]} '
-                   f'-v {outdir}:/outdir/ {docker} '
-                   f'sh -c \'export PATH=/opt/conda/bin:$PATH && '
-                   f'bbwrap.sh ref=/outdir/{key}.fasta in=/raw_data/{pe1.split("/")[-1]} out=/outdir/{key}.sam.gz && '
-                   f'pileup.sh in=/outdir/{key}.sam.gz out=/outdir/{key}.cov.txt\'')
-        print(cov)
+            mapping_cmd = (f'docker run '
+                           f'-v {pe1}:/raw_data/{os.path.basename(pe1)} '
+                           f'-v {outdir}:/outdir/ {docker} '
+                           f'sh -c \'export PATH=/opt/conda/bin/:$PATH && '
+                           f'bbwrap.sh ref=/outdir/{key}.fasta in=/raw_data/{os.path.basename(pe1)} | '
+                           f'samtools view -bh | samtools sort > /outdir/{key}.bam && samtools index /outdir/{key}.bam\'')
+        print(f"Mapping and sorting for {key}...")
+        subprocess.check_call(mapping_cmd, shell=True)
+
+        # Step 3: Use the new sorted BAM file to generate the coverage file.
+        cov = (f'docker run -v {outdir}:/outdir/ {docker} '
+               f'sh -c \'export PATH=/opt/conda/bin:$PATH && '
+               f'pileup.sh in=/outdir/{key}.bam out=/outdir/{key}.cov.txt\'')
+        print(f"Generating coverage for {key}...")
         subprocess.check_call(cov, shell=True)
+
         with open(f"{outdir}/{key}.cov.txt","r") as f:
             for line in f:
                 line = line.strip()
                 if not line.startswith("#"):
                     array = line.split("\t")
-                    if not (float(array[1]) == 0 and float(array[4]) == 0 and float(array[9]) == 0):
-                        outfile1.write(f"{line}\n")#raw
                     if float(array[5]) > max(int(read_length) * 3, 500) or float(array[1]) >= 10 or float(array[9]) >= 10:
-                        outfile2.write(f"{line}\n")#pos
+                        outfile1.write(f"{line}\n")#pos
                         if float(array[4]) >= plot:
                             chr_plot.append(array[0])
-                            #refernce index
-                            subprocess.check_call(
-                                cmd+f'export PATH=/opt/conda/envs/kraken2/bin:/opt/conda/bin:$PATH && cd /outdir/ && '
-                                f'bowtie2-build {key}.fasta {key}.fasta && '
-                                f'samtools faidx {key}.fasta && '
-                                f'bwa index -a bwtsw {key}.fasta\'', shell=True)
-
-                            #mapping
-                            mapping=f'docker run -v {pe1}:/raw_data/{pe1.split("/")[-1]} -v {outdir}:/outdir/ '
-                            if pe2 is not None:
-                                mapping+=f'-v {pe2}:/raw_data/{pe2.split("/")[-1]} '
-                            mapping+=f'{docker} sh -c \'export PATH=/opt/conda/bin/:$PATH && bowtie2 --threads 48 -x /outdir/{key}.fasta '
-                            if pe2 is not None:
-                                mapping += f'-1 /raw_data/{pe1.split("/")[-1]} -2 /raw_data/{pe2.split("/")[-1]}|samtools view -bh |samtools sort > /outdir/{key}.bam && samtools index /outdir/{key}.bam\''
-                            else:
-                                mapping+= f'-U {pe1}|samtools view -bh |samtools sort > /outdir/{key}.bam && samtools index /outdir/{key}.bam\''
-                            print(mapping)
-                            subprocess.check_call(mapping, shell=True)
-
                             #depth
-                            depth_cmd = cmd + (f"export PATH=/opt/conda/bin:$PATH && "
-                                               f"samtools depth -J -d 8000 -Q 0 -q 20 -aa /outdir/{key}.bam > /outdir/{key}.depth.txt\'")
+                            depth_cmd = cmd + (f"export PATH=/opt/conda/bin:$PATH && samtools depth -J -d 8000 -Q 0 -q 20 -aa /outdir/{key}.bam > /outdir/{key}.depth.txt\'")
                             subprocess.check_call(depth_cmd, shell=True)
                             #mask bed
                             with open(f"{outdir}/{key}.depth.txt", "r") as infile,open(f"{outdir}/{key}.mask.bed", "w") as outbed:
@@ -86,7 +72,6 @@ def run(accession,pe1,outdir, prefix, blast_db,read_length,pe2=None,plot=60,fa=7
                                     if int(depth) < 10:
                                         outbed.write(f"{chrom}\t{int(pos) - 1}\t{pos}\n")
                             subprocess.check_call(f'cat {outdir}/{key}.depth.txt >>{outdir}/{prefix}.depth.plot', shell=True)
-
                         if float(array[4]) >= fa:  # output fasta
                             print("variant calling...")
                             vcf_cmd = cmd + (f'export PATH=/opt/conda/bin/:$PATH && '
@@ -104,7 +89,6 @@ def run(accession,pe1,outdir, prefix, blast_db,read_length,pe2=None,plot=60,fa=7
                 else:
                     if num==1:
                         outfile1.write(f"{line}\n")
-                        outfile2.write(f"{line}\n")
         subprocess.check_call(f'cd {outdir} && rm -rf {key}.fasta* {key}.cov.txt {key}.sam.gz {key}.bam* {key}.depth.txt',shell=True)
 
     descriptions={}
