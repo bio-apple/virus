@@ -240,4 +240,4 @@ if __name__ == "__main__":
     parser.add_argument("-fa","--fa", default=70, type=int, help="output consensus fasta when Covered_percent >default=70")
     parser.add_argument("-l", "--read_length", type=int, help="read length",required=True)
     args = parser.parse_args()
-    run(args.accession, args.pe1, args.outdir,args.prefix, args.blast_db,args.read_length,args.plot, args.fa,args.pe2)
+    run(args.accession, args.pe1, args.outdir,args.prefix, args.blast_db,args.read_length,args.pe2,args.plot, args.fa)

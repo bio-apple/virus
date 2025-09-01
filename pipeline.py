@@ -63,6 +63,7 @@ contig=config.get('parameter','contig_min_length')
 
 for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     start = time.time()
+    """
     # ------------------------
     # Step 1: fastp qc
     # ------------------------
@@ -79,6 +80,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # ------------------------
     print("\n#------------------------\n#Step 3: bowtie2 host filter\n#------------------------\n")
     core.filter_host.run(r1,args.outdir+"/3.filter_host",host,prefix,r2)
+    """
     read1, read2 ,accession1= "", "",[]
     if r2:
         read1 = args.outdir + "/" + "3.filter_host/" + prefix + "_1.fastq"
@@ -122,7 +124,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         accession2=core.contig_cov.run(vsp_fa,read1,f'{args.outdir}/4.vsp/',prefix,read2,args.length)
         accession = list(set(accession1 + accession2))
         print(accession)
-
+        """
         # ------------------------
         # Step 5: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
         # ------------------------
@@ -145,24 +147,21 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         core.blast.run(f'{args.outdir}/5.assembly/{prefix}.non-redundant.fna',virus,f"{args.outdir}/6.blast/",prefix+".nt_viruses",10,98,70,1e-10,5)
         #blast vsp
         core.blast.run(f'{args.outdir}/5.assembly/{prefix}.non-redundant.fna', vsp, f"{args.outdir}/6.blast/", prefix+".vsp",10,95,50,1e-5,5)
-        new_accession=core.parse_blast.run(f"{args.outdir}/6.blast/{prefix}.vsp.blast_all.txt",f"{args.outdir}/6.blast/{prefix}.nt_viruses.blast_all.txt", nt_viruses,f"{args.outdir}/6.blast/", accession)
-        print(new_accession)
-        core.consensus_dev.run(new_accession,read1,f'{args.outdir}/8.consensus/',prefix,nt_viruses,args.length,read2)
-        #num=len(core.parse_blast.run(f"{args.outdir}/6.blast/{prefix}.vsp.blast_all.txt",f"{args.outdir}/6.blast/{prefix}.nt_viruses.blast_all.txt",nt_viruses,f"{args.outdir}/6.blast/",accession))
         """
-        if num != 0:
+        #parse blast
+        new_accession1=core.parse_blast.run(f"{args.outdir}/6.blast/{prefix}.vsp.blast_all.txt",f"{args.outdir}/6.blast/{prefix}.nt_viruses.blast_all.txt", nt_viruses,f"{args.outdir}/6.blast/", accession)
+        print(new_accession1)
+        # ------------------------
+        # step 7:mapping reference
+        # ------------------------
+        print("\n#------------------------\n#Step 7:mapping reference\n#------------------------\n")
+        final_accession=core.mapping.run(f'{args.outdir}/6.blast/',f'{args.outdir}/7.mapping/',prefix,read1, read2,args.read_length)
+        print(final_accession)
+        # ------------------------
+        # step8:variant calling,consensus sequence and plot coverage
+        # ------------------------
+        print("#------------------------\n#Step7:variant calling,consensus sequence and plot coverage\n#------------------------\n")
+        core.consensus_dev.run(final_accession,read1,f'{args.outdir}/8.consensus/',prefix,nt_viruses,args.length,read2)
 
-            # ------------------------
-            # step 7:mapping reference
-            # ------------------------
-            print("\n#------------------------\n#Step 7:mapping reference\n#------------------------\n")
-            core.mapping.run(f'{args.outdir}/6.blast/',f'{args.outdir}/7.mapping/',prefix,read1, read2)
-
-            # ------------------------
-            # step8:variant calling,consensus sequence and plot coverage
-            # ------------------------
-            print("#------------------------\n#Step7:variant calling,consensus sequence and plot coverage\n#------------------------\n")
-            core.consensus.run(f'{args.outdir}/7.mapping/{prefix}.bam', f'{args.outdir}/8.consensus/', prefix,nt_viruses,args.length)
-        """
     end=time.time()
     print(f"\nSampleID {prefix}:Elapse time is {(end-start)} seconds\n")
