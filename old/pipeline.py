@@ -140,11 +140,16 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         core.cd_hit_est.run(f'{args.outdir}/5.assembly/{prefix}.contigs.fa',identify,prefix+".non-redundant",f'{args.outdir}/5.assembly/')
         """
         # ------------------------
-        # Step 6: blast nt
+        # Step 6: blast nt & vsp
         # ------------------------
-        print("\n#------------------------\n#Step 6: blast NCBI Database: nt virus\n#------------------------\n")
+        print("\n#------------------------\n#Step 6: blast NCBI Database: nt virus and vsp\n#------------------------\n")
         #blast nt
         core.blast.run(f'{args.outdir}/5.assembly/{prefix}.non-redundant.fna',virus,f"{args.outdir}/6.blast/",prefix+".nt_viruses",10,98,70,1e-10,1)
+        #blast vsp
+        #core.blast.run(f'{args.outdir}/5.assembly/{prefix}.non-redundant.fna', vsp, f"{args.outdir}/6.blast/", prefix+".vsp",10,95,50,1e-5,5)
+
+        #parse blast
+        #new_accession1=core.parse_blast_bank.run(f"{args.outdir}/6.blast/{prefix}.vsp.blast_all.txt", f"{args.outdir}/6.blast/{prefix}.nt_viruses.blast_all.txt", nt_viruses, f"{args.outdir}/6.blast/", accession)
         new_accession1 = core.parse_blast.run(f"{args.outdir}/6.blast/{prefix}.nt_viruses.blast_all.txt",nt_viruses, f"{args.outdir}/6.blast/", accession)
         print(new_accession1)
         # ------------------------
