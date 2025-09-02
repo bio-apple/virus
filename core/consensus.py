@@ -249,6 +249,7 @@ def run(accession_list, pe1, outdir, prefix, blast_db, read_length, pe2=None, pl
             plt.close()
             print(f"Subplot plot for all chromosomes saved to {outdir}/{prefix}_all_chromosomes_subplots.png")
 
+    subprocess.check_call(f"cd {outdir} && rm -rf *.fasta* *.mask.bed *.bam* *depth.txt",shell=True)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Variant calling + consensus with N mask and coverage plotting.")
