@@ -139,20 +139,22 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         subprocess.check_call(f'cd {args.outdir}/5.assembly/ && cat spades_{prefix}/scaffolds_{contig}bp.fasta megahit_{prefix}/{prefix}.contigs.fa >{prefix}.contigs.fa',shell=True)
         core.cd_hit_est.run(f'{args.outdir}/5.assembly/{prefix}.contigs.fa',identify,prefix+".non-redundant",f'{args.outdir}/5.assembly/')
         """
+
         # ------------------------
         # Step 6: blast nt
         # ------------------------
         print("\n#------------------------\n#Step 6: blast NCBI Database: nt virus\n#------------------------\n")
-        #blast nt
         core.blast.run(f'{args.outdir}/5.assembly/{prefix}.non-redundant.fna',virus,f"{args.outdir}/6.blast/",prefix+".nt_viruses",10,98,70,1e-10,1)
         new_accession1 = core.parse_blast.run(f"{args.outdir}/6.blast/{prefix}.nt_viruses.blast_all.txt",nt_viruses, f"{args.outdir}/6.blast/", accession)
         print(new_accession1)
+
         # ------------------------
         # step 7:mapping reference
         # ------------------------
         print("\n#------------------------\n#Step 7:mapping reference\n#------------------------\n")
         final_accession=core.mapping.run(f'{args.outdir}/6.blast/',f'{args.outdir}/7.mapping/',prefix,read1, read2,args.length)
         print(final_accession)
+
         # ------------------------
         # step8:variant calling,consensus sequence and plot coverage
         # ------------------------
