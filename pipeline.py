@@ -145,7 +145,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         # ------------------------
         print("\n#------------------------\n#Step 6: blast NCBI Database: nt virus\n#------------------------\n")
         core.blast.run(f'{args.outdir}/5.assembly/{prefix}.non-redundant.fna',virus,f"{args.outdir}/6.blast/",prefix+".nt_viruses",10,98,70,1e-10,1)
-        new_accession1 = core.parse_blast.run(f"{args.outdir}/6.blast/{prefix}.nt_viruses.blast_all.txt",nt_viruses, f"{args.outdir}/6.blast/", accession)
+        new_accession1 = core.parse_blast.run(f"{args.outdir}/6.blast/{prefix}.nt_viruses.blast_all.txt",nt_viruses, f"{args.outdir}/6.blast/", accession,0.95)
         print(new_accession1)
 
         # ------------------------
