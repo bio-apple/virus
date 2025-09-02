@@ -157,7 +157,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         # step8:variant calling,consensus sequence and plot coverage
         # ------------------------
         print("#------------------------\n#Step7:variant calling,consensus sequence and plot coverage\n#------------------------\n")
-        #core.consensus_dev.run(final_accession,read1,f'{args.outdir}/8.consensus/',prefix,nt_viruses,args.length,read2)
+        core.consensus.run(final_accession,read1,f'{args.outdir}/8.consensus/',prefix,nt_viruses,args.length,read2)
 
     end=time.time()
     print(f"\nSampleID {prefix}:Elapse time is {(end-start)} seconds\n")
