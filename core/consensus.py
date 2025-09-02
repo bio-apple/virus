@@ -139,9 +139,10 @@ def run(accession_list, pe1, outdir, prefix, blast_db, read_length, pe2=None, pl
                     plot_worthy_accessions.append(acc)
             except Exception as e:
                 print(f"Processing for accession {acc} failed: {e}")
-
     with open(f"{outdir}/{prefix}.final.txt", "w") as outfile1:
+        num=0
         for accession in accession_list:
+            num+=1
             cov_file = f"{outdir}/{accession}.cov.txt"
             if os.path.exists(cov_file):
                 with open(cov_file, "r") as f_cov:
@@ -152,7 +153,8 @@ def run(accession_list, pe1, outdir, prefix, blast_db, read_length, pe2=None, pl
                             if float(array[5]) > max(int(read_length) * 3, 500) or float(array[1]) >= 10 or float(array[9]) >= 10:
                                 outfile1.write(f"{descriptions.get(array[0], 'N/A')}\t{array[1]}\t{array[2]}\t{array[3]}\t{array[4]}\t{array[5]}\t{array[6]}\t{array[7]}\t{array[8]}\t{array[9]}\n")
                         else:
-                            outfile1.write(f"{line}\n")
+                            if num==1:
+                                outfile1.write(f"{line}\n")
                 os.remove(cov_file)
 
     # Step 4: Plotting (single-threaded, after all data is collected)
