@@ -3,7 +3,7 @@ import argparse
 import subprocess
 
 docker="virus:latest"
-def run(blast_out_nt_viruses,nt_virus_db_dir,outdir,accession,identify=0.998):
+def run(blast_out_nt_viruses,nt_virus_db_dir,outdir,accession,identify):
     outfile = open(outdir + "/ref.list", "w")
     outdir = os.path.abspath(outdir)
     os.makedirs(outdir, exist_ok=True)
@@ -59,7 +59,8 @@ if __name__=="__main__":
     parser.add_argument("-d","--nt_virus_dir",help='NT virus directory',required=True)
     parser.add_argument("-o","--outdir",help='output directory',default=os.getcwd())
     parser.add_argument("-a","--accession",help='accession',default=None)
+    parser.add_argument("-i", "--identify", help="sequence identity threshold, default: 0.95", default=0.95,type=float)
     args = parser.parse_args()
-    run(args.blast_out_nt_viruses,args.nt_virus_dir,args.outdir,args.accession)
+    run(args.blast_out_nt_viruses,args.nt_virus_dir,args.outdir,args.accession,args.identify)
 
 
