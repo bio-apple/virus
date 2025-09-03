@@ -21,7 +21,7 @@ def run(pe1,index,prefix,outdir,read_length,pe2=None):
 
     cmd+=f"{'--paired /raw_data/' + os.path.basename(pe1) + ' /raw_data/' + os.path.basename(pe2) if pe2 else '/raw_data/' + os.path.basename(pe1)} && "
     # Run Bracken for Abundance Estimation of Microbiome Samples
-    cmd += f"bracken -d /ref/ -i /outdir/{prefix}.report.txt -r {read_length} -o /outdir/{prefix}.bracken -w /outdir/{prefix}.breport -t 10 && "
+    cmd += f"bracken -d /ref/ -i /outdir/{prefix}.report.txt -r {read_length} -o /outdir/{prefix}.bracken -w /outdir/{prefix}.breport -t 3 && "
 
     # Generate Krona Plots
     cmd += f"kreport2krona.py -r /outdir/{prefix}.breport -o /outdir/{prefix}.krona.txt --no-intermediate-ranks && ktImportText /outdir/{prefix}.krona.txt -o /outdir/{prefix}.krona.html\'"
