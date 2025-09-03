@@ -21,7 +21,7 @@ FROM freyja AS kraken
 RUN /opt/conda/bin/mamba create --name kraken2 --channel conda-forge --channel bioconda --channel defaults kraken2 krakentools krona bracken taxonkit bioawk
 
 FROM kraken AS virus
-RUN cd /opt/ && https://github.com/weizhongli/cdhit.git && cd cdhit && make && make install && ln -s /usr/local/bin/cd-hit-est /opt/conda/bin/cd-hit-est && \
+RUN cd /opt/ && git clone https://github.com/weizhongli/cdhit.git && cd cdhit && make && make install && ln -s /usr/local/bin/cd-hit-est /opt/conda/bin/cd-hit-est && \
     /opt/conda/bin/mamba install --channel conda-forge --channel bioconda --channel defaults ivar=1.3.1 trimmomatic  \
     bowtie2 bbmap fastp seqtk samtools bedtools bcftools bwa prinseq cutadapt drep jvarkit ncbi-datasets-cli entrez-direct &&  \
     /opt/conda/bin/conda install bioconda::megahit bioconda::spades bioconda::quast &&  \
