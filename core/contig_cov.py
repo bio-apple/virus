@@ -16,16 +16,16 @@ def run(ref,pe1,outdir,prefix,pe2=None,read_length=150):
              f'-v {outdir}:/outdir/ '
              f'-v {ref}:/ref/{ref.split("/")[-1]} {docker} '
              f'sh -c \'export PATH=/opt/conda/bin:$PATH && '
-             f'bbwrap.sh ref=/ref/{ref.split("/")[-1]} in1=/raw_data/{pe1.split("/")[-1]} in2=/raw_data/{pe2.split("/")[-1]} out=/outdir/{prefix}.sam.gz && '
-             f'pileup.sh in=/outdir/{prefix}.sam.gz out=/outdir/{prefix}.cov.txt\'')
+             f'bbwrap.sh ref=/ref/{ref.split("/")[-1]} in1=/raw_data/{pe1.split("/")[-1]} in2=/raw_data/{pe2.split("/")[-1]} out=/outdir/{prefix}.sam.gz nodisk && '
+             f'pileup.sh in=/outdir/{prefix}.sam.gz out=/outdir/{prefix}.cov.txt nodisk\'')
     else:
         cmd = (f'docker run '
                f'-v {pe1}:/raw_data/{pe1.split("/")[-1]} '
                f'-v {outdir}:/outdir/ '
                f'-v {ref}:/ref/{ref.split("/")[-1]} {docker} '
                f'sh -c \'export PATH=/opt/conda/bin:$PATH && '
-               f'bbwrap.sh ref=/ref/{ref.split("/")[-1]} in=/raw_data/{pe1.split("/")[-1]} out=/outdir/{prefix}.sam.gz && '
-               f'pileup.sh in=/outdir/{prefix}.sam.gz out=/outdir/{prefix}.cov.txt\'')
+               f'bbwrap.sh ref=/ref/{ref.split("/")[-1]} in=/raw_data/{pe1.split("/")[-1]} out=/outdir/{prefix}.sam.gz nodisk && '
+               f'pileup.sh in=/outdir/{prefix}.sam.gz out=/outdir/{prefix}.cov.txt nodisk \'')
     print(cmd)
     subprocess.check_call(cmd, shell=True)
     infile=open(f"{outdir}/{prefix}.cov.txt","r")

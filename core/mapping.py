@@ -21,9 +21,9 @@ def run(ref_index_dir,outdir,prefix,R1,R2=None,read_length=150):
     cmd+=f'{docker} sh -c \'export PATH=/opt/conda/bin/:$PATH && bowtie2 --threads 48 -x /ref/{ref_index} '
 
     if R2:
-        cmd+=f'-1 /raw_data/{R1.split("/")[-1]} -2 /raw_data/{R2.split("/")[-1]}|samtools view -bh |samtools sort > /outdir/{prefix}.bam && samtools index /outdir/{prefix}.bam && pileup.sh in=/outdir/{prefix}.bam out=/outdir/{prefix}.cov\''
+        cmd+=f'-1 /raw_data/{R1.split("/")[-1]} -2 /raw_data/{R2.split("/")[-1]}|samtools view -bh |samtools sort > /outdir/{prefix}.bam && samtools index /outdir/{prefix}.bam && pileup.sh in=/outdir/{prefix}.bam out=/outdir/{prefix}.cov nodisk\''
     else:
-        cmd= f'-U {R1}|samtools view -bh |samtools sort > /outdir/{prefix}.bam && samtools index /outdir/{prefix}.bam && pileup.sh in=/outdir/{prefix}.bam out=/outdir/{prefix}.cov\''
+        cmd= f'-U {R1}|samtools view -bh |samtools sort > /outdir/{prefix}.bam && samtools index /outdir/{prefix}.bam && pileup.sh in=/outdir/{prefix}.bam out=/outdir/{prefix}.cov nodisk\''
     print(cmd)
     subprocess.check_call(cmd, shell=True)
     accession=[]

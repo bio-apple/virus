@@ -91,10 +91,10 @@ Download Current Release **Reference Viral DataBase(RVDB)**:https://rvdb.dbi.ude
     
     wget https://rvdb.dbi.udel.edu/download/U-RVDBv30.0.fasta.gz
     gunzip U-RVDBv30.0.fasta.gz
-    grep ">" U-RVDBv30.0.fasta|awk -F"|" '{print $3}' |awk -F"." '{print $1}'>RVDB_accession.list
+    grep ">" U-RVDBv30.0.fasta|awk -F"|" {print $3} |awk -F"." {print $1}>RVDB_accession.list
     sort RVDB_accession.list sequences.acc | uniq -d | cat VSP_accession.list - | sort -u > final.txt
     ncbi-blast-2.14.1+/bin/blastdbcmd -db /ref/nt_viruses/nt_viruses -out virus.fasta -entry_batch final.txt -outfmt "%f"
-    grep ">" virus.fasta|sort -u|awk -F" " '{print $1}'|awk -F">" '{print $2}' >acc.id
+    grep ">" virus.fasta|sort -u|awk -F" " {print $1}|awk -F">" {print $2} >acc.id
     rm -rf virus.fasta final.txt
     ncbi-blast-2.14.1+/bin/blastdbcmd -db /ref/nt_viruses/nt_viruses -out virus_completeness_unique.fasta -entry_batch acc.id -outfmt "%f"
     ncbi-blast-2.14.1+/bin/makeblastdb -in virus_completeness_unique.fasta -dbtype nucl
@@ -155,3 +155,5 @@ Command-line example:
 
 Bacterial and Viral Bioinformatics Resource Center (BV-BRC):https://www.bv-brc.org
 
+
+KX169266.1 KY574515.1 V01150.1 MG212427.1 KX169268.1 KX058884.1 CY115155.1 KR733233.1 KX007653.1 MG212470.1 NC_029853.1 MG212463.1 PP533223.1 MG212466.1 KJ668270.1 PQ182739.1 KX169267.1 OR253702.1 MG212468.1 KY574518.1 AF221065.1 JX275083.2 KX169270.1 MG212479.1 KY574517.1

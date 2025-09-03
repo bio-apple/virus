@@ -39,7 +39,6 @@ def process_accession(accession, pe1, pe2, outdir, blast_db_dir, blast_db_name, 
     command = ['awk', f'/^>/ {{print ">{accession}"}} !/^>/ {{print}}', f'{outdir}/{accession}.fa']
     with open(f'{outdir}/{accession}.fasta', 'w') as outfile:
         subprocess.run(command, check=True, stdout=outfile)
-    os.remove(f"{outdir}/{accession}.fa")
 
     # Step 2: Map reads and generate coverage file
     print(f"Mapping reads for {accession}...")
@@ -49,7 +48,7 @@ def process_accession(accession, pe1, pe2, outdir, blast_db_dir, blast_db_name, 
                        f'-v {pe2}:/raw_data/{os.path.basename(pe2)} '
                        f'-v {outdir}:/outdir/ {docker} '
                        f'sh -c \'export PATH=/opt/conda/bin/:$PATH && cd /outdir/ && samtools faidx {accession}.fasta && '
-                       f'bbwrap.sh ref=/outdir/{accession}.fasta in1=/raw_data/{os.path.basename(pe1)} in2=/raw_data/{os.path.basename(pe2)} out=/outdir/{accession}.sam && '
+                       f'bbwrap.sh ref=/outdir/{accession}.fasta in1=/raw_data/{os.path.basename(pe1)} in2=/raw_data/{os.path.basename(pe2)} out=/outdir/{accession}.sam nodisk && '
                        f'samtools view -bh /outdir/{accession}.sam | samtools sort > /outdir/{accession}.bam && samtools index /outdir/{accession}.bam && '
                        f'pileup.sh in=/outdir/{accession}.bam out=/outdir/{accession}.cov.txt && rm -rf /outdir/{accession}.sam\'')
     else:
@@ -57,7 +56,7 @@ def process_accession(accession, pe1, pe2, outdir, blast_db_dir, blast_db_name, 
                        f'-v {pe1}:/raw_data/{os.path.basename(pe1)} '
                        f'-v {outdir}:/outdir/ {docker} '
                        f'sh -c \'export PATH=/opt/conda/bin/:$PATH && '
-                       f'bbwrap.sh ref=/outdir/{accession}.fasta in=/raw_data/{os.path.basename(pe1)} out=/outdir/{accession}.sam && '
+                       f'bbwrap.sh ref=/outdir/{accession}.fasta in=/raw_data/{os.path.basename(pe1)} out=/outdir/{accession}.sam nodisk && '
                        f'samtools view -bh /outdir/{accession}.sam | samtools sort > /outdir/{accession}.bam && samtools index /outdir/{accession}.bam && '
                        f'pileup.sh in=/outdir/{accession}.bam out=/outdir/{accession}.cov.txt && rm -rf /outdir/{accession}.sam\'')
     print(mapping_cmd)
@@ -155,7 +154,6 @@ def run(accession_list, pe1, outdir, prefix, blast_db, read_length, pe2=None, pl
                             num += 1
                             if num==1:
                                 outfile1.write(f"{line}\n")
-                os.remove(cov_file)
 
     # Step 4: Plotting (single-threaded, after all data is collected)
     if plot_worthy_accessions:
@@ -260,6 +258,6 @@ if __name__ == "__main__":
     parser.add_argument("-plot", "--plot", default=60, type=int, help="plot when Covered_percent >default=60")
     parser.add_argument("-fa", "--fa", default=70, type=int,help="output consensus fasta when Covered_percent >default=70")
     parser.add_argument("-l", "--read_length", type=int, help="read length", required=True)
-    parser.add_argument("-t", "--threads", type=int, default=5, help="Number of threads to use (default: number of CPU cores)")
+    parser.add_argument("-t", "--threads", type=int, default=os.cpu_count(), help="Number of threads to use (default: number of CPU cores)")
     args = parser.parse_args()
     run(args.accession, args.pe1, args.outdir, args.prefix, args.blast_db, args.read_length, args.pe2, args.plot,args.fa, args.threads)
