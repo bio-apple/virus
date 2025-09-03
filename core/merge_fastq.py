@@ -17,6 +17,7 @@ def run(pe1,pe2,prefix,outdir,length=150):
          f'reformat.sh in=/outdir/{prefix}.tmp.fasta out=/outdir/{prefix}.merge.fasta minlength={length}\'')
     print(cmd)
     subprocess.check_call(cmd, shell=True)
+
     #cd-hit-est
     cmd = (f'docker run --rm -v {outdir}:/outdir {docker} sh -c \''
            f'export PATH=/opt/conda/bin:$PATH && '

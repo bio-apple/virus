@@ -67,30 +67,37 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # Step 1: fastp qc
     # ------------------------
     print("\n#------------------------\n#Step1:fastp qc\n#------------------------\n")
-    core.fastp.run(r1,args.outdir+"/1.fastp",prefix,r2)
+    #core.fastp.run(r1,args.outdir+"/1.fastp",prefix,r2)
 
     # ------------------------
     # Step 2: kraken2
     # ------------------------
     print("\n#------------------------\n#Step 2: kraken2\n#------------------------\n")
-    core.kraken2.run(r1,kraken2,prefix,args.outdir+"/2.kraken2",args.length,r2)
+    #core.kraken2.run(r1,kraken2,prefix,args.outdir+"/2.kraken2",args.length,r2)
 
     # ------------------------
     # Step 3: bowtie2 host filter
     # ------------------------
     print("\n#------------------------\n#Step 3: bowtie2 host filter\n#------------------------\n")
-    core.filter_host.run(r1,args.outdir+"/3.filter_host",host,prefix,r2)
-    read1, read2 ,accession1= "", "",[]
-    if r2:
-        read1 = args.outdir + "/" + "3.filter_host/" + prefix + "_1.fastq"
-        read2 = args.outdir + "/" + "3.filter_host/" + prefix + "_2.fastq"
+    #core.filter_host.run(r1,args.outdir+"/3.filter_host",host,prefix,r2)
+    read1, read2 ,accession1,count= "", None,[],0
+    if r2 is None:
+        count=core.subsample.run(args.outdir + "/" + "3.filter_host/" + prefix + ".unaligned.fastq.gz",args.outdir+"/3.filter_host",prefix)
+        if count > 4000000:
+            read1 = args.outdir + "/" + "3.filter_host/" + prefix + ".sub.R1.fastq.gz"
+        else:
+            read1 = args.outdir + "/" + "3.filter_host/" + prefix + ".unaligned.fastq.gz"
+    else:
+        read1 = args.outdir + "/" + "3.filter_host/" + prefix + "_1.fastq.gz"
+        read2 = args.outdir + "/" + "3.filter_host/" + prefix + "_2.fastq.gz"
+        count = core.subsample.run(read1,args.outdir + "/3.filter_host", prefix,read2)
+        if count>4000000:
+            read1 = args.outdir + "/" + "3.filter_host/" + prefix + ".sub.R1.fastq.gz"
+            read2 = args.outdir + "/" + "3.filter_host/" + prefix + ".sub.R2.fastq.gz"
         if args.length >100 and not args.ref:
-            core.merge_fastq.run(read1, read2, prefix, f'{args.outdir}/3.filter_host/', args.length)
+            count=core.merge_fastq.run(read1, read2, prefix, f'{args.outdir}/3.filter_host/', args.length)
             accession1 = core.blast.run(f'{args.outdir}/3.filter_host/{prefix}.non-redundant.fna', virus,f'{args.outdir}/3.filter_host/', prefix, 10, 98, 95, 1e-10, 1)
             print(accession1)
-    else:
-        read1 = args.outdir + "/" + "3.filter_host/" + prefix + ".unaligned.fastq"
-        read2 = None
     if args.ref and args.bowtie2:
         os.makedirs(f"{args.outdir}/4.vsp",exist_ok=True)
         os.makedirs(f"{args.outdir}/5.assembly/", exist_ok=True)

@@ -24,21 +24,21 @@ def run(pe1,outdir,ref,prefix,pe2=None):
     if pe2:
         pe2=os.path.abspath(pe2)
         cmd+=f'-v {pe2}:/raw_data/{pe2.split("/")[-1]} '
-    cmd+=f'{docker} sh -c \'export PATH=/opt/conda/bin/:$PATH && bowtie2 --very-sensitive-local --no-sq -p 48 -x /ref/{host_index} '
+    cmd+=f'{docker} sh -c \'export PATH=/opt/conda/bin/:$PATH && bowtie2 --very-sensitive-local --no-sq -p 64 -x /ref/{host_index} '
 
     if pe2:
         pe2 = os.path.abspath(pe2)
         cmd+=(f'-1 /raw_data/{pe1.split("/")[-1]} -2 /raw_data/{pe2.split("/")[-1]} '
-              f'--un-conc /outdir/{prefix}_fastq '
+              f'--un-conc-gz /outdir/{prefix}_fastq.gz '
               f'-S /outdir/{prefix}.sam > /outdir/{prefix}.bowtie2.log 2>&1\'')
     else:
-        cmd+=f'-U /raw_data/{pe1.split("/")[-1]} --un /outdir/{prefix}.unaligned.fastq -S /outdir/{prefix}.sam > /outdir/{prefix}.bowtie2.log 2>&1\''
+        cmd+=f'-U /raw_data/{pe1.split("/")[-1]} --un-gz /outdir/{prefix}.unaligned.fastq.gz -S /outdir/{prefix}.sam > /outdir/{prefix}.bowtie2.log 2>&1\''
     print(cmd)
     subprocess.check_call(cmd,shell=True)
     subprocess.check_call(f'rm -rf {outdir}/*.sam',shell=True)
     if pe2 is not None:
-        subprocess.check_call(f'mv {outdir}/{prefix}_fastq.1  {outdir}/{prefix}_1.fastq',shell=True)
-        subprocess.check_call(f'mv {outdir}/{prefix}_fastq.2  {outdir}/{prefix}_2.fastq',shell=True)
+        subprocess.check_call(f'mv {outdir}/{prefix}_fastq.1.gz  {outdir}/{prefix}_1.fastq.gz',shell=True)
+        subprocess.check_call(f'mv {outdir}/{prefix}_fastq.2.gz  {outdir}/{prefix}_2.fastq.gz',shell=True)
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser("Filter host and phix sequence.")
