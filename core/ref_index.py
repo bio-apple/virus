@@ -10,7 +10,7 @@ parse.add_argument("-o","--outdir",help="directory of output",required=True)
 group = parse.add_argument_group("Add an extra reference genome sequence:")
 group.add_argument("-f","--fa",help="fasta sequence",default=None)
 group.add_argument("-n","--name",help="species name",default=None)
-group.add_argument("-b","--bed",help="bed file",default=None)
+group.add_argument("-b","--bed",help="primer bed file",default=None)
 args=parse.parse_args()
 args.outdir=os.path.abspath(args.outdir)
 
@@ -32,7 +32,7 @@ if args.fa and args.name:
             f'samtools faidx ref.fasta && '
             f'bwa index -a bwtsw ref.fasta\'', shell=True)
         if args.bed:#check bed file
-            with open(args.bed,'r') as bedfile, open(f"{args.outdir}/{args.name}/ref.bed",'w') as outfile:
+            with open(args.bed,'r') as bedfile, open(f"{args.outdir}/{args.name}/primer.bed",'w') as outfile:
                 for line in bedfile:
                     line=line.strip()
                     if not line.startswith('#'):
