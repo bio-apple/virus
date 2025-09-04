@@ -63,6 +63,7 @@ contig=config.get('parameter','contig_min_length')
 
 for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     start = time.time()
+
     # ------------------------
     # Step 1: fastp qc
     # ------------------------
@@ -80,6 +81,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # ------------------------
     print("\n#------------------------\n#Step 3: bowtie2 host filter\n#------------------------\n")
     core.filter_host.run(r1,args.outdir+"/3.filter_host",host,prefix,r2)
+
     read1, read2 ,accession1,count= "", None,[],0
     if r2 is None:
         count=core.subsample.run(args.outdir + "/" + "3.filter_host/" + prefix + ".unaligned.fastq.gz",args.outdir+"/3.filter_host",prefix)
