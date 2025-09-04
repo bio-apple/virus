@@ -21,7 +21,7 @@ def run(pe1,pe2,prefix,outdir,length=150):
     #cd-hit-est
     cmd = (f'docker run --rm -v {outdir}:/outdir {docker} sh -c \''
            f'export PATH=/opt/conda/bin:$PATH && '
-           f'cd-hit-est -i /outdir/{prefix}.merge.fasta -o /outdir/{prefix}.non-redundant.fna -M 0 -c 0.95\'')
+           f'cd-hit-est -i /outdir/{prefix}.merge.fasta -o /outdir/{prefix}.non-redundant.fna -M 0 -c 0.95 -T 0\'')
     subprocess.check_call(cmd, shell=True)
 
     os.remove(f"{outdir}/{prefix}.tmp.fasta")
