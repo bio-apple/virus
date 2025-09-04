@@ -88,9 +88,7 @@ mkdir -p /ref/VSP/
 cd /ref/VSP/
 python3 core/VSP.py
 ncbi-blast-2.14.1+/bin/blastdbcmd -db /ref/nt_viruses/nt_viruses -entry_batch /ref/VSP/accession.list -outfmt "%f" > /ref/VSP/VSP.fasta
-ncbi-blast-2.14.1+/bin/makeblastdb -dbtype nucl -in /ref/VSP/VSP.fasta
-wget https://ftp.ncbi.nlm.nih.gov/blast/db/taxdb.tar.gz
-tar xzvf taxdb.tar.gz
+bowtie2-build /ref/VSP/VSP.fasta /ref/VSP/VSP.fasta
 </pre>
 
 **2-5:combine VSP,RVDB and NCBI virus**
