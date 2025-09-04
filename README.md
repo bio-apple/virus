@@ -32,7 +32,6 @@ python3 core/ref_index.py -b primer.bed -o /ref/bowtie2/ -n Chikungunya_virus_D2
 
 # if no bed file exists:
 python3 core/ref_index.py -o /ref/bowtie2/ -n Chikungunya_virus_D250282 -f CHIKV_ref_D250282.fasta
-
 </pre>
 
 The currently available list of reference genomes for viral species includes:
