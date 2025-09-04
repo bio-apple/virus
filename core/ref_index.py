@@ -6,17 +6,17 @@ parse=argparse.ArgumentParser()
 parse.add_argument("-o","--outdir",help="directory of output",required=True)
 
 group = parse.add_argument_group("Add an extra reference genome sequence from NCBI")
-group.add_argument("-a","--accession",help="NCBI accession ID",default=None)
+group.add_argument("-f","--fa",help="fasta sequence",default=None)
 group.add_argument("-n","--name",help="species name",default=None)
 group.add_argument("-b","--bed",help="bed file",default=None)
 args=parse.parse_args()
 args.outdir=os.path.abspath(args.outdir)
 
-if (args.accession and not args.name) or (not args.accession and args.name):
+if (args.fa and not args.name) or (not args.fa and args.name):
     parse.error("--accession and --name must be provided")
 
 if args.bed:
-    if not (args.accession and args.name):
+    if not (args.fa and args.name):
         parse.error("--bed requires both --accession and --name to be provided.")
 
 
