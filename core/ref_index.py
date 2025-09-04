@@ -136,7 +136,7 @@ print(f"Currently supported species list:{name}")
 for a,b in zip(accession,name):
     subprocess.check_call(f'mkdir -p {args.outdir}/{b}',shell=True)
     subprocess.check_call(f'docker run --rm -v {args.outdir}/{b}:/ref/ {docker} sh -c \'export PATH=/opt/conda/envs/kraken2/bin:/opt/conda/bin:$PATH && '
-                          f'cd /ref/ && efetch -db nucleotide -id {a} -format fasta >{b}.fasta && '
-                          f'bowtie2-build {b}.fasta {b}.fasta && '
-                          f'samtools faidx {b}.fasta && '
-                          f'bwa index -a bwtsw {b}.fasta\'',shell=True)
+                          f'cd /ref/ && efetch -db nucleotide -id {a} -format fasta >ref.fasta && '
+                          f'bowtie2-build ref.fasta ref.fasta && '
+                          f'samtools faidx ref.fasta && '
+                          f'bwa index -a bwtsw ref.fasta\'',shell=True)
