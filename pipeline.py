@@ -14,14 +14,14 @@ class Myconf(configparser.ConfigParser):
         return optionstr
 
 docker='virus:latest'
-# 获取当前脚本的绝对路径
+# Get the absolute path of the current script
 script_path = os.path.abspath(__file__)
 
-# 获取脚本所在目录
+# Get the script's directory
 script_dir = os.path.dirname(script_path)
 
 parser = argparse.ArgumentParser("Virus NGS pipeline.\nEmail:fanyucai3@gmail.com\n")
-# 定义所有共享参数
+# Define all shared parameters
 parser.add_argument("-p1", "--pe1", help="R1 fastq", required=True, nargs='+')
 parser.add_argument("-p2", "--pe2", help="R2 fastq", default=None, nargs='+')
 parser.add_argument("-p", "--prefix", help="prefix of output", required=True, nargs='+')
@@ -29,19 +29,19 @@ parser.add_argument("-o", "--outdir", help="diretory of output", required=True)
 parser.add_argument("-c", "--config", help="config file", required=True)
 parser.add_argument('-l', '--length', help="read length", type=int, required=True,choices=[50, 75, 100, 150, 200, 250, 300])
 
-# 创建一个参数组，用于组织 ref 和 bowtie2 参数
+# Create a parameter group to organize the ref and bowtie2 parameters.
 ref_group = parser.add_argument_group("Reference/Bowtie2 Index Options")
 ref_group.add_argument("-e", "--bed", help="bed file(Optional)", default=None)
 ref_group.add_argument("-r", "--ref", help="ref fasta(Optional)", default=None)
 ref_group.add_argument("-b", "--bowtie2", help="directory contains reference bowtie2 index(Optional)", default=None)
 args = parser.parse_args()
 
-# 检查依赖关系
-# 依赖关系一：如果 ref 和 bowtie2 只出现一个，则报错
+##########################################################################Dependency Check
+#Dependency 1: If only one of 'ref' and 'bowtie2' exists, report an error.
 if (args.ref and not args.bowtie2) or (not args.ref and args.bowtie2):
     parser.error("--ref and --bowtie2 must be provided together.")
 
-# 依赖关系二：如果 bed 存在，那么 ref 和 bowtie2 也必须同时存在
+#Dependency 2: If bed exists, then ref and bowtie2 must also exist simultaneously.
 if args.bed:
     if not (args.ref and args.bowtie2):
         parser.error("--bed requires both --ref and --bowtie2 to be provided.")
