@@ -30,7 +30,12 @@ if args.fa and args.name:
         f'bowtie2-build ref.fasta ref.fasta && '
         f'samtools faidx ref.fasta && '
         f'bwa index -a bwtsw ref.fasta\'', shell=True)
-
+    if args.bed:#check bed file
+        with open(args.bed,'r') as bedfile, open(f"{args.outdir}/{args.name}/ref.bed",'w') as outfile:
+            for line in bedfile:
+                line=line.strip()
+                if not line.startswith('#'):
+                    outfile.write(line+"\n")
 
 def check_connection(host='www.illumina.com', port=80, timeout=5):
     """
