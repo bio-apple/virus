@@ -1,4 +1,4 @@
-# An integrated data analysis pipeline for viruses
+# An integrated data analysis pipeline for viruses Last Update:2025.09
 
 ![flow-chart](./virus.png)
 
@@ -7,7 +7,7 @@
 <pre>docker pull fanyucai1/virus
 docker tag fanyucai1/virus virus</pre>
 
-## Step2.Prepare Database Last Update:2025.08.07
+## Step2.Prepare Database
 
     mkdir -p /ref/
 
