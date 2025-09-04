@@ -1,4 +1,4 @@
-import os
+import os,re
 import subprocess
 import argparse
 import socket
@@ -22,7 +22,7 @@ if args.bed:
         parse.error("--bed requires both --accession and --name to be provided.")
 
 if args.fa and args.name:
-
+        args.name = re.sub(r'\s+', '_', args.name)
         args.fa=os.path.abspath(args.fa)
         subprocess.check_call(f'mkdir -p {args.outdir}/{args.name} && mv {args.fa} {args.outdir}/{args.name}/ref.fasta', shell=True)
         subprocess.check_call(
