@@ -8,14 +8,14 @@ parse=argparse.ArgumentParser()
 parse.add_argument("-o","--outdir",help="directory of output",required=True)
 
 group = parse.add_argument_group("Add an extra reference genome sequence:")
-group.add_argument("-f","--fasta",help="fasta sequence",default=None)
+group.add_argument("-f","--fa",help="fasta sequence",default=None)
 group.add_argument("-n","--name",help="species name",default=None)
 group.add_argument("-b","--bed",help="primer bed file",default=None)
 args=parse.parse_args()
 args.outdir=os.path.abspath(args.outdir)
 
 if (args.fa and not args.name) or (not args.fa and args.name):
-    parse.error("--fasta and --name must be provided")
+    parse.error("--fa and --name must be provided")
 
 if args.bed:
     if not (args.fa and args.name):
@@ -24,9 +24,9 @@ if args.bed:
 if args.fa and args.name:
         args.name = re.sub(r'\s+', '_', args.name)
         args.fa=os.path.abspath(args.fa)
-        subprocess.check_call(f'mkdir -p {args.outdir}/{args.name} && mv {args.fa} {args.outdir}/{args.name}/ref.fasta', shell=True)
+        subprocess.check_call(f'mkdir -p {args.outdir}/{args.name} && cp {args.fa} {args.outdir}/{args.name}/ref.fasta', shell=True)
         subprocess.check_call(
-            f'docker run --rm -v {args.outdir}/:/outdir/ {docker} sh -c \'export PATH=/opt/conda/envs/kraken2/bin:/opt/conda/bin:$PATH && '
+            f'docker run --rm -v {args.outdir}/{args.name}/:/ref/ {docker} sh -c \'export PATH=/opt/conda/envs/kraken2/bin:/opt/conda/bin:$PATH && '
             f'cd /ref/ && '
             f'bowtie2-build ref.fasta ref.fasta && '
             f'samtools faidx ref.fasta && '
