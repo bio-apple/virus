@@ -1,7 +1,9 @@
 import os
 import subprocess
 import argparse
+import socket
 
+docker='virus:latest'
 parse=argparse.ArgumentParser()
 parse.add_argument("-o","--outdir",help="directory of output",required=True)
 
@@ -20,137 +22,156 @@ if args.bed:
         parse.error("--bed requires both --accession and --name to be provided.")
 
 
+def check_connection(host='www.illumina.com', port=80, timeout=5):
+    """
+    Tries to connect to a specified host and port.
+    Returns True if successful, False otherwise.
+    """
+    try:
+        # Create a socket object
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # Set a timeout to prevent the script from hanging
+        s.settimeout(timeout)
+        # Attempt to connect to the host
+        s.connect((host, port))
+        # Close the connection
+        s.close()
+        return True
+    except (socket.error, socket.gaierror):
+        # If any socket error occurs, the connection failed
+        return False
 
-docker='virus:latest'
-accession=['NC_004162','NC_045512','NC_001477','NC_001474','NC_001475','NC_002640','NC_063383','NC_039199','NC_001802','NC_001608','NC_002031','NC_001498']
-name=['Chikungunya_virus','SARS-CoV-2','Dengue_virus_type_1','Dengue_virus_type_2','Dengue_virus_type_3','Dengue_virus_type_4',
-      'Monkeypox_virus','Human_Metapneumovirus','HIV-1','Marburg_Virus','Yellow_fever_virus','Measles_virus']
 
-# https://genomes.atcc.org/genomes/4f980dee15b2432f
-# https://www.ncbi.nlm.nih.gov/nuccore/KX087101
-# Zika virus strain ZIKV/Homo sapiens/PRI/PRVABC59/2015, complete genome
-name.append("Zika_virus")
-accession.append("KX087101")
+if check_connection():
+    accession=['NC_004162','NC_045512','NC_001477','NC_001474','NC_001475','NC_002640','NC_063383','NC_039199','NC_001802','NC_001608','NC_002031','NC_001498']
+    name=['Chikungunya_virus','SARS-CoV-2','Dengue_virus_type_1','Dengue_virus_type_2','Dengue_virus_type_3','Dengue_virus_type_4',
+          'Monkeypox_virus','Human_Metapneumovirus','HIV-1','Marburg_Virus','Yellow_fever_virus','Measles_virus']
 
-#RSV-A Human respiratory syncytial virus B cRNA https://www.ncbi.nlm.nih.gov/nuccore/LR699737
-name.append("RSV-A")
-accession.append("LR699737")
+    # https://genomes.atcc.org/genomes/4f980dee15b2432f
+    # https://www.ncbi.nlm.nih.gov/nuccore/KX087101
+    # Zika virus strain ZIKV/Homo sapiens/PRI/PRVABC59/2015, complete genome
+    name.append("Zika_virus")
+    accession.append("KX087101")
 
-#RSV-B Human respiratory syncytial virus B isolate hRSV/B/Australia/VIC-RCH056/2019, complete genome https://www.ncbi.nlm.nih.gov/nuccore/OP975389.1
-name.append("RSV-B")
-accession.append('OP975389')
+    #RSV-A Human respiratory syncytial virus B cRNA https://www.ncbi.nlm.nih.gov/nuccore/LR699737
+    name.append("RSV-A")
+    accession.append("LR699737")
 
-#Human adenovirus type 7 #https://www.frontiersin.org/journals/virology/articles/10.3389/fviro.2024.1462907/full and VSPv2
-name.append("Human_adenovirus_type_7")
-accession.append('AC_000018')
+    #RSV-B Human respiratory syncytial virus B isolate hRSV/B/Australia/VIC-RCH056/2019, complete genome https://www.ncbi.nlm.nih.gov/nuccore/OP975389.1
+    name.append("RSV-B")
+    accession.append('OP975389')
 
-#Human mastadenovirus B (HAdV-B)#https://www.frontiersin.org/journals/virology/articles/10.3389/fviro.2024.1462907/full and ChatGPT
-name.append("Human_adenovirus_B1")
-accession.append('NC_011203')
+    #Human adenovirus type 7 #https://www.frontiersin.org/journals/virology/articles/10.3389/fviro.2024.1462907/full and VSPv2
+    name.append("Human_adenovirus_type_7")
+    accession.append('AC_000018')
 
-#Human adenovirus F chatGPT and VSPv2
-name.append("Human_adenovirus_F")
-accession.append("NC_001454")
+    #Human mastadenovirus B (HAdV-B)#https://www.frontiersin.org/journals/virology/articles/10.3389/fviro.2024.1462907/full and ChatGPT
+    name.append("Human_adenovirus_B1")
+    accession.append('NC_011203')
 
-#Porcine reproductive and respiratory syndrome virus 1
-name.append("Porcine_reproductive_and_respiratory_syndrome_virus_1")
-accession.append("M96262")
+    #Human adenovirus F chatGPT and VSPv2
+    name.append("Human_adenovirus_F")
+    accession.append("NC_001454")
 
-#https://www.who.int/news-room/fact-sheets/detail/influenza-(seasonal)
-#Influenza A virus
+    #Porcine reproductive and respiratory syndrome virus 1
+    name.append("Porcine_reproductive_and_respiratory_syndrome_virus_1")
+    accession.append("M96262")
 
-##H1N1
-## https://www.ncbi.nlm.nih.gov/nuccore/?term=A/Wisconsin/588/2019
-#####HA(segment 4 MW626062) strain:A/Wisconsin/588/2019
-#####NA(segment 6 MW626056) strain:A/Wisconsin/588/2019
-#####PB2 (segment 1 NC_026438) strain:A/California/07/2009
-#####PB1 (segment 2 NC_026435) strain:A/California/07/2009
-#####PA  (segment 3 NC_026437) strain:A/California/07/2009
-#####NP  (segment 5 NC_026436) strain:A/California/07/2009
-#####MP  (segment 7 NC_026431) strain:A/California/07/2009
-#####NS  (segment 8 NC_026432) strain:A/California/07/2009
-name.append("H1N1")
-ref=['MW626062','MW626056','NC_026438','NC_026435','NC_026437','NC_026436','NC_026431','NC_026432']
-accession.append(",".join(ref))
+    #https://www.who.int/news-room/fact-sheets/detail/influenza-(seasonal)
+    #Influenza A virus
 
-##H3N2
-#####HA EPI1857216 A/Darwin/6/2021(maybe NCBI:OQ718999)
-#####NA EPI1857215 A/Darwin/6/2021(maybe NCBI:OQ718998)
-#####PB1 (segment 2) NC_007372 A/New York/392/2004
-#####NP (segment 5) NC_007369 A/New York/392/2004
-#####NS (segment 8) NC_007370 A/New York/392/2004
-#####MP (segment 7) NC_007367 A/New York/392/2004
-#####PA (segment 3) NC_007371 A/New York/392/2004
-#####PB2 (segment 1) NC_007373 A/New York/392/2004
-name.append("H3N2")
-ref=['OQ718999','OQ718998','NC_007372','NC_007369',' NC_007370','NC_007367','NC_007371','NC_007373']
-accession.append(",".join(ref))
+    ##H1N1
+    ## https://www.ncbi.nlm.nih.gov/nuccore/?term=A/Wisconsin/588/2019
+    #####HA(segment 4 MW626062) strain:A/Wisconsin/588/2019
+    #####NA(segment 6 MW626056) strain:A/Wisconsin/588/2019
+    #####PB2 (segment 1 NC_026438) strain:A/California/07/2009
+    #####PB1 (segment 2 NC_026435) strain:A/California/07/2009
+    #####PA  (segment 3 NC_026437) strain:A/California/07/2009
+    #####NP  (segment 5 NC_026436) strain:A/California/07/2009
+    #####MP  (segment 7 NC_026431) strain:A/California/07/2009
+    #####NS  (segment 8 NC_026432) strain:A/California/07/2009
+    name.append("H1N1")
+    ref=['MW626062','MW626056','NC_026438','NC_026435','NC_026437','NC_026436','NC_026431','NC_026432']
+    accession.append(",".join(ref))
 
-##H5N1 A/Goose/Guangdong/1/96(H5N1)
-#####HA  AF144305
-#####NA  AF144304
-#####NP  AF144303
-#####PA  AF144302
-#####PB1 AF144301
-#####PB2 AF144300
-#####NS  AF144307
-#####    AF144306
-name.append("H5N1")#nextclade A/goose/Guangdong/1/96
-ref=['AF144300','AF144301','AF144302','AF144303',' AF144304','AF144305','AF144306','AF144307']
-accession.append(",".join(ref))
+    ##H3N2
+    #####HA EPI1857216 A/Darwin/6/2021(maybe NCBI:OQ718999)
+    #####NA EPI1857215 A/Darwin/6/2021(maybe NCBI:OQ718998)
+    #####PB1 (segment 2) NC_007372 A/New York/392/2004
+    #####NP (segment 5) NC_007369 A/New York/392/2004
+    #####NS (segment 8) NC_007370 A/New York/392/2004
+    #####MP (segment 7) NC_007367 A/New York/392/2004
+    #####PA (segment 3) NC_007371 A/New York/392/2004
+    #####PB2 (segment 1) NC_007373 A/New York/392/2004
+    name.append("H3N2")
+    ref=['OQ718999','OQ718998','NC_007372','NC_007369',' NC_007370','NC_007367','NC_007371','NC_007373']
+    accession.append(",".join(ref))
 
-name.append("H5N8")#nextclade A/Astrakhan/3212/2020
-ref=['OM403994','OM403993']
-accession.append(",".join(ref))
+    ##H5N1 A/Goose/Guangdong/1/96(H5N1)
+    #####HA  AF144305
+    #####NA  AF144304
+    #####NP  AF144303
+    #####PA  AF144302
+    #####PB1 AF144301
+    #####PB2 AF144300
+    #####NS  AF144307
+    #####    AF144306
+    name.append("H5N1")#nextclade A/goose/Guangdong/1/96
+    ref=['AF144300','AF144301','AF144302','AF144303',' AF144304','AF144305','AF144306','AF144307']
+    accession.append(",".join(ref))
 
-name.append("H5N6")# A/Ferruginous Pochard/Ningxia/479-16/2015 VSPv2
-ref=['MF399585','MF399586','MF399587','MF399588','MF399589','MF399590','MF399591','MF399592']
-accession.append(",".join(ref))
+    name.append("H5N8")#nextclade A/Astrakhan/3212/2020
+    ref=['OM403994','OM403993']
+    accession.append(",".join(ref))
 
-name.append("H6N1") #VSPv2 A/mallard/California/8212/2008
-ref=['CY094172','CY094171','CY094170','CY094165','CY094168','CY094167','CY094166','CY094169']
-accession.append(",".join(ref))
+    name.append("H5N6")# A/Ferruginous Pochard/Ningxia/479-16/2015 VSPv2
+    ref=['MF399585','MF399586','MF399587','MF399588','MF399589','MF399590','MF399591','MF399592']
+    accession.append(",".join(ref))
 
-name.append("H6N2")#A/wild duck/Shantou/865/2002
-ref=['HM144440','HM144779','HM144948','HM145117','HM145286','HM145455','HM145624','HM144610']
-accession.append(",".join(ref))
+    name.append("H6N1") #VSPv2 A/mallard/California/8212/2008
+    ref=['CY094172','CY094171','CY094170','CY094165','CY094168','CY094167','CY094166','CY094169']
+    accession.append(",".join(ref))
 
-## H7N9 A/Anhui/DEWH72-01/2013(H7N9) VSPv2
-name.append("H7N9")
-ref=['CY181520','CY181519','CY181518','CY181513','CY181516','CY181515','CY181514','CY181517']
-accession.append(",".join(ref))
+    name.append("H6N2")#A/wild duck/Shantou/865/2002
+    ref=['HM144440','HM144779','HM144948','HM145117','HM145286','HM145455','HM145624','HM144610']
+    accession.append(",".join(ref))
 
-#H9N2 A/Hong Kong/1074/99(H9N2) VSPv2
-name.append("H9N2")
-ref=['AJ404631','AF258817','AF257192','AJ404627','AF255743','AJ404628','AF255364','AJ404735']
-accession.append(",".join(ref))
+    ## H7N9 A/Anhui/DEWH72-01/2013(H7N9) VSPv2
+    name.append("H7N9")
+    ref=['CY181520','CY181519','CY181518','CY181513','CY181516','CY181515','CY181514','CY181517']
+    accession.append(",".join(ref))
 
-#H10N4 A/swan/Shandong/W3917/2020
-name.append("H10N4")
-ref=['OM373275','OM373276','OM373277','OM373278','OM373279','OM373280','OM373281','OM373282']
-accession.append(",".join(ref))
+    #H9N2 A/Hong Kong/1074/99(H9N2) VSPv2
+    name.append("H9N2")
+    ref=['AJ404631','AF258817','AF257192','AJ404627','AF255743','AJ404628','AF255364','AJ404735']
+    accession.append(",".join(ref))
 
-#Influenza B viruses
-#B/Yamagata or B/Victoria lineage
-#B/Yamagata viruses have not been observed since 2020.
-#####(Vic) HA KX058884 B/Brisbane/60/2008
-#####(Vic) NA CY073894 B/Brisbane/60/2008
-#####(Vic) PA (segment 3) CY115156 B/Brisbane/60/2008
-#####(Vic) PB1 (segment 1) CY115157 B/Brisbane/60/2008
-#####(Vic) NP (segment 5) CY115154 B/Brisbane/60/2008
-#####(Vic) MP (segment 7) CY115152 B/Brisbane/60/2008
-#####(Vic) PB2 (segment 2) CY115158 B/Brisbane/60/2008
-#####(Vic) NS (segment 8) CY115155 B/Brisbane/60/2008
-name.append("Influenza_B_viruses_Victoria")
-ref=['KX058884','CY073894','CY115156','CY115157',' CY115154','CY115152','CY115158','CY115155']
-accession.append(",".join(ref))
+    #H10N4 A/swan/Shandong/W3917/2020
+    name.append("H10N4")
+    ref=['OM373275','OM373276','OM373277','OM373278','OM373279','OM373280','OM373281','OM373282']
+    accession.append(",".join(ref))
 
-print(f"Currently supported species list:{name}")
+    #Influenza B viruses
+    #B/Yamagata or B/Victoria lineage
+    #B/Yamagata viruses have not been observed since 2020.
+    #####(Vic) HA KX058884 B/Brisbane/60/2008
+    #####(Vic) NA CY073894 B/Brisbane/60/2008
+    #####(Vic) PA (segment 3) CY115156 B/Brisbane/60/2008
+    #####(Vic) PB1 (segment 1) CY115157 B/Brisbane/60/2008
+    #####(Vic) NP (segment 5) CY115154 B/Brisbane/60/2008
+    #####(Vic) MP (segment 7) CY115152 B/Brisbane/60/2008
+    #####(Vic) PB2 (segment 2) CY115158 B/Brisbane/60/2008
+    #####(Vic) NS (segment 8) CY115155 B/Brisbane/60/2008
+    name.append("Influenza_B_viruses_Victoria")
+    ref=['KX058884','CY073894','CY115156','CY115157',' CY115154','CY115152','CY115158','CY115155']
+    accession.append(",".join(ref))
 
-for a,b in zip(accession,name):
-    subprocess.check_call(f'mkdir -p {args.outdir}/{b}',shell=True)
-    subprocess.check_call(f'docker run --rm -v {args.outdir}/{b}:/ref/ {docker} sh -c \'export PATH=/opt/conda/envs/kraken2/bin:/opt/conda/bin:$PATH && '
-                          f'cd /ref/ && efetch -db nucleotide -id {a} -format fasta >ref.fasta && '
-                          f'bowtie2-build ref.fasta ref.fasta && '
-                          f'samtools faidx ref.fasta && '
-                          f'bwa index -a bwtsw ref.fasta\'',shell=True)
+    print(f"Currently supported species list:{name}")
+
+    for a,b in zip(accession,name):
+        subprocess.check_call(f'mkdir -p {args.outdir}/{b}',shell=True)
+        subprocess.check_call(f'docker run --rm -v {args.outdir}/{b}:/ref/ {docker} sh -c \'export PATH=/opt/conda/envs/kraken2/bin:/opt/conda/bin:$PATH && '
+                              f'cd /ref/ && efetch -db nucleotide -id {a} -format fasta >ref.fasta && '
+                              f'bowtie2-build ref.fasta ref.fasta && '
+                              f'samtools faidx ref.fasta && '
+                              f'bwa index -a bwtsw ref.fasta\'',shell=True)
