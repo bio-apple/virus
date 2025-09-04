@@ -47,17 +47,19 @@ def process_accession(accession, pe1, pe2, outdir, blast_db_dir, blast_db_name, 
                        f'-v {pe1}:/raw_data/{os.path.basename(pe1)} '
                        f'-v {pe2}:/raw_data/{os.path.basename(pe2)} '
                        f'-v {outdir}:/outdir/ {docker} '
-                       f'sh -c \'export PATH=/opt/conda/bin/:$PATH && cd /outdir/ && samtools faidx {accession}.fasta && '
-                       f'bbwrap.sh ref=/outdir/{accession}.fasta in1=/raw_data/{os.path.basename(pe1)} in2=/raw_data/{os.path.basename(pe2)} out=/outdir/{accession}.sam nodisk && '
-                       f'samtools view -bh /outdir/{accession}.sam | samtools sort > /outdir/{accession}.bam && samtools index /outdir/{accession}.bam && '
+                       f'sh -c \'export PATH=/opt/conda/bin/:$PATH && cd /outdir/ && '
+                       f'bowtie2-build {accession}.fasta {accession}.fasta && '
+                       f'bowtie2 --threads 64 -x {accession}.fasta -1 /raw_data/{os.path.basename(pe1)} -2 /raw_data/{os.path.basename(pe2)} |'
+                       f'samtools view -bh |samtools sort > /outdir/{accession}.bam && samtools index /outdir/{accession}.bam && '
                        f'pileup.sh in=/outdir/{accession}.bam out=/outdir/{accession}.cov.txt && rm -rf /outdir/{accession}.sam\'')
     else:
         mapping_cmd = (f'docker run --rm '
                        f'-v {pe1}:/raw_data/{os.path.basename(pe1)} '
                        f'-v {outdir}:/outdir/ {docker} '
-                       f'sh -c \'export PATH=/opt/conda/bin/:$PATH && '
-                       f'bbwrap.sh ref=/outdir/{accession}.fasta in=/raw_data/{os.path.basename(pe1)} out=/outdir/{accession}.sam nodisk && '
-                       f'samtools view -bh /outdir/{accession}.sam | samtools sort > /outdir/{accession}.bam && samtools index /outdir/{accession}.bam && '
+                       f'sh -c \'export PATH=/opt/conda/bin/:$PATH && cd /outdir/ && '
+                       f'bowtie2-build {accession}.fasta {accession}.fasta && '
+                       f'bowtie2 --threads 64 -x {accession}.fasta -U /raw_data/{os.path.basename(pe1)} |'
+                       f'samtools view -bh |samtools sort > /outdir/{accession}.bam && samtools index /outdir/{accession}.bam && '
                        f'pileup.sh in=/outdir/{accession}.bam out=/outdir/{accession}.cov.txt && rm -rf /outdir/{accession}.sam\'')
     print(mapping_cmd)
     subprocess.check_call(mapping_cmd, shell=True)
@@ -254,7 +256,7 @@ if __name__ == "__main__":
     parser.add_argument("-p", "--prefix", help="output directory", required=True)
     parser.add_argument("-o", "--outdir", required=True, help="Output directory")
     parser.add_argument("-a", "--accession", required=True, nargs='+')
-    parser.add_argument("-d", "--blast-db", default=None, help="Path to the local BLAST database for getting species descriptions")
+    parser.add_argument("-d", "--blast-db", help="Path to the local BLAST database for getting species descriptions",required=True)
     parser.add_argument("-plot", "--plot", default=60, type=int, help="plot when Covered_percent >default=60")
     parser.add_argument("-fa", "--fa", default=70, type=int,help="output consensus fasta when Covered_percent >default=70")
     parser.add_argument("-l", "--read_length", type=int, help="read length", required=True)
