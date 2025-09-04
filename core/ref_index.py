@@ -20,6 +20,7 @@ if args.bed:
         parse.error("--bed requires both --accession and --name to be provided.")
 
 
+
 docker='virus:latest'
 accession=['NC_004162','NC_045512','NC_001477','NC_001474','NC_001475','NC_002640','NC_063383','NC_039199','NC_001802','NC_001608','NC_002031','NC_001498']
 name=['Chikungunya_virus','SARS-CoV-2','Dengue_virus_type_1','Dengue_virus_type_2','Dengue_virus_type_3','Dengue_virus_type_4',
