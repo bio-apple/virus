@@ -11,7 +11,7 @@ docker tag fanyucai1/virus virus</pre>
 
     mkdir -p /ref/
 
-**2-1:update or downlaod nextclade**
+**2-1:update or download nextclade**
 <pre>
 rm -rf /ref/nextclade_db/
 python3 core/update_nextclade_db.py -d /ref/nextclade_db</pre> 
