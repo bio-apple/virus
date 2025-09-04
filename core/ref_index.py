@@ -7,7 +7,7 @@ docker='virus:latest'
 parse=argparse.ArgumentParser()
 parse.add_argument("-o","--outdir",help="directory of output",required=True)
 
-group = parse.add_argument_group("Add an extra reference genome sequence from NCBI")
+group = parse.add_argument_group("Add an extra reference genome sequence:")
 group.add_argument("-f","--fa",help="fasta sequence",default=None)
 group.add_argument("-n","--name",help="species name",default=None)
 group.add_argument("-b","--bed",help="bed file",default=None)
