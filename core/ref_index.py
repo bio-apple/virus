@@ -37,7 +37,7 @@ accession.append("LR699737")
 
 #RSV-B Human respiratory syncytial virus B isolate hRSV/B/Australia/VIC-RCH056/2019, complete genome https://www.ncbi.nlm.nih.gov/nuccore/OP975389.1
 name.append("RSV-B")
-accession.append('OP975389.1')
+accession.append('OP975389')
 
 #Human adenovirus type 7 #https://www.frontiersin.org/journals/virology/articles/10.3389/fviro.2024.1462907/full and VSPv2
 name.append("Human_adenovirus_type_7")
