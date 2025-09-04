@@ -1,4 +1,4 @@
-1.  **pangolin version:4.3.1**
+# pangolin version:4.3.1
 
 <pre>docker run virus sh -c 'export PATH=/opt/conda/envs/pangolin/bin/:$PATH && pangolin --all-versions'</pre>
     
@@ -11,11 +11,11 @@
     minimap2 2.30-r1287
     faToVcf: 482
     
-2.  **nextclade version:3.16.0**
+# nextclade version:3.16.0
 
 <pre>docker run virus nextclade -V</pre>
 
 
-3. **Freyja version:2.0.0**
+# Freyja version:2.0.0
 
 <pre>docker run virus sh -c 'export PATH=/opt/conda/envs/Freyja/bin:$PATH && freyja --version'</pre>
