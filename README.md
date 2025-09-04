@@ -21,8 +21,13 @@ python3 core/update_nextclade_db.py -d /ref/nextclade_db</pre>
 mkdir -p /ref/bowtie2/
 python3 core/ref_index.py -o /ref/bowtie2/
 
-#Add an extra reference genome sequence:
+# Add an extra reference genome sequence:
+
 python3 core/ref_index.py -b primer.bed -o /ref/bowtie2/ -n Chikungunya_virus_D250282 -f CHIKV_ref_D250282.fasta
+
+# if no bed file exists:
+python3 core/ref_index.py -o /ref/bowtie2/ -n Chikungunya_virus_D250282 -f CHIKV_ref_D250282.fasta
+
 </pre>
 
 The currently available list of reference genomes for viral species includes:
