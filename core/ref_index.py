@@ -21,21 +21,22 @@ if args.bed:
     if not (args.fa and args.name):
         parse.error("--bed requires both --accession and --name to be provided.")
 
-if args.fa and args.name:
-    args.fa=os.path.abspath(args.fa)
-    subprocess.check_call(f'mkdir -p {args.outdir}/{args.name} && mv {args.fa} {args.outdir}/{args.name}/ref.fasta', shell=True)
-    subprocess.check_call(
-        f'docker run --rm -v {args.outdir}/:/outdir/ {docker} sh -c \'export PATH=/opt/conda/envs/kraken2/bin:/opt/conda/bin:$PATH && '
-        f'cd /ref/ && '
-        f'bowtie2-build ref.fasta ref.fasta && '
-        f'samtools faidx ref.fasta && '
-        f'bwa index -a bwtsw ref.fasta\'', shell=True)
-    if args.bed:#check bed file
-        with open(args.bed,'r') as bedfile, open(f"{args.outdir}/{args.name}/ref.bed",'w') as outfile:
-            for line in bedfile:
-                line=line.strip()
-                if not line.startswith('#'):
-                    outfile.write(line+"\n")
+def local_build(fa,name,outdir,bed=None):
+    if fa and name:
+            args.fa=os.path.abspath(fa)
+            subprocess.check_call(f'mkdir -p {outdir}/{name} && mv {fa} {outdir}/{name}/ref.fasta', shell=True)
+            subprocess.check_call(
+                f'docker run --rm -v {outdir}/:/outdir/ {docker} sh -c \'export PATH=/opt/conda/envs/kraken2/bin:/opt/conda/bin:$PATH && '
+                f'cd /ref/ && '
+                f'bowtie2-build ref.fasta ref.fasta && '
+                f'samtools faidx ref.fasta && '
+                f'bwa index -a bwtsw ref.fasta\'', shell=True)
+            if bed:#check bed file
+                with open(bed,'r') as bedfile, open(f"{outdir}/{name}/ref.bed",'w') as outfile:
+                    for line in bedfile:
+                        line=line.strip()
+                        if not line.startswith('#'):
+                            outfile.write(line+"\n")
 
 def check_connection(host='www.illumina.com', port=80, timeout=5):
     """
