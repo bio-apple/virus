@@ -117,7 +117,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         # Step 7: mapping
         # ------------------------
         print("\n#------------------------\n#Step 7: mapping refence\n#------------------------\n")
-        core.mapping.run(args.bowtie2,f'{args.outdir}/7.mapping',prefix,read1,read2)
+        core.mapping.run(args.bowtie2,f'{args.outdir}/7.mapping',prefix,read1,read2,args.length)
 
         # ------------------------
         # Step8:trim primer,variant calling,consensus sequence and plot coverage
@@ -137,7 +137,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         # Step 4: non-host reads mapping VSP database
         # ------------------------
         print("\n#------------------------\n#Step 4: non-host reads mapping VSP database\n#------------------------\n")
-        accession2=core.mapping.run(vsp,read1,f'{args.outdir}/4.vsp/',prefix,read2,args.length)
+        accession2=core.mapping.run(vsp,f'{args.outdir}/4.vsp/',prefix,read1,read2,args.length)
         accession = list(set(accession1 + accession2))
         print(accession)
 
