@@ -23,7 +23,7 @@ def run(ref_index_dir,outdir,prefix,R1,R2=None,read_length=150):
     if R2:
         cmd+=f'-1 /raw_data/{R1.split("/")[-1]} -2 /raw_data/{R2.split("/")[-1]}|samtools view -bh |samtools sort > /outdir/{prefix}.bam && samtools index /outdir/{prefix}.bam && pileup.sh in=/outdir/{prefix}.bam out=/outdir/{prefix}.cov\''
     else:
-        cmd= f'-U {R1}|samtools view -bh |samtools sort > /outdir/{prefix}.bam && samtools index /outdir/{prefix}.bam && pileup.sh in=/outdir/{prefix}.bam out=/outdir/{prefix}.cov nodisk\''
+        cmd= f'-U {R1}|samtools view -bh |samtools sort > /outdir/{prefix}.bam && samtools index /outdir/{prefix}.bam && pileup.sh in=/outdir/{prefix}.bam out=/outdir/{prefix}.cov\''
     print(cmd)
     subprocess.check_call(cmd, shell=True)
     accession=[]
@@ -44,7 +44,7 @@ if __name__=="__main__":
     parser.add_argument("-2","--R2",help="R2 fastq",default=None)
     parser.add_argument("-r","--ref",help="directory of bowtie2 reference index",required=True)
     parser.add_argument("-o","--outdir",help="output directory",default=os.getcwd())
-    parser.add_argument("-p","--prefix",help="prefix of output")
+    parser.add_argument("-p","--prefix",help="prefix of output",required=True)
     parser.add_argument("-l", "--read_length", type=int, help="read length",required=True)
     parser.add_argument("-c", "--identify", help="sequence identity threshold, default: 0.998", default=0.998,type=float)
     args=parser.parse_args()

@@ -52,13 +52,14 @@ os.makedirs(args.outdir,exist_ok=True)
 config = Myconf()
 config.read(args.config)
 
+#vsp bowtie2 index
+vsp=config.get('database','vsp')
+
 #fasta file
 virus=config.get('fasta','virus')
-vsp_fa=config.get('fasta','vsp')
 
 #blast database
 nt_viruses=config.get('blast_db','nt_viruses')
-vsp=config.get('blast_db','vsp')
 
 #regular database
 kraken2=config.get('database','kraken2')
@@ -136,7 +137,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         # Step 4: non-host reads mapping VSP database
         # ------------------------
         print("\n#------------------------\n#Step 4: non-host reads mapping VSP database\n#------------------------\n")
-        accession2=core.contig_cov.run(vsp_fa,read1,f'{args.outdir}/4.vsp/',prefix,read2,args.length)
+        accession2=core.mapping.run(vsp,read1,f'{args.outdir}/4.vsp/',prefix,read2,args.length)
         accession = list(set(accession1 + accession2))
         print(accession)
 
