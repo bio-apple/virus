@@ -55,10 +55,8 @@ config.read(args.config)
 #vsp bowtie2 index
 vsp=config.get('database','vsp')
 
-#fasta file
-virus=config.get('fasta','virus')
-
 #blast database
+virus=config.get('blast_db','virus')
 nt_viruses=config.get('blast_db','nt_viruses')
 
 #regular database
@@ -175,6 +173,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         # ------------------------
         print("#------------------------\n#Step7:variant calling,consensus sequence and plot coverage\n#------------------------\n")
         core.consensus.run(final_accession,read1,f'{args.outdir}/8.consensus/',prefix,nt_viruses,args.length,read2)
-
+        for key in final_accession:
+            subprocess.check_call(f'cd {args.outdir}/8.consensus/ && rm -rf {key}.bam {key}.bam.bai {key}.fa {key}.fasta {key}.*bt2',shell=True)
     end=time.time()
     print(f"\nSampleID {prefix}:Elapse time is {(end-start)} seconds\n")
