@@ -19,6 +19,8 @@ python3 core/update_nextclade_db.py -d /ref/nextclade_db</pre>
 **2-2:virus genome and index(Optional)**
 <pre>
 mkdir -p /ref/bowtie2/
+
+# Initialize and build the species genome online
 python3 core/ref_index.py -o /ref/bowtie2/
 
 # Add an extra reference genome sequence:
