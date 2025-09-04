@@ -4,8 +4,10 @@
 
 ## Step1.Docker
 
-<pre>docker pull fanyucai1/virus
-docker tag fanyucai1/virus virus</pre>
+<pre>
+docker pull fanyucai1/virus
+docker tag fanyucai1/virus virus
+</pre>
 
 ## Step2.Prepare Database
 
@@ -14,7 +16,8 @@ docker tag fanyucai1/virus virus</pre>
 **2-1:update or download nextclade**
 <pre>
 rm -rf /ref/nextclade_db/
-python3 core/update_nextclade_db.py -d /ref/nextclade_db</pre> 
+python3 core/update_nextclade_db.py -d /ref/nextclade_db
+</pre> 
 
 **2-2:virus genome and index(Optional)**
 <pre>
