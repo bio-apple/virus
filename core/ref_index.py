@@ -21,6 +21,16 @@ if args.bed:
     if not (args.fa and args.name):
         parse.error("--bed requires both --accession and --name to be provided.")
 
+if args.fa and args.name:
+    args.fa=os.path.abspath(args.fa)
+    subprocess.check_call(f'mkdir -p {args.outdir}/{args.name} && mv {args.fa} {args.outdir}/{args.name}/ref.fasta', shell=True)
+    subprocess.check_call(
+        f'docker run --rm -v {args.outdir}/:/outdir/ {docker} sh -c \'export PATH=/opt/conda/envs/kraken2/bin:/opt/conda/bin:$PATH && '
+        f'cd /ref/ && '
+        f'bowtie2-build ref.fasta ref.fasta && '
+        f'samtools faidx ref.fasta && '
+        f'bwa index -a bwtsw ref.fasta\'', shell=True)
+
 
 def check_connection(host='www.illumina.com', port=80, timeout=5):
     """
