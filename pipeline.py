@@ -52,12 +52,19 @@ os.makedirs(args.outdir,exist_ok=True)
 config = Myconf()
 config.read(args.config)
 
-virus=config.get('database','virus')
+#fasta file
+virus=config.get('fasta','virus')
+vsp_fa=config.get('fasta','vsp')
+
+#blast database
 nt_viruses=config.get('blast_db','nt_viruses')
 vsp=config.get('blast_db','vsp')
+
+#regular database
 kraken2=config.get('database','kraken2')
 host=config.get('database','host')
-vsp_fa=config.get('fasta','vsp')
+
+#parameter
 identify=config.get('parameter','identify')
 contig=config.get('parameter','contig_min_length')
 
