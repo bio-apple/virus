@@ -150,7 +150,8 @@ def run(accession_list, pe1, outdir, prefix, blast_db, read_length, pe2=None, pl
                         line = line.strip()
                         if not line.startswith("#"):
                             array = line.split("\t")
-                            if float(array[5]) > max(int(read_length) * 3, 500) or float(array[1]) >= 10 or float(array[9]) >= 10:
+                            reads = float(array[6]) + float(array[7])
+                            if float(array[5]) > max(int(read_length) * 3, 500) or float(array[1]) >= 10 or float(array[9]) >= 10 or reads >=3:
                                 outfile1.write(f"{descriptions.get(array[0], 'N/A')}\t{array[1]}\t{array[2]}\t{array[3]}\t{array[4]}\t{array[5]}\t{array[6]}\t{array[7]}\t{array[8]}\t{array[9]}\n")
                         else:
                             num += 1
