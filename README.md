@@ -140,6 +140,7 @@ Email:fanyucai3@gmail.com
                                                       PREFIX [PREFIX ...] -o
                                                       OUTDIR -c CONFIG -l
                                                       {50,75,100,150,200,250,300}
+                                                      [-s SPECIES]
                                                       [-t THREADS]
                                                       [-plot PLOT] [-fa FA]
                                                       [-e BED] [-r REF]
@@ -159,11 +160,13 @@ optional arguments:
                         config file
   -l {50,75,100,150,200,250,300}, --length {50,75,100,150,200,250,300}
                         read length
+  -s SPECIES, --species SPECIES
+                        host species name,default:human
   -t THREADS, --threads THREADS
                         number of threads to use
   -plot PLOT, --plot PLOT
-                        plot when Covered_percent default=60
-  -fa FA, --fa FA       output consensus fasta when Covered_percent default=70
+                        plot when covered_percent default=60
+  -fa FA, --fa FA       output consensus fasta when covered_percent default=70
 
 Reference/Bowtie2 Index Options:
   -e BED, --bed BED     bed file(Optional)
