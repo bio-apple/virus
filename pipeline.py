@@ -80,7 +80,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # Step 2: kraken2
     # ------------------------
     print("\n#------------------------\n#Step 2: kraken2\n#------------------------\n")
-    core.kraken2.run(r1,kraken2,prefix,args.outdir+"/2.kraken2",args.length,r2)
+    classified=core.kraken2.run(r1,kraken2,prefix,args.outdir+"/2.kraken2",args.length,r2)
 
     # ------------------------
     # Step 3: bowtie2 host filter
@@ -142,23 +142,27 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         # ------------------------
         # Step 5: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
         # ------------------------
-        print("\n#------------------------\n#Step 5: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)\n#------------------------\n")
-        with ThreadPoolExecutor(max_workers=2) as executor:
-            futures = [
-                executor.submit(core.megahit.run, read1, prefix, args.outdir + "/5.assembly/", read2,contig),
-                executor.submit(core.metaspades.run, read1, prefix, args.outdir + "/5.assembly/", read2)
-            ]
-            for future in as_completed(futures):
-                print(future.result())
-        subprocess.check_call(f'cd {args.outdir}/5.assembly/ && cat spades_{prefix}/scaffolds_{contig}bp.fasta megahit_{prefix}/{prefix}.contigs.fa >{prefix}.contigs.fa',shell=True)
-        core.cd_hit_est.run(f'{args.outdir}/5.assembly/{prefix}.contigs.fa',identify,prefix+".non-redundant",f'{args.outdir}/5.assembly/')
+        if classified=="true":
+            print("\n#------------------------\n#Step 5: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)\n#------------------------\n")
+            with ThreadPoolExecutor(max_workers=2) as executor:
+                futures = [
+                    executor.submit(core.megahit.run, read1, prefix, args.outdir + "/5.assembly/", read2,contig),
+                    executor.submit(core.metaspades.run, read1, prefix, args.outdir + "/5.assembly/", read2)
+                ]
+                for future in as_completed(futures):
+                    print(future.result())
+            subprocess.check_call(f'cd {args.outdir}/5.assembly/ && cat spades_{prefix}/scaffolds_{contig}bp.fasta megahit_{prefix}/{prefix}.contigs.fa >{prefix}.contigs.fa',shell=True)
+            core.cd_hit_est.run(f'{args.outdir}/5.assembly/{prefix}.contigs.fa',identify,prefix+".non-redundant",f'{args.outdir}/5.assembly/')
 
         # ------------------------
         # Step 6: blast nt
         # ------------------------
         print("\n#------------------------\n#Step 6: blast NCBI Database: nt virus\n#------------------------\n")
-        core.blast.run(f'{args.outdir}/5.assembly/{prefix}.non-redundant.fna',virus,f"{args.outdir}/6.blast/",prefix+".nt_viruses",10,98,70,1e-10,1)
-        new_accession1 = core.parse_blast.run(f"{args.outdir}/6.blast/{prefix}.nt_viruses.blast_all.txt",nt_viruses, f"{args.outdir}/6.blast/", accession,0.95)
+        if classified=="true":
+            core.blast.run(f'{args.outdir}/5.assembly/{prefix}.non-redundant.fna',virus,f"{args.outdir}/6.blast/",prefix+".nt_viruses",10,98,70,1e-10,1)
+            new_accession1 = core.parse_blast.run(nt_viruses, f"{args.outdir}/6.blast/", accession,0.95,f"{args.outdir}/6.blast/{prefix}.nt_viruses.blast_all.txt")
+        else:
+            new_accession1 = core.parse_blast.run(nt_viruses, f"{args.outdir}/6.blast/", accession, 0.95,None)
         print(new_accession1)
 
         # ------------------------

@@ -2,7 +2,7 @@
 #   Shen Z, Robert L, Stolpman M, et al. A genome catalog of the early-life human skin microbiome[J]. Genome Biology, 2023, 24(1): 252.
 #   Liu Y, Ghaffari M H, Ma T, et al. Impact of database choice and confidence score on the performance of taxonomic classification using Kraken2[J]. aBIOTECH, 2024: 1-11.
 
-import os,gzip
+import os,gzip,re
 import subprocess
 import argparse
 
@@ -17,16 +17,30 @@ def run(pe1,index,prefix,outdir,read_length,pe2=None):
         pe2=os.path.abspath(pe2)
         cmd+=f"-v {pe2}:/raw_data/{os.path.basename(pe2)} "
 
-    cmd+=f"{docker} sh -c \'export PATH=/opt/conda/envs/kraken2/bin/:$PATH && kraken2 --confidence 0.8 --db /ref --threads 24 --output /outdir/{prefix}.txt --minimum-base-quality 20 --report /outdir/{prefix}.report.txt "
+    kraken2=cmd+f"{docker} sh -c \'export PATH=/opt/conda/envs/kraken2/bin/:$PATH && kraken2 --confidence 0.8 --db /ref --threads 24 --output /outdir/{prefix}.txt --minimum-base-quality 20 --report /outdir/{prefix}.report.txt "
 
-    cmd+=f"{'--paired /raw_data/' + os.path.basename(pe1) + ' /raw_data/' + os.path.basename(pe2) if pe2 else '/raw_data/' + os.path.basename(pe1)} && "
-    # Run Bracken for Abundance Estimation of Microbiome Samples
-    cmd += f"bracken -d /ref/ -i /outdir/{prefix}.report.txt -r {read_length} -o /outdir/{prefix}.bracken -w /outdir/{prefix}.breport -t 3 && "
+    kraken2+=f"{'--paired /raw_data/' + os.path.basename(pe1) + ' /raw_data/' + os.path.basename(pe2) if pe2 else '/raw_data/' + os.path.basename(pe1)}"
+    kraken2+="\'"
+    print(kraken2)
+    subprocess.run(kraken2,shell=True)
+    num,classified=0,"true"
+    with open(f"{outdir}/{prefix}.report.txt","r") as f:
+        for line in f:
+            line = line.strip()
+            if re.search("unclassified",line):
+                classified="false"
+            num+=1
+    if classified=="false" and num==1:
+        print("no reads can classify.")
+    else:
+        # Run Bracken for Abundance Estimation of Microbiome Samples
+        bracken=cmd + f"{docker} sh -c \'export PATH=/opt/conda/envs/kraken2/bin/:$PATH && bracken -d /ref/ -i /outdir/{prefix}.report.txt -r {read_length} -o /outdir/{prefix}.bracken -w /outdir/{prefix}.breport -t 3 && "
 
-    # Generate Krona Plots
-    cmd += f"kreport2krona.py -r /outdir/{prefix}.breport -o /outdir/{prefix}.krona.txt --no-intermediate-ranks && ktImportText /outdir/{prefix}.krona.txt -o /outdir/{prefix}.krona.html\'"
-    print(cmd)
-    subprocess.check_call(cmd,shell=True)
+        # Generate Krona Plots
+        bracken += f"kreport2krona.py -r /outdir/{prefix}.breport -o /outdir/{prefix}.krona.txt --no-intermediate-ranks && ktImportText /outdir/{prefix}.krona.txt -o /outdir/{prefix}.krona.html\'"
+        print(bracken)
+        subprocess.check_call(bracken,shell=True)
+    return classified
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser("Classified out option on the Kraken database,")

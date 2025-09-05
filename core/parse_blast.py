@@ -3,7 +3,7 @@ import argparse
 import subprocess
 
 docker="virus:latest"
-def run(blast_out_nt_viruses,nt_virus_db_dir,outdir,accession,identify):
+def run(nt_virus_db_dir,outdir,accession,identify,blast_out_nt_viruses=None):
     outfile = open(outdir + "/ref.list", "w")
     outdir = os.path.abspath(outdir)
     os.makedirs(outdir, exist_ok=True)
@@ -14,14 +14,15 @@ def run(blast_out_nt_viruses,nt_virus_db_dir,outdir,accession,identify):
     else:
         for key in accession:
             outfile.write(f"{key}\n")
-    infile=open(blast_out_nt_viruses,'r')
-    for line in infile:
-        line = line.strip()
-        array = line.split("\t")
-        if not line.startswith("#") and not array[1] in accession:
-                accession.append(array[1])
-                outfile.write(array[1]+"\n")
-    infile.close()
+    if blast_out_nt_viruses is not None:
+        infile=open(blast_out_nt_viruses,'r')
+        for line in infile:
+            line = line.strip()
+            array = line.split("\t")
+            if not line.startswith("#") and not array[1] in accession:
+                    accession.append(array[1])
+                    outfile.write(array[1]+"\n")
+        infile.close()
     outfile.close()
     print(accession)
     # get species reference sequence from nt_viruses
@@ -55,12 +56,10 @@ def run(blast_out_nt_viruses,nt_virus_db_dir,outdir,accession,identify):
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser(description='')
-    parser.add_argument("-n","--blast_out_nt_viruses",help='blast output file from nt_viruses',required=True)
+    parser.add_argument("-n","--blast_out_nt_viruses",help='blast output file from nt_viruses')
     parser.add_argument("-d","--nt_virus_dir",help='NT virus directory',required=True)
     parser.add_argument("-o","--outdir",help='output directory',default=os.getcwd())
     parser.add_argument("-a","--accession",help='accession',default=None)
     parser.add_argument("-i", "--identify", help="sequence identity threshold, default: 0.95", default=0.95,type=float)
     args = parser.parse_args()
-    run(args.blast_out_nt_viruses,args.nt_virus_dir,args.outdir,args.accession,args.identify)
-
-
+    run(args.nt_virus_dir,args.outdir,args.accession,args.identify,args.blast_out_nt_viruses)
