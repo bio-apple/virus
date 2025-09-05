@@ -29,6 +29,7 @@ parser.add_argument("-p", "--prefix", help="prefix of output", required=True, na
 parser.add_argument("-o", "--outdir", help="diretory of output", required=True)
 parser.add_argument("-c", "--config", help="config file", required=True)
 parser.add_argument('-l', '--length', help="read length", type=int, required=True,choices=[50, 75, 100, 150, 200, 250, 300])
+parser.add_argument("-s", "--species", help="host species name", default="human")
 parser.add_argument("-t", "--threads", help="number of threads to use", default=os.cpu_count(), type=int)
 parser.add_argument("-plot", "--plot", default=60, type=int, help="plot when covered_percent default=60")
 parser.add_argument("-fa", "--fa", default=70, type=int,help="output consensus fasta when covered_percent default=70")
@@ -90,7 +91,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
     # Step 3: bowtie2 host filter
     # ------------------------
     print("\n#------------------------\n#Step 3: bowtie2 host filter\n#------------------------\n")
-    core.filter_host.run(r1,args.outdir+"/3.filter_host",host,prefix,r2)
+    core.filter_host.run(r1,args.outdir+"/3.filter_host",host+"/"+args.species,prefix,r2)
 
     read1, read2 ,accession1,count= "", None,[],0
     if r2 is None:
@@ -206,6 +207,8 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
             for key in final_accession:
                 subprocess.check_call(f'cd {args.outdir}/8.consensus/ && rm -rf {key}.bam {key}.bam.bai {key}.fa {key}.fasta {key}.*bt2 {key}.cov.txt',shell=True)
         else:
+            os.makedirs(f"{args.outdir}/7.mapping/", exist_ok=True)
+            os.makedirs(f"{args.outdir}/8.consensus/", exist_ok=True)
             print("No reference genome species sequences could be classified using any of the following:\n1.VSP database Bowtie2 alignment\n2.Paired-end read merging and BLAST against a virus database\n3.Genome assembly and BLAST against a virus database")
 
     end=time.time()

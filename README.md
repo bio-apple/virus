@@ -122,8 +122,13 @@ tar xvzf k2_pluspf_20250402.tar.gz
 <pre>
 mkdir -p /ref/host/human/
 cd /ref/host/human/
-wget https://genome-idx.s3.amazonaws.com/bt/grch38_1kgmaj_snvindels_bt2.zip
+wget -P /ref/host/human/ https://genome-idx.s3.amazonaws.com/bt/grch38_1kgmaj_snvindels_bt2.zip
 unzip grch38_1kgmaj_snvindels_bt2.zip
+
+mkdir -p /ref/host/mouse
+wget 
+docker run -v /ref/host/mouse:/ref/ virus sh -c 'export PATH=/opt/conda/bin:$PATH && cd /ref/ && bowtie2-build GRCm39.genome.fa GRCm39.genome.fa'
+
 </pre>
 
 ## Step3:run pipeline
