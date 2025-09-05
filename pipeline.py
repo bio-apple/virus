@@ -2,6 +2,9 @@ import os
 import argparse
 import subprocess
 import configparser
+
+from scipy.datasets import electrocardiogram
+
 import core
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
@@ -153,6 +156,8 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
                     print(future.result())
             subprocess.check_call(f'cd {args.outdir}/5.assembly/ && cat spades_{prefix}/scaffolds_{contig}bp.fasta megahit_{prefix}/{prefix}.contigs.fa >{prefix}.contigs.fa',shell=True)
             core.cd_hit_est.run(f'{args.outdir}/5.assembly/{prefix}.contigs.fa',identify,prefix+".non-redundant",f'{args.outdir}/5.assembly/')
+        else:
+            os.makedirs(f"{args.outdir}/5.assembly/", exist_ok=True)
 
         # ------------------------
         # Step 6: blast nt
@@ -162,6 +167,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
             core.blast.run(f'{args.outdir}/5.assembly/{prefix}.non-redundant.fna',virus,f"{args.outdir}/6.blast/",prefix+".nt_viruses",10,98,70,1e-10,1)
             new_accession1 = core.parse_blast.run(nt_viruses, f"{args.outdir}/6.blast/", accession,0.95,f"{args.outdir}/6.blast/{prefix}.nt_viruses.blast_all.txt")
         else:
+            os.makedirs(f"{args.outdir}/6.blast/", exist_ok=True)
             new_accession1 = core.parse_blast.run(nt_viruses, f"{args.outdir}/6.blast/", accession, 0.95,None)
         print(new_accession1)
 

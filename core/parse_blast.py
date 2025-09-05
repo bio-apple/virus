@@ -4,9 +4,9 @@ import subprocess
 
 docker="virus:latest"
 def run(nt_virus_db_dir,outdir,accession,identify,blast_out_nt_viruses=None):
-    outfile = open(outdir + "/ref.list", "w")
     outdir = os.path.abspath(outdir)
     os.makedirs(outdir, exist_ok=True)
+    outfile = open(outdir + "/ref.list", "w")
     db_dir = os.path.abspath(os.path.dirname(nt_virus_db_dir))
     db_name = nt_virus_db_dir.split("/")[-1]
     if accession is None:
