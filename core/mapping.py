@@ -33,7 +33,7 @@ def run(ref_index_dir,outdir,prefix,R1,R2=None,read_length=150):
             if not line.startswith("#"):
                 array = line.split("\t")
                 reads=float(array[6])+float(array[7])
-                if float(array[5]) > max(int(read_length) * 3, 500) or float(array[1]) >= 10 or float(array[9]) >= 10 or reads >= 3:
+                if float(array[5]) > max(int(read_length) * 3, 500) or float(array[1]) >= 10 or float(array[9]) >= 10:
                     if array[0] not in accession:
                         accession.append(array[0])
     print(accession)
