@@ -206,7 +206,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
             for key in final_accession:
                 subprocess.check_call(f'cd {args.outdir}/8.consensus/ && rm -rf {key}.bam {key}.bam.bai {key}.fa {key}.fasta {key}.*bt2 {key}.cov.txt',shell=True)
         else:
-            print("No reference genome species sequences could be classified using any of the following methods")
+            print("No reference genome species sequences could be classified using any methods\n1.VSP database Bowtie2 alignment\n2.Paired-end read merging and BLAST against a virus database\n3.Genome assembly and BLAST against a virus database")
 
     end=time.time()
     print(f"\nSampleID {prefix}:Elapse time is {(end-start)} seconds\n")
