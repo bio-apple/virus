@@ -68,7 +68,6 @@ kraken2=config.get('database','kraken2')
 host=config.get('database','host')
 
 #parameter
-identify=config.get('parameter','identify')
 contig=config.get('parameter','contig_min_length')
 
 for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
@@ -158,13 +157,13 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         spades=f"{args.outdir}/5.assembly/spades_{prefix}/scaffolds_{contig}bp.fasta"
         if os.path.exists(megahit) and os.path.exists(spades):
             subprocess.check_call(f'cd {args.outdir}/5.assembly/ && cat spades_{prefix}/scaffolds_{contig}bp.fasta megahit_{prefix}/{prefix}.contigs.fa >{prefix}.contigs.fa',shell=True)
-            core.cd_hit_est.run(f'{args.outdir}/5.assembly/{prefix}.contigs.fa',identify,prefix+".non-redundant",f'{args.outdir}/5.assembly/')
+            core.cd_hit_est.run(f'{args.outdir}/5.assembly/{prefix}.contigs.fa',0.95,prefix+".non-redundant",f'{args.outdir}/5.assembly/')
         elif os.path.exists(megahit) and not os.path.exists(spades):
             subprocess.check_call(f'cd {args.outdir}/5.assembly/ && cp megahit_{prefix}/{prefix}.contigs.fa {prefix}.contigs.fa',shell=True)
-            core.cd_hit_est.run(f'{args.outdir}/5.assembly/{prefix}.contigs.fa', identify,prefix + ".non-redundant", f'{args.outdir}/5.assembly/')
+            core.cd_hit_est.run(f'{args.outdir}/5.assembly/{prefix}.contigs.fa', 0.95,prefix + ".non-redundant", f'{args.outdir}/5.assembly/')
         elif not os.path.exists(megahit) and os.path.exists(spades):
             subprocess.check_call(f'cd {args.outdir}/5.assembly/ && cp spades_{prefix}/scaffolds_{contig}bp.fasta {prefix}.contigs.fa',shell=True)
-            core.cd_hit_est.run(f'{args.outdir}/5.assembly/{prefix}.contigs.fa', identify,prefix + ".non-redundant", f'{args.outdir}/5.assembly/')
+            core.cd_hit_est.run(f'{args.outdir}/5.assembly/{prefix}.contigs.fa', 0.95,prefix + ".non-redundant", f'{args.outdir}/5.assembly/')
         else:
             print(f"It is possible that the data quality is the reason we did not obtain a valid genome assembly(>{contig}bp).")
 
