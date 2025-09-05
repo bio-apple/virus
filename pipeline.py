@@ -209,7 +209,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         else:
             os.makedirs(f"{args.outdir}/7.mapping/", exist_ok=True)
             os.makedirs(f"{args.outdir}/8.consensus/", exist_ok=True)
-            print("No reference genome species sequences could be classified using any of the following:\n1.VSP database Bowtie2 alignment\n2.Paired-end read merging and BLAST against a virus database\n3.Genome assembly and BLAST against a virus database")
+            print(f"SampleID {prefix}:No reference genome species sequences could be classified using any of the following:\n1.VSP database Bowtie2 alignment\n2.Paired-end read merging and BLAST against a virus database\n3.Genome assembly and BLAST against a virus database")
 
     end=time.time()
     print(f"\nSampleID {prefix}:Elapse time is {(end-start)} seconds\n")
