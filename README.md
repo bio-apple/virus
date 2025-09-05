@@ -162,8 +162,6 @@ optional arguments:
                         read length
   -s SPECIES, --species SPECIES
                         host species name,default:human
-  -t THREADS, --threads THREADS
-                        number of threads to use
   -plot PLOT, --plot PLOT
                         plot when covered_percent default=60
   -fa FA, --fa FA       output consensus fasta when covered_percent default=70
