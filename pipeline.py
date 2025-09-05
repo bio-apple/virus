@@ -173,12 +173,21 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         # ------------------------
         print("\n#------------------------\n#Step 6: blast NCBI Database: nt virus\n#------------------------\n")
         contig=f"{args.outdir}/5.assembly/{prefix}.non-redundant.fna"
-        if not os.path.exists(contig):
-            core.blast.run(f'{args.outdir}/5.assembly/{prefix}.non-redundant.fna',virus,f"{args.outdir}/6.blast/",prefix+".nt_viruses",10,98,70,1e-10,1)
-            new_accession1 = core.parse_blast.run(nt_viruses, f"{args.outdir}/6.blast/", accession,0.95,f"{args.outdir}/6.blast/{prefix}.nt_viruses.blast_all.txt")
+        if os.path.exists(contig):
+            blast_accession=core.blast.run(f'{args.outdir}/5.assembly/{prefix}.non-redundant.fna',virus,f"{args.outdir}/6.blast/",prefix+".nt_viruses",10,98,70,1e-10,1)
+            if len(blast_accession)>0:
+                new_accession1 = core.parse_blast.run(nt_viruses, f"{args.outdir}/6.blast/", accession,0.95,f"{args.outdir}/6.blast/{prefix}.nt_viruses.blast_all.txt")
+            else:
+                if len(accession)>0:
+                    new_accession1 = core.parse_blast.run(nt_viruses, f"{args.outdir}/6.blast/", accession, 0.95,None)
+                else:
+                    new_accession1 = []
         else:
             os.makedirs(f"{args.outdir}/6.blast/", exist_ok=True)
-            new_accession1 = core.parse_blast.run(nt_viruses, f"{args.outdir}/6.blast/", accession, 0.95,None)
+            if len(accession)>0:
+                new_accession1 = core.parse_blast.run(nt_viruses, f"{args.outdir}/6.blast/", accession, 0.95,None)
+            else:
+                new_accession1 = []
         print(new_accession1)
 
         # ------------------------
@@ -197,10 +206,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
             for key in final_accession:
                 subprocess.check_call(f'cd {args.outdir}/8.consensus/ && rm -rf {key}.bam {key}.bam.bai {key}.fa {key}.fasta {key}.*bt2 {key}.cov.txt',shell=True)
         else:
-            print("No reference genome species sequences could be classified using any of the following methods："
-                  "1）VSP database Bowtie2 alignment；"
-                  "2）Paired-end read merging and BLAST against a virus database；"
-                  "3）Genome assembly and BLAST against a virus database")
+            print("No reference genome species sequences could be classified using any of the following methods")
 
     end=time.time()
     print(f"\nSampleID {prefix}:Elapse time is {(end-start)} seconds\n")
