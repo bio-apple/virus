@@ -3,8 +3,6 @@ import argparse
 import subprocess
 import configparser
 
-from scipy.datasets import electrocardiogram
-
 import core
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
@@ -145,25 +143,34 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         # ------------------------
         # Step 5: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)
         # ------------------------
-        if classified=="true":
-            print("\n#------------------------\n#Step 5: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)\n#------------------------\n")
-            with ThreadPoolExecutor(max_workers=2) as executor:
-                futures = [
-                    executor.submit(core.megahit.run, read1, prefix, args.outdir + "/5.assembly/", read2,contig),
-                    executor.submit(core.metaspades.run, read1, prefix, args.outdir + "/5.assembly/", read2)
-                ]
-                for future in as_completed(futures):
-                    print(future.result())
+        print("\n#------------------------\n#Step 5: denovo genome assembly(megahit and metaspades) and remove redundancy (cd-hit-est)\n#------------------------\n")
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            futures = [
+                executor.submit(core.megahit.run, read1, prefix, args.outdir + "/5.assembly/", read2,contig),
+                executor.submit(core.metaspades.run, read1, prefix, args.outdir + "/5.assembly/", read2)
+            ]
+            for future in as_completed(futures):
+                print(future.result())
+        megahit=f"{args.outdir}/5.assembly/megahit_{prefix}/{prefix}.contigs.fa"
+        spades=f"{args.outdir}/5.assembly/spades_{prefix}/scaffolds_{contig}bp.fasta"
+        if os.path.exists(megahit) and os.path.exists(spades):
             subprocess.check_call(f'cd {args.outdir}/5.assembly/ && cat spades_{prefix}/scaffolds_{contig}bp.fasta megahit_{prefix}/{prefix}.contigs.fa >{prefix}.contigs.fa',shell=True)
             core.cd_hit_est.run(f'{args.outdir}/5.assembly/{prefix}.contigs.fa',identify,prefix+".non-redundant",f'{args.outdir}/5.assembly/')
+        elif os.path.exists(megahit) and not os.path.exists(spades):
+            subprocess.check_call(f'cd {args.outdir}/5.assembly/ && cp megahit_{prefix}/{prefix}.contigs.fa {prefix}.contigs.fa',shell=True)
+            core.cd_hit_est.run(f'{args.outdir}/5.assembly/{prefix}.contigs.fa', identify,prefix + ".non-redundant", f'{args.outdir}/5.assembly/')
+        elif not os.path.exists(megahit) and os.path.exists(spades):
+            subprocess.check_call(f'cd {args.outdir}/5.assembly/ && cp spades_{prefix}/scaffolds_{contig}bp.fasta {prefix}.contigs.fa',shell=True)
+            core.cd_hit_est.run(f'{args.outdir}/5.assembly/{prefix}.contigs.fa', identify,prefix + ".non-redundant", f'{args.outdir}/5.assembly/')
         else:
-            os.makedirs(f"{args.outdir}/5.assembly/", exist_ok=True)
+            print(f"It is possible that the data quality is the reason we did not obtain a valid genome assembly(>{contig}bp).")
 
         # ------------------------
         # Step 6: blast nt
         # ------------------------
         print("\n#------------------------\n#Step 6: blast NCBI Database: nt virus\n#------------------------\n")
-        if classified=="true":
+        contig=f"{args.outdir}/5.assembly/{prefix}.non-redundant.fna"
+        if not os.path.exists(contig):
             core.blast.run(f'{args.outdir}/5.assembly/{prefix}.non-redundant.fna',virus,f"{args.outdir}/6.blast/",prefix+".nt_viruses",10,98,70,1e-10,1)
             new_accession1 = core.parse_blast.run(nt_viruses, f"{args.outdir}/6.blast/", accession,0.95,f"{args.outdir}/6.blast/{prefix}.nt_viruses.blast_all.txt")
         else:
@@ -175,15 +182,22 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
         # step 7:mapping reference
         # ------------------------
         print("\n#------------------------\n#Step 7:mapping reference\n#------------------------\n")
-        final_accession=core.mapping.run(f'{args.outdir}/6.blast/',f'{args.outdir}/7.mapping/',prefix,read1, read2,args.length)
-        print(final_accession)
+        if len(new_accession1)>0:
+            final_accession=core.mapping.run(f'{args.outdir}/6.blast/',f'{args.outdir}/7.mapping/',prefix,read1, read2,args.length)
+            print(final_accession)
 
-        # ------------------------
-        # step8:variant calling,consensus sequence and plot coverage
-        # ------------------------
-        print("#------------------------\n#Step7:variant calling,consensus sequence and plot coverage\n#------------------------\n")
-        core.consensus.run(final_accession,read1,f'{args.outdir}/8.consensus/',prefix,nt_viruses,args.length,read2)
-        for key in final_accession:
-            subprocess.check_call(f'cd {args.outdir}/8.consensus/ && rm -rf {key}.bam {key}.bam.bai {key}.fa {key}.fasta {key}.*bt2 {key}.cov.txt',shell=True)
+            # ------------------------
+            # step8:variant calling,consensus sequence and plot coverage
+            # ------------------------
+            print("#------------------------\n#Step8:variant calling,consensus sequence and plot coverage\n#------------------------\n")
+            core.consensus.run(final_accession, read1, f'{args.outdir}/8.consensus/', prefix, nt_viruses, args.length,read2)
+            for key in final_accession:
+                subprocess.check_call(f'cd {args.outdir}/8.consensus/ && rm -rf {key}.bam {key}.bam.bai {key}.fa {key}.fasta {key}.*bt2 {key}.cov.txt',shell=True)
+        else:
+            print("No reference genome species sequences could be classified using any of the following methods："
+                  "1）VSP database Bowtie2 alignment；"
+                  "2）Paired-end read merging and BLAST against a virus database；"
+                  "3）Genome assembly and BLAST against a virus database")
+
     end=time.time()
     print(f"\nSampleID {prefix}:Elapse time is {(end-start)} seconds\n")
