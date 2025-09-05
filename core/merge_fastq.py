@@ -1,9 +1,9 @@
-import os,sys
+import os
 import subprocess,argparse
 
 docker="virus:latest"
 
-def run(pe1,pe2,prefix,outdir,length=150):
+def run(pe1,pe2,prefix,outdir,length=100):
     pe1=os.path.abspath(pe1)
     pe2=os.path.abspath(pe2)
     outdir = os.path.abspath(outdir)
