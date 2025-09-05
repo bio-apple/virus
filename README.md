@@ -130,9 +130,17 @@ unzip grch38_1kgmaj_snvindels_bt2.zip
 <pre>
 usage: Virus NGS pipeline.
 Email:fanyucai3@gmail.com
- [-h] -p1 PE1 [PE1 ...] [-p2 PE2 [PE2 ...]] -p PREFIX [PREFIX ...] -o OUTDIR -c CONFIG -l {50,75,100,150,200,250,300} [-e BED] [-r REF] [-b BOWTIE2]
+ [-h] -p1 PE1 [PE1 ...]
+                                                      [-p2 PE2 [PE2 ...]] -p
+                                                      PREFIX [PREFIX ...] -o
+                                                      OUTDIR -c CONFIG -l
+                                                      {50,75,100,150,200,250,300}
+                                                      [-t THREADS]
+                                                      [-plot PLOT] [-fa FA]
+                                                      [-e BED] [-r REF]
+                                                      [-b BOWTIE2]
 
-options:
+optional arguments:
   -h, --help            show this help message and exit
   -p1 PE1 [PE1 ...], --pe1 PE1 [PE1 ...]
                         R1 fastq
@@ -146,12 +154,17 @@ options:
                         config file
   -l {50,75,100,150,200,250,300}, --length {50,75,100,150,200,250,300}
                         read length
+  -t THREADS, --threads THREADS
+                        number of threads to use
+  -plot PLOT, --plot PLOT
+                        plot when Covered_percent default=60
+  -fa FA, --fa FA       output consensus fasta when Covered_percent default=70
 
 Reference/Bowtie2 Index Options:
-  -e BED, --bed BED     bed file
-  -r REF, --ref REF     ref fasta
+  -e BED, --bed BED     bed file(Optional)
+  -r REF, --ref REF     ref fasta(Optional)
   -b BOWTIE2, --bowtie2 BOWTIE2
-                        directory contains reference bowtie2 index
+                        directory contains reference bowtie2 index(Optional)
 </pre>
 
 Command-line example: 
