@@ -30,7 +30,6 @@ parser.add_argument("-o", "--outdir", help="diretory of output", required=True)
 parser.add_argument("-c", "--config", help="config file", required=True)
 parser.add_argument('-l', '--length', help="read length", type=int, required=True,choices=[50, 75, 100, 150, 200, 250, 300])
 parser.add_argument("-s", "--species", help="host species name,default:human", default="human",type=str)
-parser.add_argument("-t", "--threads", help="number of threads to use", default=os.cpu_count(), type=int)
 parser.add_argument("-plot", "--plot", default=60, type=int, help="plot when covered_percent default=60")
 parser.add_argument("-fa", "--fa", default=70, type=int,help="output consensus fasta when covered_percent default=70")
 
@@ -203,7 +202,7 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
             # step8:variant calling,consensus sequence and plot coverage
             # ------------------------
             print("#------------------------\n#Step8:variant calling,consensus sequence and plot coverage\n#------------------------\n")
-            core.consensus.run(final_accession, read1, f'{args.outdir}/8.consensus/', prefix, nt_viruses, args.length,read2,args.plot,args.fa,args.threads)
+            core.consensus.run(final_accession, read1, f'{args.outdir}/8.consensus/', prefix, nt_viruses, args.length,read2,args.plot,args.fa)
             for key in final_accession:
                 subprocess.check_call(f'cd {args.outdir}/8.consensus/ && rm -rf {key}.bam {key}.bam.bai {key}.fa {key}.fasta {key}.*bt2 {key}.cov.txt',shell=True)
         else:

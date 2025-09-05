@@ -104,7 +104,7 @@ def process_accession(accession, pe1, pe2, outdir, blast_db_dir, blast_db_name, 
             subprocess.check_call(consensus_cmd, shell=True)
     return is_plot_worthy
 
-def run(accession_list, pe1, outdir, prefix, blast_db, read_length, pe2=None, plot_threshold=60, fa_threshold=70,threads=None):
+def run(accession_list, pe1, outdir, prefix, blast_db, read_length, pe2=None, plot_threshold=60, fa_threshold=70,threads=10):
     outdir = os.path.abspath(outdir)
     os.makedirs(outdir, exist_ok=True)
 
