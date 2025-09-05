@@ -30,8 +30,8 @@ parser.add_argument("-o", "--outdir", help="diretory of output", required=True)
 parser.add_argument("-c", "--config", help="config file", required=True)
 parser.add_argument('-l', '--length', help="read length", type=int, required=True,choices=[50, 75, 100, 150, 200, 250, 300])
 parser.add_argument("-t", "--threads", help="number of threads to use", default=os.cpu_count(), type=int)
-parser.add_argument("-plot", "--plot", default=60, type=int, help="plot when Covered_percent default=60")
-parser.add_argument("-fa", "--fa", default=70, type=int,help="output consensus fasta when Covered_percent default=70")
+parser.add_argument("-plot", "--plot", default=60, type=int, help="plot when covered_percent default=60")
+parser.add_argument("-fa", "--fa", default=70, type=int,help="output consensus fasta when covered_percent default=70")
 
 # Create a parameter group to organize the ref and bowtie2 parameters.
 ref_group = parser.add_argument_group("Reference/Bowtie2 Index Options")
