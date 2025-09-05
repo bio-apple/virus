@@ -11,8 +11,8 @@ def run(pe1,prefix,outdir,pe2=None,length=500):
     if not os.path.exists(outdir):
         os.makedirs(outdir, exist_ok=True)
     else:
-        if os.path.exists(outdir+"/megahit_%s/"%(prefix)):
-            subprocess.call(["rm","-rf",outdir+"/megahit_%s/"%(prefix)],shell=True)
+        if os.path.exists(outdir+f'/megahit_{prefix}/'):
+            subprocess.check_output(f'rm -rf {outdir}/megahit_{prefix}/',shell=True)
     cmd = "docker run -v %s:/raw_data/ -v %s:/outdir/ %s sh -c \'export PATH=/opt/conda/bin:$PATH && megahit" % (in_dir,outdir, docker)
     for i in range(1,len(array)):
         if in_dir!=os.path.dirname(os.path.abspath(array[i])):
@@ -32,12 +32,21 @@ def run(pe1,prefix,outdir,pe2=None,length=500):
                 b+=","+"/raw_data/"+os.path.abspath(array[i]).split("/")[-1]
         cmd+=" -1 %s -2 %s "%(a,b)
     else:
-        cmd+=" --read %s"%(a)
-    cmd+=("-o /outdir/megahit_%s/ --out-prefix %s -m 0.95 --continue --min-contig-len %s -t 64 && "
-          "quast.py --threads 36 --plots-format png --no-html --no-icarus "
-          "--output-dir /outdir/megahit_%s/ /outdir/megahit_%s/%s.contigs.fa\'")%(prefix,prefix,length,prefix,prefix,prefix)
+        cmd+=" --read %s "%(a)
+    cmd+=("-o /outdir/megahit_%s/ --out-prefix %s -m 0.95 --continue --min-contig-len %s -t 64\'")%(prefix,prefix,length)
     print(cmd)
-    subprocess.call(cmd,shell=True)
+    subprocess.check_call(cmd,shell=True)
+    num=0
+    if os.path.exists(outdir+'/megahit_'+prefix+'.contigs.fa'):
+        with open(f'{outdir}/megahit_{prefix}/{prefix}.contigs.fa') as f:
+            for line in f:
+                if line.startswith(">"):
+                    num+=1
+    if num>0:
+        quast=f'docker run -v %s:/raw_data/ -v %s:/outdir/ %s sh -c \'export PATH=/opt/conda/bin:$PATH && quast.py --threads 36 --plots-format png --no-html --no-icarus --output-dir /outdir/megahit_{prefix}/ /outdir/megahit_{prefix}/{prefix}.contigs.fa\''
+        print(quast)
+        subprocess.check_call(quast,shell=True)
+
     return "Genome assembly megahit done."
 
 if __name__=="__main__":

@@ -14,13 +14,11 @@ def run(pe1,prefix,outdir,pe2=None):
     if pe2:
         cmd+=(f'-v {pe2}:/raw_data/{pe2.split("/")[-1]} {docker} '
               f'sh -c \'export PATH=/opt/conda/bin:$PATH && '
-              f'spades.py --only-assembler --cov-cutoff 5 --memory 500 --threads 48 -1 /raw_data/{pe1.split("/")[-1]} -2 /raw_data/{pe2.split("/")[-1]} -o /outdir/spades_{prefix}/ && '
-              f'quast.py --plots-format png --min-contig 500 --no-html --no-icarus --output-dir /outdir/spades_{prefix}/ /outdir/spades_{prefix}/scaffolds.fasta\'')
+              f'spades.py --only-assembler --cov-cutoff 5 --memory 500 --threads 48 -1 /raw_data/{pe1.split("/")[-1]} -2 /raw_data/{pe2.split("/")[-1]} -o /outdir/spades_{prefix}/\'')
     else:
         cmd += (f'{docker} '
                 f'sh -c \'export PATH=/opt/conda/bin:$PATH && '
-                f'spades.py --only-assembler --cov-cutoff 5 --memory 500 --threads 48 -s /raw_data/{pe1.split("/")[-1]} -o /outdir/spades_{prefix}/ && '
-                f'quast.py --plots-format png --min-contig 500 --no-html --no-icarus --output-dir /outdir/spades_{prefix}/ /outdir/spades_{prefix}/scaffolds.fasta\'')
+                f'spades.py --only-assembler --cov-cutoff 5 --memory 500 --threads 48 -s /raw_data/{pe1.split("/")[-1]} -o /outdir/spades_{prefix}/\'')
 
     print(cmd)
     subprocess.check_call(cmd,shell=True)
@@ -38,8 +36,10 @@ def run(pe1,prefix,outdir,pe2=None):
         else:
             fa[id]+=line
     infile.close()
+    num=0
     for key in fa:
         if int(key.split("_")[3])>=500:
+            num+=1
             outfile1.write("%s\n%s\n"%(key,fa[key]))
         if int(key.split("_")[3]) >= 1000:
             outfile2.write("%s\n%s\n" % (key, fa[key]))
@@ -48,6 +48,10 @@ def run(pe1,prefix,outdir,pe2=None):
     outfile1.close()
     outfile2.close()
     outfile3.close()
+    if num>0:
+        quast=cmd+(f"sh -c \'export PATH=/opt/conda/bin:$PATH && "
+                   f"quast.py --plots-format png --min-contig 500 --no-html --no-icarus --output-dir /outdir/spades_{prefix}/ /outdir/spades_{prefix}/scaffolds.fasta\'")
+        subprocess.check_call(quast,shell=True)
     return "Genome assembly metaspades done."
 
 if __name__=="__main__":
