@@ -2,11 +2,9 @@ import os
 import argparse
 import subprocess
 import configparser
-
 import core
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
-
 
 class Myconf(configparser.ConfigParser):
     def __init__(self, defaults=None):
