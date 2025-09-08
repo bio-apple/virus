@@ -1,0 +1,20 @@
+# 操作系统和IDE生成的文件
+.DS_Store
+.idea/
+.vscode/
+
+# Python 虚拟环境
+.venv/
+venv/
+
+# 编译和运行时生成的文件
+__pycache__/
+*.pyc
+
+# 日志和数据库文件
+*.log
+*.sqlite3
+
+# 敏感配置文件
+.env
+config.local.py
