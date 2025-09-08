@@ -193,7 +193,7 @@ def run(accession_list, pe1, outdir, prefix, blast_db, read_length, pe2=None, pl
             plt.grid(True, linestyle='--', alpha=0.6)
             plt.legend(loc='lower right', title="", frameon=True)
             plt.tight_layout()
-            plt.savefig(f"{outdir}/{prefix}_{chr_name}.png", dpi=300)
+            plt.savefig(f"{outdir}/{chr_name}.png", dpi=300)
             plt.close()
             print(f"Individual plot saved for {chr_name}.")
 
