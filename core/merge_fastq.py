@@ -17,15 +17,17 @@ def run(pe1,pe2,prefix,outdir,length=100):
          f'reformat.sh in=/outdir/{prefix}.tmp.fasta out=/outdir/{prefix}.merge.fasta minlength={length}\'')
     print(cmd)
     subprocess.check_call(cmd, shell=True)
-
-    #cd-hit-est
-    cmd = (f'docker run --rm -v {outdir}:/outdir {docker} sh -c \''
-           f'export PATH=/opt/conda/bin:$PATH && '
-           f'cd-hit-est -i /outdir/{prefix}.merge.fasta -o /outdir/{prefix}.non-redundant.fna -M 0 -c 0.95 -T 0\'')
-    subprocess.check_call(cmd, shell=True)
-
+    sequence_count = int(os.popen(f'grep \">\" {outdir}/{prefix}.merge.fasta |wc -l').read().strip("\n").split(" ")[0])
+    print(f'Total counts:{sequence_count} sequence merged\n')
+    if sequence_count!=0:
+        #cd-hit-est
+        cmd = (f'docker run --rm -v {outdir}:/outdir {docker} sh -c \''
+               f'export PATH=/opt/conda/bin:$PATH && '
+               f'cd-hit-est -i /outdir/{prefix}.merge.fasta -o /outdir/{prefix}.non-redundant.fna -M 0 -c 0.95 -T 0\'')
+        subprocess.check_call(cmd, shell=True)
     os.remove(f"{outdir}/{prefix}.tmp.fasta")
     os.remove(f"{outdir}/{prefix}.merge.fasta")
+    return sequence_count
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser("")

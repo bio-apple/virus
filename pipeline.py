@@ -105,8 +105,10 @@ for r1,r2,prefix in zip(args.pe1,args.pe2,args.prefix):
             read2 = args.outdir + "/" + "3.filter_host/" + prefix + ".sub.R2.fastq.gz"
         if args.length >100 and not args.ref:
             count=core.merge_fastq.run(read1, read2, prefix, f'{args.outdir}/3.filter_host/', args.length)
-            accession1 = core.blast.run(f'{args.outdir}/3.filter_host/{prefix}.non-redundant.fna', virus,f'{args.outdir}/3.filter_host/', prefix, 10, 98, 95, 1e-10, 1)
-            print(accession1)
+            print(f"We merge {count} fastq files into {args.outdir}/3.filter_host/")
+            if count!=0:
+                accession1 = core.blast.run(f'{args.outdir}/3.filter_host/{prefix}.non-redundant.fna', virus,f'{args.outdir}/3.filter_host/', prefix, 10, 98, 95, 1e-10, 1)
+                print(accession1)
     if args.ref and args.bowtie2:
         os.makedirs(f"{args.outdir}/4.vsp",exist_ok=True)
         os.makedirs(f"{args.outdir}/5.assembly/", exist_ok=True)
