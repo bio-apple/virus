@@ -18,7 +18,7 @@ def get_blast_description(key, blast_db_dir, blast_db_name, docker, outdir):
     if process.returncode == 0 and stdout.strip():
         all_descriptions = [line.strip() for line in stdout.strip().split('\n') if line.strip()]
         if all_descriptions:
-            description = random.choice(all_descriptions)
+            description = all_descriptions[0]
     return description
 
 
