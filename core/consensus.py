@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import subprocess, argparse
-import os, random
+import os
 import numpy as np
 import threading
 from concurrent.futures import ThreadPoolExecutor
