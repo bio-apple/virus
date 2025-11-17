@@ -261,6 +261,6 @@ if __name__ == "__main__":
     parser.add_argument("-plot", "--plot", default=60, type=int, help="plot when Covered_percent >default=60")
     parser.add_argument("-fa", "--fa", default=70, type=int,help="output consensus fasta when Covered_percent >default=70")
     parser.add_argument("-l", "--read_length", type=int, help="read length", required=True)
-    parser.add_argument("-t", "--threads", type=int, default=os.cpu_count(), help="Number of threads to use (default: number of CPU cores)")
+    parser.add_argument("-t", "--threads", type=int, default=10, help="Number of threads to use (default: number of CPU cores)")
     args = parser.parse_args()
     run(args.accession, args.pe1, args.outdir, args.prefix, args.blast_db, args.read_length, args.pe2, args.plot,args.fa, args.threads)
