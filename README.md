@@ -96,7 +96,7 @@ bowtie2-build /ref/VSP/VSP.fasta /ref/VSP/VSP.fasta
     mkdir -p /ref/NCBI_Nucleotide_Completeness
     cd /ref/NCBI_Nucleotide_Completeness
 
-Download NCBI virus Nucleotide (Completeness) and Accession without version:**sequences.acc**:https://www.ncbi.nlm.nih.gov/labs/virus/vssi/#/virus?SeqType_s=Nucleotide&Completeness_s=complete
+Download NCBI virus Nucleotide (Nucleotide Completeness),Host(Human) and Accession without version:**sequences.acc**:https://www.ncbi.nlm.nih.gov/labs/virus/vssi/#/virus?SeqType_s=Nucleotide&Completeness_s=complete
 
 Download Current Release **Reference Viral DataBase(RVDB)**:https://rvdb.dbi.udel.edu/previous-release
     
@@ -105,7 +105,7 @@ Download Current Release **Reference Viral DataBase(RVDB)**:https://rvdb.dbi.ude
     grep ">" U-RVDBv30.0.fasta|awk -F"|" {print $3} |awk -F"." {print $1}>RVDB_accession.list
     sort RVDB_accession.list sequences.acc | uniq -d | cat VSP_accession.list - | sort -u > final.txt
     ncbi-blast-2.14.1+/bin/blastdbcmd -db /ref/nt_viruses/nt_viruses -out virus.fasta -entry_batch final.txt -outfmt "%f"
-    grep ">" virus.fasta|sort -u|awk -F" " {print $1}|awk -F">" {print $2} >acc.id
+    grep ">" virus.fasta|sort -u|awk -F" " '{print $1}'|awk -F">" '{print $2}' >acc.id
     rm -rf virus.fasta final.txt
     ncbi-blast-2.14.1+/bin/blastdbcmd -db /ref/nt_viruses/nt_viruses -out virus_completeness_unique.fasta -entry_batch acc.id -outfmt "%f"
     ncbi-blast-2.14.1+/bin/makeblastdb -in virus_completeness_unique.fasta -dbtype nucl
