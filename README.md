@@ -7,6 +7,7 @@
 <pre>
 docker pull fanyucai1/virus
 docker tag fanyucai1/virus virus
+
 </pre>
 
 ## Step2.Prepare Database
