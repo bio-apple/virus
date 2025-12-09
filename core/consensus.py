@@ -92,7 +92,7 @@ def process_accession(accession, pe1, pe2, outdir, blast_db_dir, blast_db_name, 
             with open(f"{outdir}/{accession}.depth.txt", "r") as infile, open(f"{outdir}/{accession}.mask.bed", "w") as outbed:
                 for line in infile:
                     chrom, pos, depth = line.strip().split("\t")
-                    if int(depth) < 10:
+                    if int(depth) < 1:
                         outbed.write(f"{chrom}\t{int(pos) - 1}\t{pos}\n")
 
             # Run bcftools mpileup and call
