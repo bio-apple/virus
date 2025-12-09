@@ -181,6 +181,3 @@ Command-line example:
     python3 pipeline.py -p1 sampleID_R1.fastq.gz -p2 sampleID_R2.fastq.gz -p sampleID -o outdir/ -l 150 -c config.ini -r ref.fasta -b /ref/bowtie2/Chikungunya_virus/ -e primer.bed
     
     python3 pipeline.py -p1 sampleID_R1.fastq.gz -p2 sampleID_R2.fastq.gz -p sampleID -o outdir/ -l 150 -c config.ini -r ref.fasta -b /ref/bowtie2/Chikungunya_virus/
-
-
-qinglinhuamao2021
