@@ -19,7 +19,7 @@ script_path = os.path.abspath(__file__)
 # Get the script's directory
 script_dir = os.path.dirname(script_path)
 
-parser = argparse.ArgumentParser("Virus NGS pipeline.\nEmail:fanyucai3@gmail.com\n")
+parser = argparse.ArgumentParser("Virus NGS 4.pipeline.\nEmail:fanyucai3@gmail.com\n")
 # Define all shared parameters
 parser.add_argument("-p1", "--pe1", help="R1 fastq", required=True, nargs='+')
 parser.add_argument("-p2", "--pe2", help="R2 fastq", default=None, nargs='+')
