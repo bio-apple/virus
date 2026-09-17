@@ -97,7 +97,10 @@ bowtie2-build /ref/VSP/VSP.fasta /ref/VSP/VSP.fasta
     mkdir -p /ref/NCBI_Nucleotide_Completeness
     cd /ref/NCBI_Nucleotide_Completeness
 
-Download NCBI virus Nucleotide (Nucleotide Completeness),Host(Human) and Accession without version:**sequences.acc**:https://www.ncbi.nlm.nih.gov/labs/virus/vssi/#/virus?SeqType_s=Nucleotide&Completeness_s=complete
+Download NCBI virus Nucleotide (Nucleotide Completeness),Host(Human) and Accession without version:**sequences.acc**:
+
+    wget https://ftp.ncbi.nlm.nih.gov/genomes/Viruses/AllNuclMetadata/AllNuclMetadata.csv.gz
+    python -c "import csv,re; f=open('AllNuclMetadata.csv'); reader=csv.DictReader(f); [print(r['#Accession'].split('.')[0]) for r in reader if r['Nuc_Completeness']=='complete' and (re.search('Homo sapiens', r['Host'], re.I) or re.search('Human', r['Host'], re.I))]"
 
 Download Current Release **Reference Viral DataBase(RVDB)**:https://rvdb.dbi.udel.edu/previous-release
     
